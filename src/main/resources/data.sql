@@ -1,0 +1,1 @@
+INSERT INTO utente(nome) VALUES("Gigi");
