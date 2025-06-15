@@ -14,7 +14,7 @@ public class Prestiti {
     @Column(nullable = false)
     private LocalDateTime dataPrestito;
 
-    @Column(nullable = false)
+    @Column
     private LocalDateTime dataRestituzione;
 
     @Column(nullable = false)
