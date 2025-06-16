@@ -20,7 +20,9 @@ public class LibriController {
     private LibriRepository libriRepo;
 
     @GetMapping
-    public Page<Libri> findAll(@RequestParam int pageNumber, @RequestParam int pageSize) {
+    public Page<Libri> findAll(@RequestParam(required = false, defaultValue = "1") Integer pageNumber,
+                               @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+        //paginazione
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         return libriRepo.findAll(pageable);
     }
@@ -33,5 +35,8 @@ public class LibriController {
         }
         throw new ResponseStatusException(HttpStatusCode.valueOf(404));
     }
+
+    //create+update
+
 
 }
