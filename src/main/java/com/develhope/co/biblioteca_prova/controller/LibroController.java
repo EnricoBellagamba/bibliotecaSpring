@@ -21,6 +21,9 @@ public class LibroController {
     @GetMapping
     public Page<Libro> findAll(@RequestParam int pageNumber, @RequestParam int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        if (pageSize > 100 ) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(400), "Page size cannot exceed 100");
+        }
         return libriRepo.findAll(pageable);
     }
 
