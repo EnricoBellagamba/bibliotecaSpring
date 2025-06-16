@@ -36,4 +36,12 @@ public class LibroController {
         throw new ResponseStatusException(HttpStatusCode.valueOf(404));
     }
 
+    @PostMapping("/nuovo")
+    public Libro create(@RequestBody Libro libro) {
+        if (libro.getIsbn() == null || libro.getTitolo() == null || libro.getAnnoPubblicazione() == null || libro.getPrezzo() <= 0) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(400), "Dati on validi");
+        }
+        return libriRepo.save(libro);
+    }
+
 }
