@@ -4,7 +4,7 @@ import com.develhope.co.biblioteca_prova.enums.RuoloUtenti;
 import jakarta.persistence.*;
 
 @Entity
-public class Utenti {
+public class Utente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

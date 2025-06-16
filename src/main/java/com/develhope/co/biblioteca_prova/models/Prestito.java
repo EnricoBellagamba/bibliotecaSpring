@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class Prestiti {
+public class Prestito {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
