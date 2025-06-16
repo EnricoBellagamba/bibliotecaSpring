@@ -4,7 +4,7 @@ import com.develhope.co.biblioteca_prova.enums.GeneriLibri;
 import jakarta.persistence.*;
 
 @Entity
-public class Libri {
+public class Libro {
     @Id
     @Column(length = 20)
     private String isbn;

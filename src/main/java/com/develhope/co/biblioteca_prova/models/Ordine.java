@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class Ordini {
+public class Ordine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class Autori {
+public class Autore {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

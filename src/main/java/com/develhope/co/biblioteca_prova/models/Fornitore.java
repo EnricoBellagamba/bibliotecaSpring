@@ -3,7 +3,7 @@ package com.develhope.co.biblioteca_prova.models;
 import jakarta.persistence.*;
 
 @Entity
-public class Fornitori {
+public class Fornitore {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
