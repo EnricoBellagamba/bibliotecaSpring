@@ -19,11 +19,15 @@ public class LibroController {
     private LibroRepository libriRepo;
 
     @GetMapping
-    public Page<Libro> findAll(@RequestParam(required = false, defaultValue = "1") Integer pageNumber, @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        if (pageSize > 100 ) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(400), "Page size cannot exceed 100");
+    public Page<Libro> findAll(@RequestParam(required = false, defaultValue = "1") Integer pageNumber,
+                               @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+        if (pageNumber == null || pageNumber < 0 || pageNumber > 100) {
+            pageNumber = 0;
         }
+        if (pageSize == null || pageSize < 1 || pageSize > 100) {
+            pageSize = 10;
+        }
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
         return libriRepo.findAll(pageable);
     }
 
