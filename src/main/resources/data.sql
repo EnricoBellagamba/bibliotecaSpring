@@ -1,5 +1,5 @@
 -- autori --
-INSERT INTO autori (nome, cognome, data_nascita) VALUES
+INSERT INTO autore (nome, cognome, data_nascita) VALUES
 ('Isaac', 'Asimov', '1920-01-02 00:00:00'),
 ('Philip', 'Dick', '1928-12-16 00:00:00'),
 ('Arthur', 'Clarke', '1917-12-16 00:00:00'),
@@ -32,7 +32,7 @@ INSERT INTO autori (nome, cognome, data_nascita) VALUES
 ('John', 'Scalzi', '1969-05-10 00:00:00');
 
 -- fornitori --
-INSERT INTO fornitori (nome) VALUES
+INSERT INTO fornitore (nome) VALUES
 ('Mondadori'),
 ('Feltrinelli'),
 ('Giunti Editore'),
@@ -45,7 +45,7 @@ INSERT INTO fornitori (nome) VALUES
 ('BAO Publishing');
 
 -- libri --
-INSERT INTO libri (isbn, titolo, anno_pubblicazione, prezzo, genere, descrizione) VALUES
+INSERT INTO libro (isbn, titolo, anno_pubblicazione, prezzo, genere, descrizione) VALUES
 ('978-917-5676-001', 'Ombre su Asimov', 1952, 11.95, 'ROMANZO', 'Un libro romanzo scritto da Isaac Asimov che esplora nuovi mondi e idee originali.'),
 ('978-698-2870-002', 'Cronache di Simmons', 1953, 16.11, 'FANTASCIENZA', 'Un libro fantascienza scritto da Dan Simmons che esplora nuovi mondi e idee originali.'),
 ('978-173-3174-003', 'L’ascesa di Heinlein', 1951, 26.77, 'AVVENTURA', 'Un libro avventura scritto da Robert Heinlein che esplora nuovi mondi e idee originali.'),
@@ -108,7 +108,7 @@ INSERT INTO libri (isbn, titolo, anno_pubblicazione, prezzo, genere, descrizione
 ('978-190-4753-060', 'Viaggio verso Vonnegut', 1998, 16.50, 'SAGGIO', 'Un libro saggio scritto da Kurt Vonnegut che esplora nuovi mondi e idee originali.');
 
 -- ordini --
-INSERT INTO ordini (data_ordine, stato, tipi) VALUES
+INSERT INTO ordine (data_ordine, stato, tipi) VALUES
 ('2023-01-15 10:30:00', 'ATTIVO', 'ACQUISTO'),
 ('2023-02-20 14:45:00', 'CONSEGNATO', 'DONAZIONE'),
 ('2023-03-05 09:10:00', 'ATTIVO', 'DONAZIONE'),
@@ -126,7 +126,7 @@ INSERT INTO ordini (data_ordine, stato, tipi) VALUES
 ('2024-03-08 11:30:00', 'CONSEGNATO', 'DONAZIONE');
 
 -- prestiti --
-INSERT INTO prestiti (data_prestito, data_restituzione, data_scadenza, stato) VALUES
+INSERT INTO prestito (data_prestito, data_restituzione, data_scadenza, stato) VALUES
 ('2023-01-10 09:00:00', '2023-01-20 15:30:00', '2023-01-18 23:59:00', 'CONSEGNATO'),
 ('2023-02-01 10:15:00', NULL, '2023-02-15 23:59:00', 'ATTIVO'),
 ('2023-02-05 14:00:00', '2023-02-28 12:00:00', '2023-02-25 23:59:00', 'CONSEGNATO'),
@@ -144,7 +144,7 @@ INSERT INTO prestiti (data_prestito, data_restituzione, data_scadenza, stato) VA
 ('2023-11-11 11:00:00', NULL, '2023-11-25 23:59:00', 'ATTIVO');
 
 -- utenti --
-INSERT INTO utenti (nome, cognome, ruolo) VALUES
+INSERT INTO utente (nome, cognome, ruolo) VALUES
 ('Luca', 'Rossi', 'CLIENTE'),
 ('Giulia', 'Bianchi', 'OPERATORE'),
 ('Marco', 'Verdi', 'CLIENTE'),
@@ -157,7 +157,7 @@ INSERT INTO utenti (nome, cognome, ruolo) VALUES
 ('Francesco', 'Gallo', 'CLIENTE');
 
 -- vendite --
-INSERT INTO vendite (data_vendite) VALUES
+INSERT INTO vendita (data_vendite) VALUES
 ('2023-01-12 10:30:00'),
 ('2023-02-05 15:00:00'),
 ('2023-03-18 09:45:00'),
