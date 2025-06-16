@@ -19,7 +19,7 @@ public class LibroController {
     private LibroRepository libriRepo;
 
     @GetMapping
-    public Page<Libro> findAll(@RequestParam(required = false, defaultValue = "1") Integer pageNumber,
+    public Page<Libro> findAll(@RequestParam(required = false, defaultValue = "0") Integer pageNumber,
                                @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
         if (pageNumber == null || pageNumber < 0 || pageNumber > 100) {
             pageNumber = 0;
