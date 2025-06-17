@@ -15,6 +15,9 @@ public class Utente {
     @Column(length = 100)
     private String cognome;
 
+    @Column
+    private boolean fidelityCard ;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private RuoloUtenti ruolo;
