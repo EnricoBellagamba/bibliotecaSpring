@@ -1,5 +1,6 @@
 package com.develhope.co.biblioteca_prova.service;
 
+import com.develhope.co.biblioteca_prova.exceptions.DataValidationException;
 import com.develhope.co.biblioteca_prova.models.Libro;
 import com.develhope.co.biblioteca_prova.repository.LibroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ public class LibroService {
 
     public Libro save(Libro libro){
         if(libro.getPrezzo()<0){
-            throw new ResponseStatusException(HttpStatusCode.valueOf(400),"Dati on validi");
+            throw new DataValidationException("Prezzo non valido ");
         }
         return libroRepo.save(libro);
     }

@@ -1,9 +1,11 @@
 package com.develhope.co.biblioteca_prova.controller;
 
+import com.develhope.co.biblioteca_prova.exceptions.DataValidationException;
 import com.develhope.co.biblioteca_prova.models.Libro;
 import com.develhope.co.biblioteca_prova.repository.LibroRepository;
 import com.develhope.co.biblioteca_prova.service.LibroService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -52,7 +54,13 @@ public class LibroController {
 
     @PostMapping
     public Libro save(@RequestBody Libro libro) {
-       return libroService.save(libro);
+        try{
+            return libroService.save(libro);
+        } catch(DataValidationException | DataIntegrityViolationException e){
+            //return new ResponseEntity<>(new ApiResponse(e.getMessage(), HttpStatus.BAD_REQUEST )
+            return null;
+        }
+
     }
 
 }
