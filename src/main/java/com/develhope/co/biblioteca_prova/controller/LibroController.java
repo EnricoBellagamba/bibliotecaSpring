@@ -2,11 +2,14 @@ package com.develhope.co.biblioteca_prova.controller;
 
 import com.develhope.co.biblioteca_prova.models.Libro;
 import com.develhope.co.biblioteca_prova.repository.LibroRepository;
+import com.develhope.co.biblioteca_prova.service.LibroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -18,15 +21,18 @@ public class LibroController {
     @Autowired
     private LibroRepository libriRepo;
 
+    @Autowired
+    private LibroService libroService;
+
     @GetMapping
     public Page<Libro> findAll(@RequestParam(required = false, defaultValue = "0") Integer pageNumber,
                                @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
 
-        if (pageNumber == null || pageNumber < 0 || pageNumber > 100) {
+        if (pageNumber < 0) {
             pageNumber = 0;
 
         }
-        if (pageSize == null || pageSize < 1 || pageSize > 100) {
+        if (pageSize < 1 || pageSize > 100) {
             pageSize = 10;
         }
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
@@ -42,12 +48,11 @@ public class LibroController {
         throw new ResponseStatusException(HttpStatusCode.valueOf(404));
     }
 
+
+
     @PostMapping
     public Libro save(@RequestBody Libro libro) {
-        if (libro.getIsbn() == null || libro.getTitolo() == null || libro.getAnnoPubblicazione() == null || libro.getPrezzo() <= 0) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(400), "Dati on validi");
-        }
-        return libriRepo.save(libro);
+       return libroService.save(libro);
     }
 
 }

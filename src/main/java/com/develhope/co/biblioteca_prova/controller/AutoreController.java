@@ -22,10 +22,10 @@ public class AutoreController {
     @GetMapping
     public Page<Autore> findAll(@RequestParam(required = false, defaultValue = "0") Integer pageNumber,
                                 @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
-        if (pageNumber == null || pageNumber < 0 || pageNumber > 100) {
+        if (pageNumber < 0 ) {
             pageNumber = 0;
         }
-        if (pageSize == null || pageSize < 1 || pageSize > 100) {
+        if (pageSize < 1 || pageSize > 100) {//if separati
             pageSize = 10;
         }
         Pageable pageable = PageRequest.of(pageNumber, pageSize);

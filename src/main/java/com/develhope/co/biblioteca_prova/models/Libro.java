@@ -3,6 +3,7 @@ package com.develhope.co.biblioteca_prova.models;
 import com.develhope.co.biblioteca_prova.enums.GeneriLibri;
 import jakarta.persistence.*;
 
+//@Table(name = "")
 @Entity
 public class Libro {
     @Id
