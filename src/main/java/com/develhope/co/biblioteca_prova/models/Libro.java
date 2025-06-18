@@ -22,7 +22,7 @@ public class Libro {
     @Enumerated(EnumType.STRING)
     private GeneriLibri genere;
 
-    @Column(length = 200)
+    @Lob
     private String descrizione;
 
     public String getIsbn() {
