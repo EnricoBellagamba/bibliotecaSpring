@@ -1,6 +1,7 @@
 package com.develhope.co.biblioteca_prova.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +11,7 @@ public class Autore {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull
     @Column(length = 100, nullable = false)
     private String nome;
 

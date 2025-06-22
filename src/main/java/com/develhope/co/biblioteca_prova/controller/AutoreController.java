@@ -1,13 +1,17 @@
 package com.develhope.co.biblioteca_prova.controller;
 
+import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.models.Autore;
 import com.develhope.co.biblioteca_prova.models.Libro;
 import com.develhope.co.biblioteca_prova.repository.AutoreRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -35,19 +39,26 @@ public class AutoreController {
     }
 
     @GetMapping("/{id}")
-    public Autore findById(@PathVariable("id") Integer id) {
+    public ResponseEntity<APIResponse> findById(@PathVariable("id") Integer id) {
         Optional<Autore> a = autoreRepo.findById(id);
         if (a.isPresent()) {
-            return a.get();
+            APIResponse apiResponse = new APIResponse(a.get());
+            return ResponseEntity.ok(apiResponse);
         }
-        throw new ResponseStatusException(HttpStatusCode.valueOf(404));
+
+        String message = "Autore non trovato ! ";
+        APIResponse apiResponse2 = new APIResponse(message);
+
+        return ResponseEntity.status(404).body(apiResponse2);
     }
 
     @PostMapping
-    public Autore save(@RequestBody Autore autore) {
-        if (autore.getId() == null || autore.getNome() == null ){
-            throw new ResponseStatusException(HttpStatusCode.valueOf(400), "Dati on validi");
+    public ResponseEntity<APIResponse> save(@Valid @RequestBody Autore autore, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            APIResponse apiResponse = new APIResponse(bindingResult.getAllErrors());
+            return ResponseEntity.badRequest().body(apiResponse);
         }
-        return autoreRepo.save(autore);
+        APIResponse apiResponse = new APIResponse(autoreRepo.save(autore));
+        return ResponseEntity.ok(apiResponse);
     }
 }
