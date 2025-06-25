@@ -1,5 +1,5 @@
 package com.develhope.co.biblioteca_prova.enums;
 
-public enum TipoOrdini {
+public enum TipoOrdine {
     ACQUISTO, DONAZIONE
 }

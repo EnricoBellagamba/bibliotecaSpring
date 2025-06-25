@@ -1,7 +1,7 @@
 package com.develhope.co.biblioteca_prova.models;
 
 import com.develhope.co.biblioteca_prova.enums.Stato;
-import com.develhope.co.biblioteca_prova.enums.TipoOrdini;
+import com.develhope.co.biblioteca_prova.enums.TipoOrdine;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -21,7 +21,7 @@ public class Ordine {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private TipoOrdini tipi;
+    private TipoOrdine tipo;
 
     public Integer getId() {
         return id;
@@ -47,11 +47,11 @@ public class Ordine {
         this.stato = stato;
     }
 
-    public TipoOrdini getTipi() {
-        return tipi;
+    public TipoOrdine getTipo() {
+        return tipo;
     }
 
-    public void setTipi(TipoOrdini tipi) {
-        this.tipi = tipi;
+    public void setTipo(TipoOrdine tipo) {
+        this.tipo = tipo;
     }
 }

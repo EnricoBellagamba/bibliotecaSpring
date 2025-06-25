@@ -1,9 +1,11 @@
 package com.develhope.co.biblioteca_prova.controller;
 
+import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.exceptions.DataValidationException;
 import com.develhope.co.biblioteca_prova.models.Libro;
 import com.develhope.co.biblioteca_prova.repository.LibroRepository;
 import com.develhope.co.biblioteca_prova.service.LibroService;
+import com.develhope.co.biblioteca_prova.utils.PaginationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -50,10 +52,18 @@ public class LibroController {
         throw new ResponseStatusException(HttpStatusCode.valueOf(404));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<APIResponse> searchAll(@RequestParam String titolo,
+                                                 @RequestParam Integer pageNumber,
+                                                 @RequestParam Integer pageSize){
+    Pageable pageable = PaginationUtils.createPage(pageNumber, pageSize);
 
+    Page<Libro> page = libriRepo.findByTitoloContains(titolo,pageable);
+    return  ResponseEntity.ok(new APIResponse(page));
+    }
 
     @PostMapping
-    public Libro save(@RequestBody Libro libro) {
+    public Libro save(@RequestBody Libro libro) {  //inserisco @Valid per la validazione
         try{
             return libroService.save(libro);
         } catch(DataValidationException | DataIntegrityViolationException e){

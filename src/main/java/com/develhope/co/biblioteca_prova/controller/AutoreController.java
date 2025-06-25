@@ -4,6 +4,7 @@ import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.models.Autore;
 import com.develhope.co.biblioteca_prova.models.Libro;
 import com.develhope.co.biblioteca_prova.repository.AutoreRepository;
+import com.develhope.co.biblioteca_prova.utils.PaginationUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,13 +27,7 @@ public class AutoreController {
     @GetMapping
     public Page<Autore> findAll(@RequestParam(required = false, defaultValue = "0") Integer pageNumber,
                                 @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
-        if (pageNumber < 0 ) {
-            pageNumber = 0;
-        }
-        if (pageSize < 1 || pageSize > 100) {//if separati
-            pageSize = 10;
-        }
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Pageable pageable = PaginationUtils.createPage(pageNumber,pageSize);
         return autoreRepo.findAll(pageable);
 
 
