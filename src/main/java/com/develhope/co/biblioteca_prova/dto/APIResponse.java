@@ -1,24 +1,45 @@
 package com.develhope.co.biblioteca_prova.dto;
 
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class APIResponse {
-    private boolean succes;
+    private boolean success;
     private String message;
 
     private LocalDateTime currentTime = LocalDateTime.now();
     private List<ObjectError> objectErrorList;
     private Object content;
 
-    public boolean isSucces() {
-        return succes;
+    public APIResponse(List<ObjectError> objectErrorList) {
+        this.objectErrorList = objectErrorList;
+        this.success = false;
     }
 
-    public void setSucces(boolean succes) {
-        this.succes = succes;
+    public APIResponse(Object content) {
+        this.success = true;
+        this.content = content;
+    }
+
+    public APIResponse(String message){
+        this.success = false;
+        this.message = message;
+    }
+
+    public APIResponse(){
+        this.success = true;
+
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 
     public String getMessage() {
@@ -51,26 +72,6 @@ public class APIResponse {
 
     public void setContent(Object content) {
         this.content = content;
-    }
-
-    public APIResponse(List<ObjectError> objectErrorList) {
-        this.objectErrorList = objectErrorList;
-        this.succes = false;
-    }
-
-    public APIResponse(Object content) {
-        this.succes = true;
-        this.content = content;
-    }
-
-    public APIResponse(String message){
-        this.succes = false;
-        this.message = message;
-    }
-
-    public APIResponse(){
-        this.succes = true;
-
     }
 
 }

@@ -108,7 +108,7 @@ INSERT INTO libro (isbn, titolo, anno_pubblicazione, prezzo, genere, descrizione
 ('978-190-4753-060', 'Viaggio verso Vonnegut', 1998, 16.50, 'SAGGIO', 'Un libro saggio scritto da Kurt Vonnegut che esplora nuovi mondi e idee originali.');
 
 -- ordini --
-INSERT INTO ordine (data_ordine, stato, tipi) VALUES
+INSERT INTO ordine (data_ordine, stato, tipo) VALUES
 ('2023-01-15 10:30:00', 'ATTIVO', 'ACQUISTO'),
 ('2023-02-20 14:45:00', 'CONSEGNATO', 'DONAZIONE'),
 ('2023-03-05 09:10:00', 'ATTIVO', 'DONAZIONE'),
@@ -126,22 +126,22 @@ INSERT INTO ordine (data_ordine, stato, tipi) VALUES
 ('2024-03-08 11:30:00', 'CONSEGNATO', 'DONAZIONE');
 
 -- prestiti --
-INSERT INTO prestito (data_prestito, data_restituzione, data_scadenza, stato) VALUES
-('2023-01-10 09:00:00', '2023-01-20 15:30:00', '2023-01-18 23:59:00', 'CONSEGNATO'),
-('2023-02-01 10:15:00', NULL, '2023-02-15 23:59:00', 'ATTIVO'),
-('2023-02-05 14:00:00', '2023-02-28 12:00:00', '2023-02-25 23:59:00', 'CONSEGNATO'),
-('2023-03-01 11:45:00', NULL, '2023-03-14 23:59:00', 'ATTIVO'),
-('2023-03-15 16:20:00', '2023-03-25 10:00:00', '2023-03-24 23:59:00', 'CONSEGNATO'),
-('2023-04-01 09:30:00', '2023-04-18 08:45:00', '2023-04-15 23:59:00', 'CONSEGNATO'),
-('2023-04-20 13:10:00', NULL, '2023-05-04 23:59:00', 'ATTIVO'),
-('2023-05-05 10:00:00', '2023-05-19 11:30:00', '2023-05-18 23:59:00', 'CONSEGNATO'),
-('2023-06-01 15:00:00', NULL, '2023-06-14 23:59:00', 'ATTIVO'),
-('2023-06-15 09:45:00', '2023-06-29 10:00:00', '2023-06-28 23:59:00', 'CONSEGNATO'),
-('2023-07-01 08:30:00', NULL, '2023-07-15 23:59:00', 'ATTIVO'),
-('2023-08-10 17:15:00', '2023-08-30 09:00:00', '2023-08-25 23:59:00', 'CONSEGNATO'),
-('2023-09-05 10:10:00', NULL, '2023-09-19 23:59:00', 'ATTIVO'),
-('2023-10-01 13:00:00', '2023-10-14 16:45:00', '2023-10-13 23:59:00', 'CONSEGNATO'),
-('2023-11-11 11:00:00', NULL, '2023-11-25 23:59:00', 'ATTIVO');
+INSERT INTO prestito (data_prestito, data_restituzione) VALUES
+('2023-01-10 09:00:00', '2023-01-20 15:30:00'),
+('2023-02-01 10:15:00', NULL),
+('2023-02-05 14:00:00', '2023-02-28 12:00:00'),
+('2023-03-01 11:45:00', NULL),
+('2023-03-15 16:20:00', '2023-03-25 10:00:00'),
+('2023-04-01 09:30:00', '2023-04-18 08:45:00'),
+('2023-04-20 13:10:00', NULL),
+('2023-05-05 10:00:00', '2023-05-19 11:30:00'),
+('2023-06-01 15:00:00', NULL),
+('2023-06-15 09:45:00', '2023-06-29 10:00:00'),
+('2023-07-01 08:30:00', NULL),
+('2023-08-10 17:15:00', '2023-08-30 09:00:00'),
+('2023-09-05 10:10:00', NULL),
+('2023-10-01 13:00:00', '2023-10-14 16:45:00'),
+('2023-11-11 11:00:00', NULL);
 
 -- utenti --
 INSERT INTO utente (nome, cognome, ruolo) VALUES
@@ -157,7 +157,7 @@ INSERT INTO utente (nome, cognome, ruolo) VALUES
 ('Francesco', 'Gallo', 'CLIENTE');
 
 -- vendite --
-INSERT INTO vendita (data_vendite) VALUES
+INSERT INTO vendita (data_vendita) VALUES
 ('2023-01-12 10:30:00'),
 ('2023-02-05 15:00:00'),
 ('2023-03-18 09:45:00'),
