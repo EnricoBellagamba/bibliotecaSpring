@@ -1,6 +1,7 @@
 package com.develhope.co.biblioteca_prova.controller;
 
 import com.develhope.co.biblioteca_prova.dto.APIResponse;
+import com.develhope.co.biblioteca_prova.dto.PaginationDTO;
 import com.develhope.co.biblioteca_prova.models.Autore;
 import com.develhope.co.biblioteca_prova.models.Libro;
 import com.develhope.co.biblioteca_prova.repository.AutoreRepository;
@@ -19,18 +20,16 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/autori")
 public class AutoreController {
 
     @Autowired
     private AutoreRepository autoreRepo;
 
     @GetMapping
-    public Page<Autore> findAll(@RequestParam(required = false, defaultValue = "0") Integer pageNumber,
-                                @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
-        Pageable pageable = PaginationUtils.createPage(pageNumber,pageSize);
-        return autoreRepo.findAll(pageable);
-
-
+    public ResponseEntity<APIResponse> findAll(PaginationDTO pagination) {
+        Pageable pageable = PaginationUtils.createPage(pagination);
+        return ResponseEntity.ok().body(new APIResponse(autoreRepo.findAll(pageable)));
     }
 
     @GetMapping("/{id}")
@@ -49,7 +48,7 @@ public class AutoreController {
 
     @PostMapping
     public ResponseEntity<APIResponse> save(@Valid @RequestBody Autore autore, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             APIResponse apiResponse = new APIResponse(bindingResult.getAllErrors());
             return ResponseEntity.badRequest().body(apiResponse);
         }
