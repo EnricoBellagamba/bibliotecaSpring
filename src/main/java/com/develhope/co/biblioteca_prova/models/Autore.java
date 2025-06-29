@@ -21,6 +21,8 @@ public class Autore {
     @Column
     private LocalDateTime dataNascita;
 
+    //biografia
+
     public Integer getId() {
         return id;
     }

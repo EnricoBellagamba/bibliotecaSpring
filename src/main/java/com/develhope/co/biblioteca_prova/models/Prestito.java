@@ -2,6 +2,7 @@ package com.develhope.co.biblioteca_prova.models;
 
 import com.develhope.co.biblioteca_prova.enums.Stato;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +12,7 @@ public class Prestito {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull
     @Column(nullable = false)
     private LocalDateTime dataPrestito;
 

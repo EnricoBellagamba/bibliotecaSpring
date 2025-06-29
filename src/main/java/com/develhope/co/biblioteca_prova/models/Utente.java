@@ -2,6 +2,7 @@ package com.develhope.co.biblioteca_prova.models;
 
 import com.develhope.co.biblioteca_prova.enums.RuoloUtenti;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Utente {
@@ -9,6 +10,7 @@ public class Utente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull
     @Column(length = 100, nullable = false)
     private String nome;
 
@@ -19,6 +21,7 @@ public class Utente {
     private boolean fidelityCard ;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     @Column(nullable = false)
     private RuoloUtenti ruolo;
 

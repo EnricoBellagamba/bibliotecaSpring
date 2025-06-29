@@ -33,6 +33,8 @@ public class Libro {
     @Lob
     private String descrizione;
 
+    //numero pagine e traduzione?
+
     @AssertTrue(message = "L'anno di pubblicazione non può essere nel futuro")
     public boolean isAnnoPubblicazioneValido() {
         if (annoPubblicazione == null) {

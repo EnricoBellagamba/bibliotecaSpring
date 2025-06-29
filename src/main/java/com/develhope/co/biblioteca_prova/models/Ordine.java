@@ -3,6 +3,7 @@ package com.develhope.co.biblioteca_prova.models;
 import com.develhope.co.biblioteca_prova.enums.Stato;
 import com.develhope.co.biblioteca_prova.enums.TipoOrdine;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -12,13 +13,16 @@ public class Ordine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull
     @Column(nullable = false)
     private LocalDateTime dataOrdine;
 
+    @NotNull
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Stato stato;
 
+    @NotNull
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoOrdine tipo;

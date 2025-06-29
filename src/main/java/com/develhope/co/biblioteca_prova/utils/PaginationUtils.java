@@ -15,7 +15,7 @@ public class PaginationUtils {
             pg.setPageSize(10);
         }
 
-        if (pg.getPageSize() > 100) {//if separati
+        if (pg.getPageSize() > 100) {
             pg.setPageSize(100);
         }
 
