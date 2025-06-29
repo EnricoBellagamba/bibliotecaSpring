@@ -32,7 +32,6 @@ public class LibroController {
 
         if (pageNumber < 0) {
             pageNumber = 0;
-
         }
         if (pageSize < 1 || pageSize > 100) {
             pageSize = 10;
