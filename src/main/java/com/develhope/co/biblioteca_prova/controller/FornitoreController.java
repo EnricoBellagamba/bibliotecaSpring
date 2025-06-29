@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class FornitoreController {
 
     @Autowired
-    private FornitoreRepository fornitoreRepo;
+    private FornitoreRepository fornitoriRepo;
 
     @Autowired
     private FornitoreService fornitoreService;
@@ -26,7 +26,7 @@ public class FornitoreController {
     public ResponseEntity<APIResponse> getAll(PaginationDTO paginationDTO){
 
         Pageable pageable = PaginationUtils.createPage(paginationDTO);
-        APIResponse ar = new APIResponse(fornitoreRepo.findAll(pageable));
+        APIResponse ar = new APIResponse(fornitoriRepo.findAll(pageable));
         return ResponseEntity.ok(ar);
     }
 
@@ -34,7 +34,7 @@ public class FornitoreController {
     public ResponseEntity<APIResponse> getByName(PaginationDTO paginationDTO, @RequestParam String nome){
 
         Pageable pageable = PaginationUtils.createPage(paginationDTO);
-        APIResponse ar = new APIResponse(fornitoreRepo.findByNomeContains(nome, pageable));
+        APIResponse ar = new APIResponse(fornitoriRepo.findByNomeContains(nome, pageable));
         return ResponseEntity.ok(ar);
     }
 
@@ -45,7 +45,7 @@ public class FornitoreController {
             return ResponseEntity.badRequest().body(new APIResponse("Name can not be null"));
         }
 
-        Fornitore saved = fornitoreRepo.save(fornitore);
+        Fornitore saved = fornitoriRepo.save(fornitore);
         return ResponseEntity.ok(new APIResponse(saved));
     }
 
