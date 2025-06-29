@@ -48,7 +48,7 @@ public class LibroController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<APIResponse> searchAll(@RequestParam String titolo,
+    public ResponseEntity<APIResponse> findByTitle(@RequestParam String titolo,
                                                  PaginationDTO pagination) {
         Pageable pageable = PaginationUtils.createPage(pagination);
 
