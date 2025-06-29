@@ -2,21 +2,29 @@ package com.develhope.co.biblioteca_prova.models;
 
 import com.develhope.co.biblioteca_prova.enums.GeneriLibri;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+
+import java.time.LocalDateTime;
 
 //@Table(name = "")
 @Entity
 public class Libro {
     @Id
     @Column(length = 20)
+    @NotBlank(message = "L'ISBN è obbligatorio")
     private String isbn;
 
     @Column(length = 100, nullable = false)
+    @NotBlank(message = "Il titolo non può essere vuoto")
     private String titolo;
 
     @Column
+    @Min(value = 1)
     private Integer annoPubblicazione;
 
     @Column(nullable = false)
+    @Positive
+    @DecimalMin(value = "0.0")
     private double prezzo;
 
     @Enumerated(EnumType.STRING)
@@ -24,6 +32,15 @@ public class Libro {
 
     @Lob
     private String descrizione;
+
+    @AssertTrue(message = "L'anno di pubblicazione non può essere nel futuro")
+    public boolean isAnnoPubblicazioneValido() {
+        if (annoPubblicazione == null) {
+            return true;
+        } else {
+            return annoPubblicazione <= LocalDateTime.now().getYear();
+        }
+    }
 
     public String getIsbn() {
         return isbn;

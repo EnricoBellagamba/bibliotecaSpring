@@ -1,9 +1,13 @@
 package com.develhope.co.biblioteca_prova.controller;
 
+import com.develhope.co.biblioteca_prova.dto.APIResponse;
+import com.develhope.co.biblioteca_prova.dto.PaginationDTO;
 import com.develhope.co.biblioteca_prova.exceptions.DataValidationException;
 import com.develhope.co.biblioteca_prova.models.Libro;
 import com.develhope.co.biblioteca_prova.repository.LibroRepository;
 import com.develhope.co.biblioteca_prova.service.LibroService;
+import com.develhope.co.biblioteca_prova.utils.PaginationUtils;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -12,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,37 +32,40 @@ public class LibroController {
     private LibroService libroService;
 
     @GetMapping
-    public Page<Libro> findAll(@RequestParam(required = false, defaultValue = "0") Integer pageNumber,
-                               @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+    public ResponseEntity<APIResponse> findAll(PaginationDTO pagination) {
 
-        if (pageNumber < 0) {
-            pageNumber = 0;
-        }
-        if (pageSize < 1 || pageSize > 100) {
-            pageSize = 10;
-        }
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return libriRepo.findAll(pageable);
+        Pageable pageable = PaginationUtils.createPage(pagination);
+        return ResponseEntity.ok().body(new APIResponse(libriRepo.findAll(pageable)));
     }
 
     @GetMapping("/{id}")
-    public Libro findById(@PathVariable("id") String isbn) {
+    public ResponseEntity<APIResponse> findById(@PathVariable("id") String isbn) {
         Optional<Libro> l = libriRepo.findById(isbn);
         if (l.isPresent()) {
-            return l.get();
+            return ResponseEntity.ok().body(new APIResponse(l.get()));
         }
-        throw new ResponseStatusException(HttpStatusCode.valueOf(404));
+        return ResponseEntity.status(404).body(new APIResponse("Libro non trovato"));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<APIResponse> searchAll(@RequestParam String titolo,
+                                                 PaginationDTO pagination) {
+        Pageable pageable = PaginationUtils.createPage(pagination);
 
+        Page<Libro> page = libriRepo.findByTitoloContains(titolo, pageable);
+        return ResponseEntity.ok(new APIResponse(page));
+    }
 
     @PostMapping
-    public Libro save(@RequestBody Libro libro) {
-        try{
-            return libroService.save(libro);
-        } catch(DataValidationException | DataIntegrityViolationException e){
-            //return new ResponseEntity<>(new ApiResponse(e.getMessage(), HttpStatus.BAD_REQUEST )
-            return null;
+    public ResponseEntity<APIResponse> save(@Valid @RequestBody Libro libro, BindingResult bindingResult) {  //inserisco @Valid per la validazione
+        if (bindingResult.hasErrors()) {
+            APIResponse apiResponse = new APIResponse(bindingResult.getAllErrors());
+            return ResponseEntity.badRequest().body(apiResponse);
+        }
+        try {
+            return ResponseEntity.ok().body(new APIResponse(libriRepo.save(libro)));
+        } catch (DataValidationException | DataIntegrityViolationException e) {
+            return ResponseEntity.badRequest().body(new APIResponse(e.getMessage()));
         }
 
     }

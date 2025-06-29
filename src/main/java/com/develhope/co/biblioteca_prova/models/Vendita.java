@@ -11,7 +11,7 @@ public class Vendita {
     private Integer id;
 
     @Column(nullable = false)
-    private LocalDateTime dataVendite;
+    private LocalDateTime dataVendita;
 
     public Integer getId() {
         return id;
@@ -21,11 +21,11 @@ public class Vendita {
         this.id = id;
     }
 
-    public LocalDateTime getDataVendite() {
-        return dataVendite;
+    public LocalDateTime getDataVendita() {
+        return dataVendita;
     }
 
-    public void setDataVendite(LocalDateTime dataVendite) {
-        this.dataVendite = dataVendite;
+    public void setDataVendita(LocalDateTime dataVendita) {
+        this.dataVendita = dataVendita;
     }
 }

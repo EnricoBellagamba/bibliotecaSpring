@@ -17,13 +17,6 @@ public class Prestito {
     @Column
     private LocalDateTime dataRestituzione;
 
-    @Column(nullable = false)
-    private LocalDateTime dataScadenza;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Stato stato;
-
     public Integer getId() {
         return id;
     }
@@ -48,19 +41,7 @@ public class Prestito {
         this.dataRestituzione = dataRestituzione;
     }
 
-    public LocalDateTime getDataScadenza() {
-        return dataScadenza;
-    }
 
-    public void setDataScadenza(LocalDateTime dataScadenza) {
-        this.dataScadenza = dataScadenza;
-    }
 
-    public Stato getStato() {
-        return stato;
-    }
 
-    public void setStato(Stato stato) {
-        this.stato = stato;
-    }
 }
