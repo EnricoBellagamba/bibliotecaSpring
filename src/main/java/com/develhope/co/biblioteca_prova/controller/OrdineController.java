@@ -39,6 +39,15 @@ public class OrdineController {
         }
         return ResponseEntity.status(404).body(new APIResponse("Ordine non trovato"));
     }
+    @GetMapping("/status")
+    public ResponseEntity<APIResponse> findByStatus(@PathVariable("stato") String stato) {
+        Optional<Ordine> o = ordiniRepo.findByStato(stato);
+        if (o.isPresent()) {
+            return ResponseEntity.ok().body(new APIResponse(o.get()));
+        }
+        return ResponseEntity.status(404).body(new APIResponse("Ordine non trovato"));
+    }
+
     @PostMapping
     public ResponseEntity<APIResponse> save(@Valid @RequestBody Ordine ordine, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
