@@ -9,6 +9,7 @@ import java.util.List;
 public class APIResponse {
     private boolean success;
     private String message;
+    private int status;
 
     private LocalDateTime currentTime = LocalDateTime.now();
     private List<ObjectError> objectErrorList;
@@ -21,6 +22,12 @@ public class APIResponse {
 
     public APIResponse(Object content) {
         this.success = true;
+        this.content = content;
+    }
+
+    public APIResponse(boolean success,int status, Object content){
+        this.success = success;
+        this.status = status;
         this.content = content;
     }
 
@@ -74,4 +81,11 @@ public class APIResponse {
         this.content = content;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 }
