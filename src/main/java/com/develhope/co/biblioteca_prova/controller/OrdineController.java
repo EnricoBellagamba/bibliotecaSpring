@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -39,11 +40,11 @@ public class OrdineController {
         }
         return ResponseEntity.status(404).body(new APIResponse("Ordine non trovato"));
     }
-    @GetMapping("/status")
-    public ResponseEntity<APIResponse> findByStatus(@PathVariable("stato") String stato) {
-        Optional<Ordine> o = ordiniRepo.findByStato(stato);
-        if (o.isPresent()) {
-            return ResponseEntity.ok().body(new APIResponse(o.get()));
+    @GetMapping("/status/{stato}")
+    public ResponseEntity<APIResponse> findByStatus(@PathVariable("stato") Enum stato) {
+        List<Ordine> ordineList = ordiniRepo.findByStato(stato);
+        if (!ordineList.isEmpty()) {
+            return ResponseEntity.ok().body(new APIResponse(ordineList.get(0)));
         }
         return ResponseEntity.status(404).body(new APIResponse("Ordine non trovato"));
     }
