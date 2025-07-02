@@ -125,6 +125,7 @@ INSERT INTO ordine (data_ordine, stato, tipo) VALUES
 ('2024-02-16 14:00:00', 'IN_ATTESA', 'ACQUISTO'),
 ('2024-03-08 11:30:00', 'CONSEGNATO', 'DONAZIONE');
 
+--acquisto--
 INSERT INTO acquisto (ordine_id, libro_isbn, num_copie, prezzo_per_copia) VALUES
 (1,'978-190-4753-060', 2, 13.0),
 (2,'978-190-4753-060', 3, 13.0),

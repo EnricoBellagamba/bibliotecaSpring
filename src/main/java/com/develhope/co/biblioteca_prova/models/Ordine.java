@@ -13,6 +13,7 @@ public class Ordine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+
     @NotNull
     @Column(nullable = false)
     private LocalDateTime dataOrdine;
