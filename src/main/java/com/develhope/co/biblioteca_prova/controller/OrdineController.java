@@ -28,10 +28,16 @@ public class OrdineController {
     private OrdineService ordineService;
 
     @GetMapping("")
-    public ResponseEntity<APIResponse> findAll(PaginationDTO pagination) {
+    public ResponseEntity<APIResponse> findAll(PaginationDTO pagination,
+                                               @RequestParam(required = false) StatoOrdine statoOrdine) {
+        if (statoOrdine == null) {
+            Pageable pageable = PaginationUtils.createPage(pagination);
+            return ResponseEntity.ok().body(new APIResponse(ordiniRepo.findAll(pageable)));
+        }else {
+            List<Ordine> ordineList = ordiniRepo.findByStato(statoOrdine);
+            return ResponseEntity.ok().body(new APIResponse(ordineList));
+        }
 
-        Pageable pageable = PaginationUtils.createPage(pagination);
-        return ResponseEntity.ok().body(new APIResponse(ordiniRepo.findAll(pageable)));
     }
     @GetMapping("/{id}")
     public ResponseEntity<APIResponse> findById(@PathVariable("id") Integer id) {
@@ -41,14 +47,14 @@ public class OrdineController {
         }
         return ResponseEntity.status(404).body(new APIResponse("Ordine non trovato"));
     }
-    @GetMapping("/status/{stato}")
-    public ResponseEntity<APIResponse> findByStatus(@PathVariable("stato") StatoOrdine stato) {
-        List<Ordine> ordineList = ordiniRepo.findByStato(stato);
-
-            return ResponseEntity.ok().body(new APIResponse(ordineList));
-
-
-    }
+//    @GetMapping("/status/{stato}")
+//    public ResponseEntity<APIResponse> findByStatus(@PathVariable("stato") StatoOrdine stato) {
+//
+//
+//
+//
+//
+//    }
 
     @PostMapping
     public ResponseEntity<APIResponse> save(@Valid @RequestBody Ordine ordine, BindingResult bindingResult) {
