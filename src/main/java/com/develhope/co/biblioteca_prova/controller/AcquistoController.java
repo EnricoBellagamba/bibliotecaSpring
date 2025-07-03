@@ -4,15 +4,15 @@ import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.dto.PaginationDTO;
 import com.develhope.co.biblioteca_prova.models.Acquisto;
 import com.develhope.co.biblioteca_prova.repository.AcquistoRepository;
+import com.develhope.co.biblioteca_prova.repository.LibroRepository;
+import com.develhope.co.biblioteca_prova.service.AcquistoService;
 import com.develhope.co.biblioteca_prova.utils.PaginationUtils;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,11 +22,14 @@ import java.util.Optional;
 public class AcquistoController {
 
     @Autowired
-    private AcquistoRepository acquistoRepository ;
+    private AcquistoRepository acquistoRepo;
+
+    @Autowired
+    private AcquistoService acquistoService;
 
     @GetMapping("/{id}")
     public ResponseEntity<APIResponse> findById(@PathVariable Integer id) {
-        Optional<Acquisto> opt = acquistoRepository.findById(id);
+        Optional<Acquisto> opt = acquistoRepo.findById(id);
         if(opt.isEmpty()) {
             return ResponseEntity.status(404).body(new APIResponse("acquisto non trovato")) ;
         }
@@ -37,7 +40,14 @@ public class AcquistoController {
     public ResponseEntity<APIResponse> findAll(PaginationDTO pagination) {
     Pageable pageable = PaginationUtils.createPage(pagination);
 
-       return ResponseEntity.ok(new APIResponse(acquistoRepository.findAll(pageable)));
+       return ResponseEntity.ok(new APIResponse(acquistoRepo.findAll(pageable)));
+    }
+    
+    @PostMapping
+    public ResponseEntity<APIResponse> save(@RequestBody Acquisto acquisto){
+        APIResponse response = acquistoService.salvaAcquisto(acquisto);
+        return ResponseEntity.ok(new APIResponse(response.getStatus(),response.getContent(),true));
+
     }
 
 
