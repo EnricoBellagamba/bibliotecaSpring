@@ -111,7 +111,7 @@ INSERT INTO libro (isbn, titolo, anno_pubblicazione, prezzo, genere, descrizione
 INSERT INTO ordine (data_ordine, stato, tipo) VALUES
 ('2023-01-15 10:30:00', 'IN_ATTESA', 'ACQUISTO'),
 ('2023-02-20 14:45:00', 'CONSEGNATO', 'DONAZIONE'),
-('2023-03-05 09:10:00', 'IN_ATTESA', 'DONAZIONE'),
+('2023-03-05 09:10:00', 'CONSEGNATO', 'DONAZIONE'),
 ('2023-04-18 11:20:00', 'IN_ATTESA', 'ACQUISTO'),
 ('2023-05-10 16:00:00', 'CONSEGNATO', 'ACQUISTO'),
 ('2023-06-22 13:35:00', 'IN_ATTESA', 'DONAZIONE'),
@@ -129,7 +129,8 @@ INSERT INTO ordine (data_ordine, stato, tipo) VALUES
 INSERT INTO acquisto (ordine_id, libro_isbn, num_copie, prezzo_per_copia) VALUES
 (1,'978-190-4753-060', 2, 13.0),
 (2,'978-190-4753-060', 3, 13.0),
-(2,'978-863-4921-059', 2, 13.0);
+(2,'978-863-4921-059', 2, 13.0),
+(3,'978-863-4921-059', 8, 13.0);
 
 -- prestiti --
 INSERT INTO prestito (data_prestito, data_restituzione) VALUES

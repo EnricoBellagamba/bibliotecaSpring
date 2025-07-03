@@ -2,10 +2,12 @@ package com.develhope.co.biblioteca_prova.models;
 
 import com.develhope.co.biblioteca_prova.enums.StatoOrdine;
 import com.develhope.co.biblioteca_prova.enums.TipoOrdine;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Ordine {
@@ -27,6 +29,10 @@ public class Ordine {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoOrdine tipo;
+
+    @OneToMany(mappedBy = "ordine")
+    @JsonIgnore
+    private List<Acquisto> acquisti;
 
     public Integer getId() {
         return id;
@@ -58,5 +64,13 @@ public class Ordine {
 
     public void setTipo(TipoOrdine tipo) {
         this.tipo = tipo;
+    }
+
+    public List<Acquisto> getAcquisti() {
+        return acquisti;
+    }
+
+    public void setAcquisti(List<Acquisto> acquisti) {
+        this.acquisti = acquisti;
     }
 }

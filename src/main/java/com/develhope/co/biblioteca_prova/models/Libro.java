@@ -1,10 +1,12 @@
 package com.develhope.co.biblioteca_prova.models;
 
 import com.develhope.co.biblioteca_prova.enums.GeneriLibri;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 //@Table(name = "")
 @Entity
@@ -32,6 +34,10 @@ public class Libro {
 
     @Lob
     private String descrizione;
+
+    @OneToMany(mappedBy = "libro")
+    @JsonIgnore
+    private List<Acquisto> acquisti;
 
     //numero pagine e traduzione?
 
@@ -91,4 +97,13 @@ public class Libro {
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
     }
+
+    public List<Acquisto> getAcquisti() {
+        return acquisti;
+    }
+
+    public void setAcquisti(List<Acquisto> acquisti) {
+        this.acquisti = acquisti;
+    }
 }
+

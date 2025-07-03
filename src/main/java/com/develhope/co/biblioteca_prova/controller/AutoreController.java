@@ -3,19 +3,14 @@ package com.develhope.co.biblioteca_prova.controller;
 import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.dto.PaginationDTO;
 import com.develhope.co.biblioteca_prova.models.Autore;
-import com.develhope.co.biblioteca_prova.models.Libro;
 import com.develhope.co.biblioteca_prova.repository.AutoreRepository;
 import com.develhope.co.biblioteca_prova.utils.PaginationUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
