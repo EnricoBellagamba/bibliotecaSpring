@@ -63,6 +63,7 @@ public class OrdineController {
             return ResponseEntity.badRequest().body(apiResponse);
         }
         try {
+                ordine.setStato(StatoOrdine.IN_ATTESA);
             return ResponseEntity.ok().body(new APIResponse(ordiniRepo.save(ordine)));
         } catch (DataValidationException | DataIntegrityViolationException e) {
 
