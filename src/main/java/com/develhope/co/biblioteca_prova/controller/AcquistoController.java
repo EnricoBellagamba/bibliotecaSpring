@@ -46,7 +46,7 @@ public class AcquistoController {
     @PostMapping
     public ResponseEntity<APIResponse> save(@RequestBody Acquisto acquisto){
         APIResponse response = acquistoService.salvaAcquisto(acquisto);
-        return ResponseEntity.ok(new APIResponse(true,response.getStatus(),response.getContent()));
+        return ResponseEntity.ok(new APIResponse(response.getStatus(),response.getContent(),true));
 
     }
 

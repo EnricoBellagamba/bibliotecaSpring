@@ -25,7 +25,7 @@ public class APIResponse {
         this.content = content;
     }
 
-    public APIResponse(boolean success,int status, Object content){
+    public APIResponse(int status, Object content,boolean success){
         this.success = success;
         this.status = status;
         this.content = content;

@@ -23,13 +23,13 @@ public class AcquistoService {
     public APIResponse salvaAcquisto(Acquisto acquisto){
 
         if(!ordineRepo.existsById(acquisto.getOrdine().getId())){
-            return new APIResponse(false,404,"Ordine non trovato");
+            return new APIResponse(404,"Ordine non trovato",false);
         }
         if(!libroRepo.existsById(acquisto.getLibro().getIsbn())){
-            return new APIResponse(false,404,"Libro non trovato");
+            return new APIResponse(404,"Libro non trovato",false);
         }
         if (acquisto.getNumCopie() <= 0 || acquisto.getPrezzoPerCopia() < 0){
-            return new APIResponse(false,400,"Numero copie o prezzo per copia non valido");
+            return new APIResponse(400,"Numero copie o prezzo per copia non valido",false);
         }
         return new APIResponse(acquistoRepo.save(acquisto));
     }
