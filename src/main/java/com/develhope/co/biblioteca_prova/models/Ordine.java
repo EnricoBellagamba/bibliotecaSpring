@@ -1,6 +1,6 @@
 package com.develhope.co.biblioteca_prova.models;
 
-import com.develhope.co.biblioteca_prova.enums.Stato;
+import com.develhope.co.biblioteca_prova.enums.StatoOrdine;
 import com.develhope.co.biblioteca_prova.enums.TipoOrdine;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -21,7 +21,7 @@ public class Ordine {
     @NotNull
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Stato stato;
+    private StatoOrdine stato;
 
     @NotNull
     @Column(nullable = false)
@@ -44,11 +44,11 @@ public class Ordine {
         this.dataOrdine = dataOrdine;
     }
 
-    public Stato getStato() {
+    public StatoOrdine getStato() {
         return stato;
     }
 
-    public void setStato(Stato stato) {
+    public void setStato(StatoOrdine stato) {
         this.stato = stato;
     }
 

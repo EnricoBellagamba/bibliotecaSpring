@@ -2,6 +2,7 @@ package com.develhope.co.biblioteca_prova.controller;
 
 import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.dto.PaginationDTO;
+import com.develhope.co.biblioteca_prova.enums.StatoOrdine;
 import com.develhope.co.biblioteca_prova.exceptions.DataValidationException;
 import com.develhope.co.biblioteca_prova.models.Ordine;
 import com.develhope.co.biblioteca_prova.repository.OrdineRepository;
@@ -41,12 +42,12 @@ public class OrdineController {
         return ResponseEntity.status(404).body(new APIResponse("Ordine non trovato"));
     }
     @GetMapping("/status/{stato}")
-    public ResponseEntity<APIResponse> findByStatus(@PathVariable("stato") Enum stato) {
+    public ResponseEntity<APIResponse> findByStatus(@PathVariable("stato") StatoOrdine stato) {
         List<Ordine> ordineList = ordiniRepo.findByStato(stato);
-        if (!ordineList.isEmpty()) {
-            return ResponseEntity.ok().body(new APIResponse(ordineList.get(0)));
-        }
-        return ResponseEntity.status(404).body(new APIResponse("Ordine non trovato"));
+
+            return ResponseEntity.ok().body(new APIResponse(ordineList));
+
+
     }
 
     @PostMapping
