@@ -1,6 +1,8 @@
 package com.develhope.co.biblioteca_prova.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
 
 @Entity
 public class Acquisto {
@@ -9,8 +11,10 @@ public class Acquisto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Min(value = 1)
     private Integer numCopie;
 
+    @DecimalMin(value = "0.01")
     private Double prezzoPerCopia;
 
     @ManyToOne
