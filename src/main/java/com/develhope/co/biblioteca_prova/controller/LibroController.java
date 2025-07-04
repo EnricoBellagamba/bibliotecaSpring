@@ -4,6 +4,8 @@ import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.dto.PaginationDTO;
 import com.develhope.co.biblioteca_prova.exceptions.DataValidationException;
 import com.develhope.co.biblioteca_prova.models.Libro;
+import com.develhope.co.biblioteca_prova.models.LibroConCopie;
+import com.develhope.co.biblioteca_prova.repository.LibroConCopieRepository;
 import com.develhope.co.biblioteca_prova.repository.LibroRepository;
 import com.develhope.co.biblioteca_prova.service.LibroService;
 import com.develhope.co.biblioteca_prova.utils.PaginationUtils;
@@ -11,6 +13,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -27,6 +30,9 @@ public class LibroController {
     @Autowired
     private LibroService libroService;
 
+    @Autowired
+    private LibroConCopieRepository libroConCopieRepo;
+
     @GetMapping
     public ResponseEntity<APIResponse> findAll(PaginationDTO pagination) {
 
@@ -34,11 +40,11 @@ public class LibroController {
         return ResponseEntity.ok().body(new APIResponse(libriRepo.findAll(pageable)));
     }
 
-    @GetMapping("/disponibili")
-    public ResponseEntity<APIResponse> findLibriDisponibili(PaginationDTO pagination) {
-        Pageable pageable = PaginationUtils.createPage(pagination);
-        return ResponseEntity.ok().body(new APIResponse(libriRepo.findLibriDisponibili(pageable)));
-    }
+//    @GetMapping("/disponibili")
+//    public ResponseEntity<APIResponse> findLibriDisponibili(PaginationDTO pagination) {
+//        Pageable pageable = PaginationUtils.createPage(pagination);
+//        return ResponseEntity.ok().body(new APIResponse(libriRepo.findLibriDisponibili(pageable)));
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<APIResponse> findById(@PathVariable("id") String isbn) {
@@ -70,6 +76,13 @@ public class LibroController {
             return ResponseEntity.badRequest().body(new APIResponse(e.getMessage()));
         }
 
+    }
+
+    @GetMapping("/disponibili")
+    public ResponseEntity<APIResponse> findDisponibili(PaginationDTO paginationDTO){
+
+        Pageable pageable = PaginationUtils.createPage(paginationDTO);
+        return ResponseEntity.ok(new APIResponse(libroConCopieRepo.findAll(pageable)));
     }
 
 }

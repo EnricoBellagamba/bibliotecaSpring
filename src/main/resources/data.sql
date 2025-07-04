@@ -1,3 +1,16 @@
+-- utenti --
+INSERT INTO utente (nome, cognome, ruolo) VALUES
+('Luca', 'Rossi', 'CLIENTE'),
+('Giulia', 'Bianchi', 'OPERATORE'),
+('Marco', 'Verdi', 'CLIENTE'),
+('Elena', 'Neri', 'CLIENTE'),
+('Sara', 'Romano', 'OPERATORE'),
+('Davide', 'Greco', 'CLIENTE'),
+('Chiara', 'Fontana', 'CLIENTE'),
+('Alessandro', 'Ferrari', 'OPERATORE'),
+('Martina', 'Conti', 'CLIENTE'),
+('Francesco', 'Gallo', 'CLIENTE');
+
 -- autori --
 INSERT INTO autore (nome, cognome, data_nascita) VALUES
 ('Isaac', 'Asimov', '1920-01-02 00:00:00'),
@@ -133,44 +146,16 @@ INSERT INTO acquisto (ordine_id, libro_isbn, num_copie, prezzo_per_copia) VALUES
 (3,'978-863-4921-059', 8, 13.0);
 
 -- prestiti --
-INSERT INTO prestito (data_prestito, data_restituzione) VALUES
-('2023-01-10 09:00:00', '2023-01-20 15:30:00'),
-('2023-02-01 10:15:00', NULL),
-('2023-02-05 14:00:00', '2023-02-28 12:00:00'),
-('2023-03-01 11:45:00', NULL),
-('2023-03-15 16:20:00', '2023-03-25 10:00:00'),
-('2023-04-01 09:30:00', '2023-04-18 08:45:00'),
-('2023-04-20 13:10:00', NULL),
-('2023-05-05 10:00:00', '2023-05-19 11:30:00'),
-('2023-06-01 15:00:00', NULL),
-('2023-06-15 09:45:00', '2023-06-29 10:00:00'),
-('2023-07-01 08:30:00', NULL),
-('2023-08-10 17:15:00', '2023-08-30 09:00:00'),
-('2023-09-05 10:10:00', NULL),
-('2023-10-01 13:00:00', '2023-10-14 16:45:00'),
-('2023-11-11 11:00:00', NULL),
-('2023-11-19 09:15:00', '2023-12-14 15:35:00'),
-('2024-01-10 10:04:00', NULL),
-('2024-02-11 12:11:00', '2024-03-01 11:45:00'),
-('2024-02-15 09:19:00', '2024-03-19 15:13:00'),
-('2024-02-12 09:00:00', NULL),
-('2024-03-12 12:20:00', NULL),
-('2024-03-14 11:33:00', '2024-04-11 16:13:00'),
-('2024-03-16 11:10:00', '2024-04-20 15:23:00');
+INSERT INTO prestito (utente_id, libro_isbn, data_prestito, data_restituzione) VALUES
+(1, '978-863-4921-059', '2023-01-10 09:00:00', '2023-01-20 15:30:00'),
+(2, '978-190-4753-060', '2023-02-01 10:15:00', NULL),
+(2, '978-190-4753-060', '2023-02-05 14:00:00', '2023-02-28 12:00:00'),
+(3, '978-863-4921-059', '2023-03-01 11:45:00', NULL),
+(3, '978-190-4753-060', '2023-03-01 11:45:00', NULL);
 
 
--- utenti --
-INSERT INTO utente (nome, cognome, ruolo) VALUES
-('Luca', 'Rossi', 'CLIENTE'),
-('Giulia', 'Bianchi', 'OPERATORE'),
-('Marco', 'Verdi', 'CLIENTE'),
-('Elena', 'Neri', 'CLIENTE'),
-('Sara', 'Romano', 'OPERATORE'),
-('Davide', 'Greco', 'CLIENTE'),
-('Chiara', 'Fontana', 'CLIENTE'),
-('Alessandro', 'Ferrari', 'OPERATORE'),
-('Martina', 'Conti', 'CLIENTE'),
-('Francesco', 'Gallo', 'CLIENTE');
+
+
 
 -- vendite --
 INSERT INTO vendita (data_vendita) VALUES
@@ -190,3 +175,23 @@ INSERT INTO vendita (data_vendita) VALUES
 ('2024-02-14 14:30:00'),
 ('2024-03-30 11:00:00');
 
+
+CREATE OR replace VIEW libro_con_copie AS
+
+WITH libri_disponibili AS
+(SELECT l.*, SUM(a.num_copie) AS copie_acquistate FROM libro l
+JOIN acquisto a ON l.isbn = a.libro_isbn
+JOIN ordine o ON o.id = a.ordine_id
+WHERE o.stato = 'CONSEGNATO'
+GROUP BY l.isbn)
+
+SELECT
+l.isbn AS id,
+l.*, COUNT(*) AS copie_prestate, ld.copie_acquistate,
+ld.copie_acquistate - COUNT(*) AS copie_disponibili
+FROM libro l
+JOIN prestito p ON p.libro_isbn = l.isbn
+JOIN libri_disponibili ld ON ld.isbn = l.isbn
+WHERE p.data_restituzione IS null
+GROUP BY l.isbn
+HAVING copie_disponibili > 0;

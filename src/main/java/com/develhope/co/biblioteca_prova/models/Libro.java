@@ -39,6 +39,10 @@ public class Libro {
      @JsonIgnore
     private List<Acquisto> acquisti;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "libro")
+    private List<Prestito> prestiti;
+
     //numero pagine e traduzione?
 
     @AssertTrue(message = "L'anno di pubblicazione non può essere nel futuro")
@@ -104,6 +108,14 @@ public class Libro {
 
     public void setAcquisti(List<Acquisto> acquisti) {
         this.acquisti = acquisti;
+    }
+
+    public List<Prestito> getPrestiti() {
+        return prestiti;
+    }
+
+    public void setPrestiti(List<Prestito> prestiti) {
+        this.prestiti = prestiti;
     }
 }
 

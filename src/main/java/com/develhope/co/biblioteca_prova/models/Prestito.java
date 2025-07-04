@@ -18,12 +18,16 @@ public class Prestito {
     @Column
     private LocalDateTime dataRestituzione;
 
+    @JoinColumn(nullable = false)
+    @ManyToOne
+    private Utente utente;
+
+    @JoinColumn(nullable = false)
+    @ManyToOne
+    private Libro libro;
+
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public LocalDateTime getDataPrestito() {
@@ -42,7 +46,19 @@ public class Prestito {
         this.dataRestituzione = dataRestituzione;
     }
 
+    public Libro getLibro() {
+        return libro;
+    }
 
+    public void setLibro(Libro libro) {
+        this.libro = libro;
+    }
 
+    public Utente getUtente() {
+        return utente;
+    }
 
+    public void setUtente(Utente utente) {
+        this.utente = utente;
+    }
 }

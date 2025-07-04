@@ -1,8 +1,11 @@
 package com.develhope.co.biblioteca_prova.models;
 
 import com.develhope.co.biblioteca_prova.enums.RuoloUtenti;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+
+import java.util.List;
 
 @Entity
 public class Utente {
@@ -19,6 +22,10 @@ public class Utente {
 
     @Column
     private boolean fidelityCard ;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "utente")
+    private List<Prestito> prestiti;
 
     @Enumerated(EnumType.STRING)
     @NotNull
@@ -55,5 +62,21 @@ public class Utente {
 
     public void setRuolo(RuoloUtenti ruolo) {
         this.ruolo = ruolo;
+    }
+
+    public boolean isFidelityCard() {
+        return fidelityCard;
+    }
+
+    public void setFidelityCard(boolean fidelityCard) {
+        this.fidelityCard = fidelityCard;
+    }
+
+    public List<Prestito> getPrestiti() {
+        return prestiti;
+    }
+
+    public void setPrestiti(List<Prestito> prestiti) {
+        this.prestiti = prestiti;
     }
 }

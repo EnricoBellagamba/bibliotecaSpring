@@ -64,6 +64,7 @@ public class OrdineController {
         }
         try {
                 ordine.setStato(StatoOrdine.IN_ATTESA);
+                //service con controllo se ordineStato è null
             return ResponseEntity.ok().body(new APIResponse(ordiniRepo.save(ordine)));
         } catch (DataValidationException | DataIntegrityViolationException e) {
 
