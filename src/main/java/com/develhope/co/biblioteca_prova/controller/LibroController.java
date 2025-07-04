@@ -40,6 +40,8 @@ public class LibroController {
         return ResponseEntity.ok().body(new APIResponse(libriRepo.findAll(pageable)));
     }
 
+
+
 //    @GetMapping("/disponibili")
 //    public ResponseEntity<APIResponse> findLibriDisponibili(PaginationDTO pagination) {
 //        Pageable pageable = PaginationUtils.createPage(pagination);

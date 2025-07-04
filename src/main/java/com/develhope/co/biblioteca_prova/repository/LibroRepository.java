@@ -13,7 +13,7 @@ import java.util.List;
 
 
 public interface LibroRepository extends JpaRepository<Libro, String> {
-
+    
     Page<Libro> findByTitoloContains(String titolo, Pageable pageable);
 
     //    @NativeQuery("SELECT l.* FROM libro l\n" +
