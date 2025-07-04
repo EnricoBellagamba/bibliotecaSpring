@@ -14,6 +14,7 @@ public class LibroService {
     @Autowired
     private LibroRepository libroRepo;
 
+    //attualmente inutile
     public Libro save(Libro libro){
         if(libro.getPrezzo()<0){
             throw new DataValidationException("Prezzo non valido ");

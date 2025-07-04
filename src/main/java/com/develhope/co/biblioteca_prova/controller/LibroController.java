@@ -73,6 +73,7 @@ public class LibroController {
         try {
             return ResponseEntity.ok().body(new APIResponse(libriRepo.save(libro)));
         } catch (DataValidationException | DataIntegrityViolationException e) {
+            //DataValidationException non viene mai lanciata
             return ResponseEntity.badRequest().body(new APIResponse(e.getMessage()));
         }
 

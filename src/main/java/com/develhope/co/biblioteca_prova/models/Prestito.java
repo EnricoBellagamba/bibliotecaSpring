@@ -18,10 +18,12 @@ public class Prestito {
     @Column
     private LocalDateTime dataRestituzione;
 
+    @NotNull
     @JoinColumn(nullable = false)
     @ManyToOne
     private Utente utente;
 
+    @NotNull
     @JoinColumn(nullable = false)
     @ManyToOne
     private Libro libro;
