@@ -21,7 +21,7 @@ public class Utente {
     private String cognome;
 
     @Column
-    private boolean fidelityCard ;
+    private Boolean fidelityCard ;
 
     @JsonIgnore
     @OneToMany(mappedBy = "utente")
@@ -64,11 +64,11 @@ public class Utente {
         this.ruolo = ruolo;
     }
 
-    public boolean isFidelityCard() {
+    public Boolean isFidelityCard() {
         return fidelityCard;
     }
 
-    public void setFidelityCard(boolean fidelityCard) {
+    public void setFidelityCard(Boolean fidelityCard) {
         this.fidelityCard = fidelityCard;
     }
 
