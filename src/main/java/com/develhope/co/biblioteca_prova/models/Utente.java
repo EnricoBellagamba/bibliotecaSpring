@@ -21,6 +21,7 @@ public class Utente {
     private String cognome;
 
     @Column
+    @OneToOne(mappedBy = "utente", cascade = CascadeType.ALL)
     private Boolean fidelityCard ;
 
     @JsonIgnore

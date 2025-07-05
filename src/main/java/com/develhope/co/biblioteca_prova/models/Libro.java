@@ -36,7 +36,7 @@ public class Libro {
     private String descrizione;
 
     @OneToMany(mappedBy = "libro")
-     @JsonIgnore
+    @JsonIgnore
     private List<Acquisto> acquisti;
 
     @OneToMany(mappedBy = "libro")
