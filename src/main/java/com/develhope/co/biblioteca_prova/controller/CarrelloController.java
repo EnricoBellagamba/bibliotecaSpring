@@ -2,15 +2,15 @@ package com.develhope.co.biblioteca_prova.controller;
 
 import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.dto.PaginationDTO;
+import com.develhope.co.biblioteca_prova.models.Carrello;
 import com.develhope.co.biblioteca_prova.repository.CarrelloRepository;
 import com.develhope.co.biblioteca_prova.utils.PaginationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/carrello")
@@ -20,12 +20,30 @@ public class CarrelloController {
 
     @GetMapping
     public ResponseEntity<APIResponse> findAll(
-            PaginationDTO pagination,
-            @RequestParam Integer venditaId
-    ) {
+            PaginationDTO pagination) {
         Pageable pageable = PaginationUtils.createPage(pagination);
-        //return ResponseEntity.ok(new APIResponse(carrelloRepo.findAll(pageable)));
-        return ResponseEntity.ok(new APIResponse(carrelloRepo.prezzoTotale(venditaId)));
+        return ResponseEntity.ok(new APIResponse(carrelloRepo.findAll(pageable)));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<APIResponse> findById(@PathVariable Integer id){
+        Optional<Carrello> carrelloOpt = carrelloRepo.findById(id);
+        if(carrelloOpt.isEmpty()){
+            return ResponseEntity.badRequest().body(new APIResponse("Carrello con id: "+id+" non trovato"));
+        }
+        return ResponseEntity.ok(new APIResponse(carrelloOpt.get()));
+    }
+
+    @PostMapping
+    public ResponseEntity<APIResponse> save(@RequestBody Carrello carrello) {
+
+
+        if(carrello.getId() == null){
+            carrello.setPrezzoTotale(carrelloRepo.prezzoTotale(carrello.getVendita().getId()));
+        }
+        return ResponseEntity.ok(new APIResponse(carrelloRepo.save(carrello)));
+    }
+
+
 
 }
