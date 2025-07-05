@@ -35,28 +35,27 @@ public class AcquistoController {
     @GetMapping("/{id}")
     public ResponseEntity<APIResponse> findById(@PathVariable Integer id) {
         Optional<Acquisto> opt = acquistoRepo.findById(id);
-        if(opt.isEmpty()) {
-            return ResponseEntity.status(404).body(new APIResponse("acquisto non trovato")) ;
+        if (opt.isEmpty()) {
+            return ResponseEntity.status(404).body(new APIResponse("acquisto non trovato"));
         }
         return ResponseEntity.ok(new APIResponse(opt.get()));
     }
 
     @GetMapping
     public ResponseEntity<APIResponse> findAll(PaginationDTO pagination) {
-    Pageable pageable = PaginationUtils.createPage(pagination);
-
-       return ResponseEntity.ok(new APIResponse(acquistoRepo.findAll(pageable)));
+        Pageable pageable = PaginationUtils.createPage(pagination);
+        return ResponseEntity.ok(new APIResponse(acquistoRepo.findAll(pageable)));
     }
-    
+
     @PostMapping
-    public ResponseEntity<APIResponse> save(@Valid @RequestBody Acquisto acquisto, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+    public ResponseEntity<APIResponse> save(@Valid @RequestBody Acquisto acquisto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             APIResponse apiResponse = new APIResponse(bindingResult.getAllErrors());
             return ResponseEntity.badRequest().body(apiResponse);
         }
         try {
             return ResponseEntity.ok(new APIResponse(acquistoRepo.save(acquisto)));
-        }catch (DataValidationException | DataIntegrityViolationException e){
+        } catch (DataValidationException | DataIntegrityViolationException e) {
             return ResponseEntity.badRequest().body(new APIResponse(e.getMessage()));
         }
 

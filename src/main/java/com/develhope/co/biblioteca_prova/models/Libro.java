@@ -39,9 +39,13 @@ public class Libro {
      @JsonIgnore
     private List<Acquisto> acquisti;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "libro")
+    @JsonIgnore
     private List<Prestito> prestiti;
+
+    @OneToMany(mappedBy = "libro")
+    @JsonIgnore
+    private List<Carrello> carrello;
 
     //numero pagine e traduzione?
 
