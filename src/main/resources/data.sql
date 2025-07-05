@@ -175,7 +175,7 @@ INSERT INTO vendita (data_vendita) VALUES
 ('2024-02-14 14:30:00'),
 ('2024-03-30 11:00:00');
 
-<<<<<<< HEAD
+
 -- carrello --
 INSERT INTO carrello (vendita_id, libro_isbn) VALUES
 (1, '978-539-9032-054'),
@@ -190,7 +190,6 @@ INSERT INTO carrello (vendita_id, libro_isbn) VALUES
 (1, '978-782-1123-046'),
 (12, '978-539-9032-054');
 
-=======
 -- libro_autore
 INSERT INTO libro_autore (libro_isbn, autori_id) VALUES
 ('978-917-5676-001', 1),
@@ -242,7 +241,7 @@ INSERT INTO libro_autore (libro_isbn, autori_id) VALUES
 ('978-121-6532-047', 6),
 ('978-964-4512-048', 1),
 ('978-832-7841-049', 14);
->>>>>>> b200bcdf8c7992ffcad2fbf4cab5682300b8cc34
+
 
 
 CREATE OR replace VIEW libro_con_copie AS
