@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/fornitori")
 public class FornitoreController {
@@ -28,6 +30,15 @@ public class FornitoreController {
         Pageable pageable = PaginationUtils.createPage(paginationDTO);
         APIResponse ar = new APIResponse(fornitoriRepo.findAll(pageable));
         return ResponseEntity.ok(ar);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<APIResponse> findById(@PathVariable Integer id){
+        Optional<Fornitore> opt = fornitoriRepo.findById(id);
+        if (opt.isPresent()){
+            return ResponseEntity.ok(new APIResponse(opt.get()));
+        }
+        return ResponseEntity.status(404).body(new APIResponse("Fornitore non trovato"));
     }
 
     @GetMapping("/search")
