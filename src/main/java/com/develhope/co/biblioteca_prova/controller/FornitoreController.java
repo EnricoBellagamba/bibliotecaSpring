@@ -25,7 +25,7 @@ public class FornitoreController {
     @Autowired
     private FornitoreService fornitoreService;
     @GetMapping
-    public ResponseEntity<APIResponse> getAll(PaginationDTO paginationDTO){
+    public ResponseEntity<APIResponse> findAll(PaginationDTO paginationDTO){
 
         Pageable pageable = PaginationUtils.createPage(paginationDTO);
         APIResponse ar = new APIResponse(fornitoriRepo.findAll(pageable));
@@ -42,7 +42,7 @@ public class FornitoreController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<APIResponse> getByName(PaginationDTO paginationDTO, @RequestParam String nome){
+    public ResponseEntity<APIResponse> findByName(PaginationDTO paginationDTO, @RequestParam String nome){
 
         Pageable pageable = PaginationUtils.createPage(paginationDTO);
         APIResponse ar = new APIResponse(fornitoriRepo.findByNomeContains(nome, pageable));
