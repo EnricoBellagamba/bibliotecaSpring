@@ -3,6 +3,7 @@ package com.develhope.co.biblioteca_prova.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Acquisto {
@@ -17,10 +18,14 @@ public class Acquisto {
     @DecimalMin(value = "0.01")
     private Double prezzoPerCopia;
 
+    @NotNull
     @ManyToOne
+    @JoinColumn(nullable = false)
     private  Libro libro;
 
+    @NotNull
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Ordine ordine;
 
     public Integer getId() {

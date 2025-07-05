@@ -20,8 +20,8 @@ public class Ordine {
     @Column(nullable = false)
     private LocalDateTime dataOrdine;
 
-    @NotNull
-    @Column(nullable = false)
+//    @NotNull
+//    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private StatoOrdine stato;
 
@@ -33,6 +33,16 @@ public class Ordine {
     @OneToMany(mappedBy = "ordine")
     @JsonIgnore
     private List<Acquisto> acquisti;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Fornitore fornitore;
+
+    //imposto la data di creazione dell'ordine nel momento in cui viene creata
+    public Ordine(){
+        this.dataOrdine = LocalDateTime.now();
+    }
 
     public Integer getId() {
         return id;
@@ -72,5 +82,13 @@ public class Ordine {
 
     public void setAcquisti(List<Acquisto> acquisti) {
         this.acquisti = acquisti;
+    }
+
+    public Fornitore getFornitore() {
+        return fornitore;
+    }
+
+    public void setFornitore(Fornitore fornitore) {
+        this.fornitore = fornitore;
     }
 }
