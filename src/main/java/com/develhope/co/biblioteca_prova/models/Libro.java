@@ -47,6 +47,10 @@ public class Libro {
     @JsonIgnore
     private List<Carrello> carrello;
 
+    @ManyToMany
+    @JoinTable(name = "libro_autore")
+
+    private List<Autore> autori;
     //numero pagine e traduzione?
 
     @AssertTrue(message = "L'anno di pubblicazione non può essere nel futuro")
@@ -120,6 +124,22 @@ public class Libro {
 
     public void setPrestiti(List<Prestito> prestiti) {
         this.prestiti = prestiti;
+    }
+
+    public List<Carrello> getCarrello() {
+        return carrello;
+    }
+
+    public void setCarrello(List<Carrello> carrello) {
+        this.carrello = carrello;
+    }
+
+    public List<Autore> getAutori() {
+        return autori;
+    }
+
+    public void setAutori(List<Autore> autori) {
+        this.autori = autori;
     }
 }
 
