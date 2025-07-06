@@ -22,7 +22,6 @@ public class VenditaController {
     @Autowired
     private VenditaRepository venditaRepo;
 
-    // non funziona!!!
     @GetMapping
     public ResponseEntity<APIResponse> findAll(
             @RequestParam(required = false) LocalDateTime start,
@@ -30,15 +29,16 @@ public class VenditaController {
             PaginationDTO pagination) {
         Pageable pageable = PaginationUtils.createPage(pagination);
 
-        if (start != null) {
-            if (end == null) {
-                end = LocalDateTime.now();
-            }
-            return ResponseEntity
-                    .ok(new APIResponse(venditaRepo.findByDataVenditaBetween(start, end, pageable)));
+        if (start == null) {
+            start = LocalDateTime.of(0, 1,1,0,0);
         }
-        return ResponseEntity.ok(new APIResponse(venditaRepo.findAll(pageable)));
+        if (end == null) {
+            end = LocalDateTime.now();
+        }
 
+        return ResponseEntity.ok(
+                new APIResponse(venditaRepo.findByDataVenditaBetween(start, end, pageable))
+        );
     }
 
     @GetMapping("/{id}")
