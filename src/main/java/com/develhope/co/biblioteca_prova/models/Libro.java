@@ -49,7 +49,6 @@ public class Libro {
 
     @ManyToMany
     @JoinTable(name = "libro_autore")
-
     private List<Autore> autori;
     //numero pagine e traduzione?
 

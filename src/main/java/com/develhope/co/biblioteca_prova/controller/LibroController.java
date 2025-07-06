@@ -39,8 +39,6 @@ public class LibroController {
         return ResponseEntity.ok().body(new APIResponse(libriRepo.findAll(pageable)));
     }
 
-
-
 //    @GetMapping("/disponibili")
 //    public ResponseEntity<APIResponse> findLibriDisponibili(PaginationDTO pagination) {
 //        Pageable pageable = PaginationUtils.createPage(pagination);
@@ -57,11 +55,13 @@ public class LibroController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<APIResponse> findByTitle(@RequestParam String titolo,
+    public ResponseEntity<APIResponse> findByParam(@RequestParam(required = false) String titolo,
+                                                   @RequestParam(required = false) String nome,
+                                                   @RequestParam(required = false) String cognome,
                                                    PaginationDTO pagination) {
         Pageable pageable = PaginationUtils.createPage(pagination);
 
-        Page<Libro> page = libriRepo.findByTitoloContains(titolo, pageable);
+        Page<Libro> page = libriRepo.findByTitoloAndAutore(titolo, nome, cognome, pageable);
         return ResponseEntity.ok(new APIResponse(page));
     }
 
@@ -77,7 +77,6 @@ public class LibroController {
             //DataValidationException non viene mai lanciata
             return ResponseEntity.badRequest().body(new APIResponse(e.getMessage()));
         }
-
     }
 
     @GetMapping("/disponibili")
