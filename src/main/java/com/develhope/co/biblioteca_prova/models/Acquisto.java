@@ -21,7 +21,7 @@ public class Acquisto {
     @NotNull
     @ManyToOne
     @JoinColumn(nullable = false)
-    private  Libro libro;
+    private Libro libro;
 
     @NotNull
     @ManyToOne

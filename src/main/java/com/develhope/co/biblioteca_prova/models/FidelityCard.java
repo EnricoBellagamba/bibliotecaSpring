@@ -1,9 +1,12 @@
 package com.develhope.co.biblioteca_prova.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
+@Entity
 public class FidelityCard {
 
     @Id
@@ -11,12 +14,15 @@ public class FidelityCard {
     private Integer id;
 
     @OneToOne
-    @JoinColumn(name = "id_utente", referencedColumnName = "id")
+    @JoinColumn(nullable = false)
+    @JsonIgnore
+    //@NotBlank(message = "Bisogna inserire l'ID dell'utente per assegnare la fidelity card")
     private Utente utente;
 
-    @Column
+    @Column(nullable = false)
     @Positive
     @DecimalMin("0.0")
+    //@NotBlank(message = "Bisogna inserire lo sconto che la Fidelity Card avrà per questo Utente")
     private double prezzo;
 
     public Integer getId() {
