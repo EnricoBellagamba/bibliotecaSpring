@@ -21,7 +21,6 @@ public class Utente {
     private String cognome;
 
     @OneToOne(mappedBy = "utente", cascade = CascadeType.ALL)
-    @JsonIgnore
     private FidelityCard fidelityCard;
 
     @JsonIgnore
