@@ -3,7 +3,7 @@ package com.develhope.co.biblioteca_prova.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Positive;
-
+@Entity
 public class FidelityCard {
 
     @Id

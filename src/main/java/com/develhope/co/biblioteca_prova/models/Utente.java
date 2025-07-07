@@ -20,9 +20,8 @@ public class Utente {
     @Column(length = 100)
     private String cognome;
 
-    @Column
     @OneToOne(mappedBy = "utente", cascade = CascadeType.ALL)
-    private Boolean fidelityCard ;
+    private FidelityCard fidelityCard ;
 
     @JsonIgnore
     @OneToMany(mappedBy = "utente")
@@ -65,11 +64,11 @@ public class Utente {
         this.ruolo = ruolo;
     }
 
-    public Boolean isFidelityCard() {
+    public FidelityCard getFidelityCard() {
         return fidelityCard;
     }
 
-    public void setFidelityCard(Boolean fidelityCard) {
+    public void setFidelityCard(FidelityCard fidelityCard) {
         this.fidelityCard = fidelityCard;
     }
 
