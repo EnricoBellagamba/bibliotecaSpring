@@ -1,5 +1,6 @@
 package com.develhope.co.biblioteca_prova.models;
 
+import com.develhope.co.biblioteca_prova.enums.StatoOrdine;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -63,4 +64,5 @@ public class Prestito {
     public void setUtente(Utente utente) {
         this.utente = utente;
     }
+
 }

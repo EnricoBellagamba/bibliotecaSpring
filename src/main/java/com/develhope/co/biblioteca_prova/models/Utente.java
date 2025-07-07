@@ -32,6 +32,10 @@ public class Utente {
     @Column(nullable = false)
     private RuoloUtenti ruolo;
 
+//    @JsonIgnore
+//    @ManyToOne
+//    private List<Vendita> vendita;
+
     public Integer getId() {
         return id;
     }

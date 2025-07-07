@@ -1,5 +1,6 @@
 package com.develhope.co.biblioteca_prova.models;
 
+import com.develhope.co.biblioteca_prova.enums.RuoloUtenti;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -20,6 +21,9 @@ public class Vendita {
 
     @OneToMany(mappedBy = "vendita")
     private List<Carrello> carrello;
+
+//    @OneToMany
+//    private Utente utente;
 
     // Getter e setter
     public Integer getId() {

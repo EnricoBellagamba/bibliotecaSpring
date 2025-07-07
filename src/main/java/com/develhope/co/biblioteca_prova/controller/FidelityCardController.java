@@ -74,4 +74,20 @@ public class FidelityCardController {
         }
         return ResponseEntity.status(404).body(new APIResponse("Fidelity-card non trovata"));
     }
-}
+
+        @DeleteMapping("/delete/{id}")
+        public ResponseEntity<Void> deleteById(@PathVariable ("idUtente") Integer idUtente) {
+            if (!fidelityCardRepository.existsById(idUtente)) {
+                return ResponseEntity.notFound().build();
+
+            }
+            fidelityCardRepository.deleteById(idUtente);
+            return ResponseEntity.noContent().build();
+        }
+
+    @DeleteMapping("/delete-all-fidelity")
+    public ResponseEntity<Void> deleteAll(){
+        fidelityCardRepository.deleteAll();
+        return ResponseEntity.noContent().build();
+    }
+    }
