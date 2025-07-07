@@ -37,4 +37,14 @@ public class Vendita {
     public void setDataVendita(LocalDateTime dataVendita) {
         this.dataVendita = dataVendita;
     }
+
+//    public double getPrezzoTotale() {
+//        double totale = 0;
+//        for (Carrello c : carrello) {
+//            totale += c.getPrezzoTotale();
+//        }
+//        return totale;
+//    }
+
+
 }

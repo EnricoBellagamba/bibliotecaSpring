@@ -39,11 +39,21 @@ public class FidelityCardController {
             return ResponseEntity.notFound().build();
         }
 
-        Utente utente = optionalUtente.get();
-        //utente.setFidelityCard(fidelityCard);
-        fidelityCard.setUtente(utente);
+//        if (fidelityCard.getId() == null) {
+//
+//        } else {
+//            Optional<FidelityCard> optionalFidelity = fidelityCardRepository.findById(fidelityCard.getId());
+//        }
 
-        return ResponseEntity.ok().body(new APIResponse(fidelityCardRepository.save(fidelityCard)));
+        Utente utente = optionalUtente.get();
+
+        if (utente.getFidelityCard() == null) {
+            fidelityCard.setUtente(utente);
+            return ResponseEntity.ok().body(new APIResponse(fidelityCardRepository.save(fidelityCard)));
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 
 }
