@@ -230,23 +230,34 @@ INSERT INTO libro_autore (libro_isbn, autori_id) VALUES
 ('978-832-7841-049', 14);
 
 
-
+-- vista per copie disponibili
 CREATE OR replace VIEW libro_con_copie AS
 
-WITH libri_disponibili AS
+WITH libri_acquistati AS
 (SELECT l.*, SUM(a.num_copie) AS copie_acquistate FROM libro l
 JOIN acquisto a ON l.isbn = a.libro_isbn
 JOIN ordine o ON o.id = a.ordine_id
 WHERE o.stato = 'CONSEGNATO'
+GROUP BY l.isbn),
+
+libri_venduti AS
+(SELECT c.libro_isbn ,COUNT(c.libro_isbn) as copie_vendute
+FROM carrello c
+GROUP BY c.libro_isbn),
+
+libri_prestati AS
+(SELECT l.*, COUNT(*) AS copie_prestate FROM libro l
+JOIN prestito p ON p.libro_isbn = l.isbn
+WHERE p.data_restituzione IS NULL
 GROUP BY l.isbn)
 
-SELECT
-l.isbn AS id,
-l.*, COUNT(*) AS copie_prestate, ld.copie_acquistate,
-ld.copie_acquistate - COUNT(*) AS copie_disponibili
+SELECT l.*, la.copie_acquistate,
+COALESCE(lv.copie_vendute, 0) AS copie_vendute,
+COALESCE(lp.copie_prestate, 0) AS copie_prestate,
+la.copie_acquistate - COALESCE(lv.copie_vendute, 0) - COALESCE(lp.copie_prestate, 0)
+AS copie_disponibili
 FROM libro l
-JOIN prestito p ON p.libro_isbn = l.isbn
-JOIN libri_disponibili ld ON ld.isbn = l.isbn
-WHERE p.data_restituzione IS null
-GROUP BY l.isbn
-HAVING copie_disponibili > 0;
+JOIN libri_acquistati la ON la.isbn = l.isbn
+left JOIN libri_venduti lv ON lv.libro_isbn = l.isbn
+LEFT JOIN libri_prestati lp ON lp.isbn = l.isbn
+WHERE la.copie_acquistate - COALESCE(lv.copie_vendute, 0) - COALESCE(lp.copie_prestate, 0) > 0
