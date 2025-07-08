@@ -8,5 +8,5 @@ public interface CarrelloRepository extends JpaRepository<Carrello, Integer> {
     @Query("SELECT SUM(l.prezzo)  FROM Carrello c \n" +
             "JOIN c.libro l \n" +
             "WHERE c.vendita.id = ?1 \n")
-    Double prezzoTotale(Integer vendita_id);
+    Double prezzoTotale(Integer vendita_id);//prezzoVendita?
 }
