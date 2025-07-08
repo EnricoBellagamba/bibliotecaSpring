@@ -3,8 +3,10 @@ package com.develhope.co.biblioteca_prova.controller;
 import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.dto.PaginationDTO;
 import com.develhope.co.biblioteca_prova.models.Carrello;
+import com.develhope.co.biblioteca_prova.models.Libro;
 import com.develhope.co.biblioteca_prova.models.Vendita;
 import com.develhope.co.biblioteca_prova.repository.CarrelloRepository;
+import com.develhope.co.biblioteca_prova.repository.LibroRepository;
 import com.develhope.co.biblioteca_prova.repository.VenditaRepository;
 import com.develhope.co.biblioteca_prova.utils.PaginationUtils;
 import jakarta.validation.Valid;
@@ -26,6 +28,10 @@ public class VenditaController {
 
     @Autowired
     private CarrelloRepository carrelloRepository;
+
+    @Autowired
+    private LibroRepository libroRepo;
+
     @GetMapping
     public ResponseEntity<APIResponse> findAll(
             @RequestParam(required = false) LocalDateTime start,
@@ -34,7 +40,7 @@ public class VenditaController {
         Pageable pageable = PaginationUtils.createPage(pagination);
 
         if (start == null) {
-            start = LocalDateTime.of(0, 1,1,0,0);
+            start = LocalDateTime.of(0, 1, 1, 0, 0);
         }
         if (end == null) {
             end = LocalDateTime.now();
@@ -56,21 +62,33 @@ public class VenditaController {
         return ResponseEntity.ok(new APIResponse(opt.get()));
     }
 
-//    @PostMapping
-//    public ResponseEntity<APIResponse> save(
-//            @Valid @RequestBody Vendita v,
-//            BindingResult br) {
-//        if (br.hasErrors()) {
-//            return ResponseEntity.badRequest()
-//                    .body(new APIResponse(br.getAllErrors()));
-//        }
-//        Vendita vendita = venditaRepo.save(v);
-//        for (Carrello c : v.getCarrello()){
-//            c.setVendita(vendita);
-//            c.setLibro();
-//            carrelloRepository.save(c);
-//        }
-//        return ResponseEntity.ok(new APIResponse(vendita));
-//    }
+    @PostMapping
+    public ResponseEntity<APIResponse> save(
+            @Valid @RequestBody Vendita v,
+            BindingResult br) {
+        if (br.hasErrors()) {
+            return ResponseEntity.badRequest()
+                    .body(new APIResponse(br.getAllErrors()));
+        }
+        if (v.getCarrello() == null || v.getCarrello().isEmpty()) {
+            return ResponseEntity.badRequest()
+                    .body(new APIResponse("Il carrello non puà essere vuoto"));
+        }
+
+        for (Carrello c : v.getCarrello()) {
+            Optional<Libro> opt = libroRepo.findById(c.getLibro().getIsbn());
+            if (opt.isEmpty()) {
+                return ResponseEntity.badRequest()
+                        .body(new APIResponse("Libro non presente nel db"));
+            }
+        }
+
+        Vendita vendita = venditaRepo.save(v);
+        for (Carrello c : v.getCarrello()) {
+            c.setVendita(vendita);
+            carrelloRepository.save(c);
+        }
+        return ResponseEntity.ok(new APIResponse(vendita));
+    }
 
 }

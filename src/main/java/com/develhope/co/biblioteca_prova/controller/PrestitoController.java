@@ -42,16 +42,20 @@ public class PrestitoController {
         return ResponseEntity.status(404).body(new APIResponse("Prestito non trovato"));
     }
 
+    //@PostMapping("/{libroIsbn}/{idUtente}")
     @PostMapping
-    public ResponseEntity<APIResponse> save(@Valid @RequestBody Prestito prestito, BindingResult bindingResult){
+    public ResponseEntity<APIResponse> save(@Valid @RequestBody Prestito prestito,
+                                            // PathVariable libroIsbn
+                                            // PathVariable idUtente
+                                            BindingResult bindingResult) {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(new APIResponse(bindingResult.getAllErrors()));
         }
         try {
             return ResponseEntity.ok(new APIResponse(prestitoRepo.save(prestito)));
         } catch (DataIntegrityViolationException | InvalidDataAccessApiUsageException e) {
-            return ResponseEntity.badRequest().body(new APIResponse(e.getMessage()+ " " + e.getRootCause()));
+            return ResponseEntity.badRequest().body(new APIResponse(e.getMessage() + " " + e.getRootCause()));
         }
     }
 }
