@@ -1,5 +1,6 @@
 package com.develhope.co.biblioteca_prova.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 
@@ -13,11 +14,13 @@ public class Carrello {
     private Libro libro;
 
     @ManyToOne
+    @JsonIgnore
     private Vendita vendita;
 
     // dobbiamo calcolarlo
+    @Column(nullable = false)
     @Positive(message = "Il prezzo totale deve essere positivo")
-    private Double prezzoTotale;
+    private Double prezzoVendita;
 
     // Getter e setter
     public Integer getId() {
@@ -44,11 +47,11 @@ public class Carrello {
         this.vendita = vendita;
     }
 
-    public Double getPrezzoTotale() {
-        return prezzoTotale;
+    public Double getPrezzoVendita() {
+        return prezzoVendita;
     }
 
-    public void setPrezzoTotale(Double prezzoTotale) {
-        this.prezzoTotale = prezzoTotale;
+    public void setPrezzoVendita(Double prezzoVendita) {
+        this.prezzoVendita = prezzoVendita;
     }
 }

@@ -2,7 +2,9 @@ package com.develhope.co.biblioteca_prova.controller;
 
 import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.dto.PaginationDTO;
+import com.develhope.co.biblioteca_prova.models.Carrello;
 import com.develhope.co.biblioteca_prova.models.Vendita;
+import com.develhope.co.biblioteca_prova.repository.CarrelloRepository;
 import com.develhope.co.biblioteca_prova.repository.VenditaRepository;
 import com.develhope.co.biblioteca_prova.utils.PaginationUtils;
 import jakarta.validation.Valid;
@@ -22,6 +24,8 @@ public class VenditaController {
     @Autowired
     private VenditaRepository venditaRepo;
 
+    @Autowired
+    private CarrelloRepository carrelloRepository;
     @GetMapping
     public ResponseEntity<APIResponse> findAll(
             @RequestParam(required = false) LocalDateTime start,
@@ -47,20 +51,26 @@ public class VenditaController {
     ) {
         Optional<Vendita> opt = venditaRepo.findById(id);
         if (opt.isEmpty()) {
-            return ResponseEntity.badRequest().body(new APIResponse("Vendita non trovata"));
+            return ResponseEntity.status(404).body(new APIResponse("Vendita non trovata"));
         }
         return ResponseEntity.ok(new APIResponse(opt.get()));
     }
 
-    @PostMapping
-    public ResponseEntity<APIResponse> save(
-            @Valid @RequestBody Vendita v,
-            BindingResult br) {
-        if (br.hasErrors()) {
-            return ResponseEntity.badRequest()
-                    .body(new APIResponse(br.getAllErrors()));
-        }
-        return ResponseEntity.ok(new APIResponse(venditaRepo.save(v)));
-    }
+//    @PostMapping
+//    public ResponseEntity<APIResponse> save(
+//            @Valid @RequestBody Vendita v,
+//            BindingResult br) {
+//        if (br.hasErrors()) {
+//            return ResponseEntity.badRequest()
+//                    .body(new APIResponse(br.getAllErrors()));
+//        }
+//        Vendita vendita = venditaRepo.save(v);
+//        for (Carrello c : v.getCarrello()){
+//            c.setVendita(vendita);
+//            c.setLibro();
+//            carrelloRepository.save(c);
+//        }
+//        return ResponseEntity.ok(new APIResponse(vendita));
+//    }
 
 }
