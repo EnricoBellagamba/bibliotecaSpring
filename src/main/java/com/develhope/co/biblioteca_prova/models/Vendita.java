@@ -22,8 +22,9 @@ public class Vendita {
     @OneToMany(mappedBy = "vendita")
     private List<Carrello> carrello;
 
-//    @OneToMany
-//    private Utente utente;
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Utente utente;
 
     // Getter e setter
     public Integer getId() {
@@ -42,7 +43,19 @@ public class Vendita {
         this.dataVendita = dataVendita;
     }
 
-//    public double getPrezzoTotale() {
+    public List<Carrello> getCarrello() {
+        return carrello;
+    }
+
+    public Utente getUtente() {
+        return utente;
+    }
+
+    public void setUtente(Utente utente) {
+        this.utente = utente;
+    }
+
+    //    public double getPrezzoTotale() {
 //        double totale = 0;
 //        for (Carrello c : carrello) {
 //            totale += c.getPrezzoTotale();

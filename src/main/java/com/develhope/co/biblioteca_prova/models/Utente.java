@@ -32,9 +32,9 @@ public class Utente {
     @Column(nullable = false)
     private RuoloUtenti ruolo;
 
-//    @JsonIgnore
-//    @ManyToOne
-//    private List<Vendita> vendita;
+    @JsonIgnore
+    @OneToMany(mappedBy = "utente")
+    private List<Vendita> vendita;
 
     public Integer getId() {
         return id;
@@ -82,5 +82,9 @@ public class Utente {
 
     public void setPrestiti(List<Prestito> prestiti) {
         this.prestiti = prestiti;
+    }
+
+    public List<Vendita> getVendita() {
+        return vendita;
     }
 }
