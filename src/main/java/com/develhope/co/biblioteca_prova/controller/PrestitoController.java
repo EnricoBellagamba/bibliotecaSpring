@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("prestiti")
+@RequestMapping("/prestiti")
 public class PrestitoController {
     @Autowired
     private PrestitoRepository prestitoRepo;
@@ -53,7 +53,7 @@ public class PrestitoController {
             return ResponseEntity.badRequest().body(new APIResponse(bindingResult.getAllErrors()));
         }
         try {
-            return ResponseEntity.ok(new APIResponse(prestitoRepo.save(prestito)));
+            return ResponseEntity.ok(new APIResponse(prestitoService.save(prestito)));
         } catch (DataIntegrityViolationException | InvalidDataAccessApiUsageException e) {
             return ResponseEntity.badRequest().body(new APIResponse(e.getMessage() + " " + e.getRootCause()));
         }
