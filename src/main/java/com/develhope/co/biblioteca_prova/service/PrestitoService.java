@@ -38,12 +38,17 @@ public class PrestitoService {
 
 
         if (utente.isEmpty())
-            throw new DataIntegrityViolationException("Errore di integrità, l'utente non esiste ");
+            throw new DataIntegrityViolationException("Errore di integrità, l'utente non esiste");
 
         boolean controlloSuperato = controlloPrestitoNonRestituito(utente.get());
+        boolean controlloSuperatoPrestitiAttivi = controlloNumeroPrestitiAttivi(utente.get());
 
         if (!controlloSuperato) {
             throw new DataIntegrityViolationException("L'utente ha un prestito attivo da più di 60 giorni");
+        }
+
+        if (!controlloSuperatoPrestitiAttivi) {
+            throw new DataIntegrityViolationException("L'utente non può avere più di 5 prestiti attivi");
         }
 
         // Un utente non può avere più di 5 prestiti attivi
