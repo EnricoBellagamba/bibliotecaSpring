@@ -11,6 +11,9 @@ INSERT INTO utente (nome, cognome, ruolo) VALUES
 ('Martina', 'Conti', 'CLIENTE'),
 ('Francesco', 'Gallo', 'CLIENTE');
 
+
+INSERT INTO fidelity_card (utente_id) VALUES
+(2);
 -- autori --
 INSERT INTO autore (nome, cognome, data_nascita) VALUES
 ('Isaac', 'Asimov', '1920-01-02 00:00:00'),
