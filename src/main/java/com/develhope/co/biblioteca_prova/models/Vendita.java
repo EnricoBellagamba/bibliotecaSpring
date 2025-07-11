@@ -55,13 +55,20 @@ public class Vendita {
         this.utente = utente;
     }
 
-    //    public double getPrezzoTotale() {
-//        double totale = 0;
-//        for (Carrello c : carrello) {
-//            totale += c.getPrezzoTotale();
-//        }
-//        return totale;
-//    }
+    public double getPrezzoFinale() {
+        double totale = 0;
+        for (Carrello c : carrello) {
+            totale += c.getPrezzoVendita();
+        }
+        return totale;
+    }
 
+    public double getValoreTotale() {
+        double totale = 0;
+        for (Carrello c : carrello) {
+            totale += c.getLibro().getPrezzo();
+        }
+        return totale;
+    }
 
 }

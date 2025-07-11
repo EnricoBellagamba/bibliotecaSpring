@@ -19,11 +19,9 @@ public class FidelityCard {
     //@NotBlank(message = "Bisogna inserire l'ID dell'utente per assegnare la fidelity card")
     private Utente utente;
 
-    @Column(nullable = false)
-    @Positive
-    @DecimalMin("0.0")
+
     //@NotBlank(message = "Bisogna inserire lo sconto che la Fidelity Card avrà per questo Utente")
-    private double prezzo;
+
 
     public Integer getId() {
         return id;
@@ -31,14 +29,6 @@ public class FidelityCard {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public double getPrezzo() {
-        return prezzo;
-    }
-
-    public void setPrezzo(double prezzo) {
-        this.prezzo = prezzo;
     }
 
     public Utente getUtente() {
