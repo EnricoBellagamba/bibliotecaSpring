@@ -235,6 +235,7 @@ INSERT INTO libro_autore (libro_isbn, autori_id) VALUES
 ('978-964-4512-048', 1),
 ('978-832-7841-049', 14);
 
+DROP TABLE IF EXISTS libro_con_copie;
 
 -- vista per copie disponibili
 CREATE OR replace VIEW libro_con_copie AS
