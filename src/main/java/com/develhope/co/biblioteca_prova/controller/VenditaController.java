@@ -74,7 +74,8 @@ public class VenditaController {
     @PostMapping
     public ResponseEntity<APIResponse> save(
             @Valid @RequestBody Vendita v,
-            BindingResult br) {
+            BindingResult br,
+            @RequestParam(name = "sconto", required = false) Double scontoOperatore) {
         if (br.hasErrors()) {
             return ResponseEntity.badRequest()
                     .body(new APIResponse(br.getAllErrors()));
@@ -106,6 +107,9 @@ public class VenditaController {
 
         Vendita vendita = venditaRepo.save(v);
         double sconto = fidelityCardService.calcolaSconto(vendita);
+        if(scontoOperatore != null ){//controllo scontoOperatore tra 0 e 1
+            sconto = scontoOperatore;
+        }
 
         for (Carrello c : v.getCarrello()) {
             c.setVendita(vendita);
