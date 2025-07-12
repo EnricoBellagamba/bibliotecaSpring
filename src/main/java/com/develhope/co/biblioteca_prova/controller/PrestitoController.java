@@ -2,6 +2,7 @@ package com.develhope.co.biblioteca_prova.controller;
 
 import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.dto.PaginationDTO;
+import com.develhope.co.biblioteca_prova.models.Libro;
 import com.develhope.co.biblioteca_prova.models.Prestito;
 import com.develhope.co.biblioteca_prova.repository.PrestitoRepository;
 import com.develhope.co.biblioteca_prova.service.PrestitoService;
@@ -10,11 +11,13 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -56,6 +59,20 @@ public class PrestitoController {
             return ResponseEntity.ok(new APIResponse(prestitoService.save(prestito)));
         } catch (DataIntegrityViolationException | InvalidDataAccessApiUsageException e) {
             return ResponseEntity.badRequest().body(new APIResponse(e.getMessage() + " " + e.getRootCause()));
+        }
+    }
+
+    @GetMapping("/dataPrestito")
+    public ResponseEntity<APIResponse> findByDataPrestito (PaginationDTO pagination,
+                                                           @RequestParam(required = false) LocalDateTime dataPrestito) {
+
+        Pageable pageable = PaginationUtils.createPage(pagination);
+
+        if (dataPrestito != null) {
+            Page<Prestito> page = prestitoRepo.findByDataPrestito(dataPrestito, pageable);
+            return ResponseEntity.ok(new APIResponse(page));
+        } else {
+            return ResponseEntity.badRequest().body(new APIResponse("Data prestito non trovata"));
         }
     }
 }

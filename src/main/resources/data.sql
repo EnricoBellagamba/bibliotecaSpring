@@ -177,7 +177,7 @@ INSERT INTO vendita (data_vendita, utente_id) VALUES
 
 
 -- carrello --
-INSERT INTO carrello (vendita_id, num_copie, libro_isbn, prezzo_vendita) VALUES
+INSERT INTO carrello (vendita_id, numero_copie, libro_isbn, prezzo_vendita) VALUES
 (1, 2, '978-539-9032-054', 12.14),
 (3, 4,'978-782-1123-046',11.12),
 (2, 5, '978-426-7941-058',10.09),
