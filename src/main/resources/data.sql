@@ -177,14 +177,15 @@ INSERT INTO vendita (data_vendita, utente_id) VALUES
 
 
 -- carrello --
-INSERT INTO carrello (vendita_id, libro_isbn, prezzo_vendita) VALUES
-(1, '978-539-9032-054', 12.14),
-(3, '978-782-1123-046',11.12),
-(2, '978-426-7941-058',10.09),
-(3, '978-426-7941-058',14.17),
-(6, '978-357-8871-057',9.08),
-(5, '978-357-8871-057',10),
-(4, '978-357-8871-057',10.50);
+INSERT INTO carrello (vendita_id, num_copie, libro_isbn, prezzo_vendita) VALUES
+(1, 2, '978-539-9032-054', 12.14),
+(3, 4,'978-782-1123-046',11.12),
+(2, 5, '978-426-7941-058',10.09),
+(3, 3, '978-426-7941-058',14.17),
+(6, 5, '978-357-8871-057',9.08),
+(5, 6, '978-357-8871-057',10),
+(4, 2, '978-357-8871-057',10.50);
+
 
 -- libro_autore
 INSERT INTO libro_autore (libro_isbn, autori_id) VALUES

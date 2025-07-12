@@ -10,12 +10,16 @@ public class Carrello {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false)
+    private Integer numeroCopie;
+
     @ManyToOne
     private Libro libro;
 
     @ManyToOne
     @JsonIgnore
     private Vendita vendita;
+
 
     // dobbiamo calcolarlo
     @Column(nullable = false)
