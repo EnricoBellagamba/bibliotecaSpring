@@ -39,7 +39,7 @@ public class CarrelloController {
 
 
         if(carrello.getId() == null){
-            carrello.setPrezzoVendita(carrelloRepo.prezzoTotale(carrello.getVendita().getId()));
+            carrello.setPrezzoPerCopia(carrelloRepo.prezzoTotale(carrello.getVendita().getId()));
         }
         return ResponseEntity.ok(new APIResponse(carrelloRepo.save(carrello)));
     }

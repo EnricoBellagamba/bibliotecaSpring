@@ -1,6 +1,5 @@
 package com.develhope.co.biblioteca_prova.service;
 
-import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.exceptions.DataValidationException;
 import com.develhope.co.biblioteca_prova.models.Carrello;
 import com.develhope.co.biblioteca_prova.models.Libro;
@@ -11,7 +10,6 @@ import com.develhope.co.biblioteca_prova.repository.LibroRepository;
 import com.develhope.co.biblioteca_prova.repository.UtenteRepository;
 import com.develhope.co.biblioteca_prova.repository.VenditaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -73,7 +71,7 @@ public class VenditaService {
             System.out.println("prezzoscontato:" + prezzoScontato);
             System.out.println("prezzolistino:" + prezzoListino);
             System.out.println("sconto:" + sconto);
-            c.setPrezzoVendita(prezzoScontato);
+            c.setPrezzoPerCopia(prezzoScontato);
             carrelloRepo.save(c);
         }
        return vendita;

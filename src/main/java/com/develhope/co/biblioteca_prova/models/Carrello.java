@@ -24,7 +24,7 @@ public class Carrello {
     // dobbiamo calcolarlo
     @Column(nullable = false)
     @Positive(message = "Il prezzo totale deve essere positivo")
-    private Double prezzoVendita;
+    private Double prezzoPerCopia;
 
     // Getter e setter
     public Integer getId() {
@@ -51,11 +51,11 @@ public class Carrello {
         this.vendita = vendita;
     }
 
-    public Double getPrezzoVendita() {
-        return prezzoVendita;
+    public Double getPrezzoPerCopia() {
+        return prezzoPerCopia;
     }
 
-    public void setPrezzoVendita(Double prezzoVendita) {
-        this.prezzoVendita = prezzoVendita;
+    public void setPrezzoPerCopia(Double prezzoPerCopia) {
+        this.prezzoPerCopia = prezzoPerCopia;
     }
 }
