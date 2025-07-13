@@ -13,6 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -64,7 +65,8 @@ public class PrestitoController {
 
     @GetMapping("/dataPrestito")
     public ResponseEntity<APIResponse> findByDataPrestito (PaginationDTO pagination,
-                                                           @RequestParam(required = false) LocalDateTime dataPrestito) {
+                                                           @RequestParam(required = false)
+                                                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataPrestito) {
 
         Pageable pageable = PaginationUtils.createPage(pagination);
 
