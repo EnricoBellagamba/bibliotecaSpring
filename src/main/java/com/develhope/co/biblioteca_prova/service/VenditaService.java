@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class VenditaService {
+public class  VenditaService {
 
     @Autowired
     private VenditaRepository venditaRepo;
@@ -32,13 +32,13 @@ public class VenditaService {
     @Autowired
     private FidelityCardService fidelityCardService;
 
-    public Vendita salvaVendita(Vendita v, Double scontoOperatore){
+    public Vendita salvaVendita(Vendita v, Double scontoOperatore) {
         if (v.getCarrello() == null || v.getCarrello().isEmpty()) {
             throw new DataValidationException("Il carrello non puà essere vuoto");
         }
         Integer utenteId = v.getUtente().getId();
         if (utenteId == null) {
-           throw new DataValidationException("L'utente non esiste");
+            throw new DataValidationException("L'utente non esiste");
         }
         Optional<Utente> optionalUtente = utenteRepo.findById(utenteId);
         if (optionalUtente.isEmpty()) {
@@ -49,7 +49,7 @@ public class VenditaService {
             Optional<Libro> opt = libroRepo.findById(c.getLibro().getIsbn());
             if (opt.isEmpty()) {
                 throw new DataValidationException("Libro non presente nel db");
-            }else{
+            } else {
                 c.setLibro(opt.get());
             }
         }
@@ -57,8 +57,8 @@ public class VenditaService {
         Vendita vendita = venditaRepo.save(v);
         double sconto = fidelityCardService.calcolaSconto(vendita);
 
-        if(scontoOperatore != null ){
-            if (scontoOperatore < 0 || scontoOperatore > 1){
+        if (scontoOperatore != null) {
+            if (scontoOperatore < 0 || scontoOperatore > 1) {
                 throw new DataValidationException("lo sconto deve essere compreso tra 0 e 1");
             }
             sconto = scontoOperatore;
@@ -74,7 +74,7 @@ public class VenditaService {
             c.setPrezzoPerCopia(prezzoScontato);
             carrelloRepo.save(c);
         }
-       return vendita;
+        return vendita;
     }
 
 }
