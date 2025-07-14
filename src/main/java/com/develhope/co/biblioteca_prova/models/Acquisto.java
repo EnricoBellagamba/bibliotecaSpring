@@ -1,5 +1,6 @@
 package com.develhope.co.biblioteca_prova.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
@@ -26,6 +27,7 @@ public class Acquisto {
     @NotNull
     @ManyToOne
     @JoinColumn(nullable = false)
+    @JsonIgnore
     private Ordine ordine;
 
     public Integer getId() {

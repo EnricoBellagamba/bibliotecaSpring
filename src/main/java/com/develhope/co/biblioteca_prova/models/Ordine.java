@@ -30,8 +30,7 @@ public class Ordine {
     @Enumerated(EnumType.STRING)
     private TipoOrdine tipo;
 
-    @OneToMany(mappedBy = "ordine")
-    @JsonIgnore
+    @OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL)
     private List<Acquisto> acquisti;
 
     @NotNull

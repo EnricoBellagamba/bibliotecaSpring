@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -33,12 +34,18 @@ public class PrestitoController {
     @GetMapping
     public ResponseEntity<APIResponse> findAll(
             PaginationDTO pagination,
-            @RequestParam(required = false) LocalDate dataPrestito
+            @RequestParam(required = false) String data
     ) {
         Pageable pageable = PaginationUtils.createPage(pagination);
-        if (dataPrestito != null) {
-            Page<Prestito> page = prestitoRepo.findByDataPrestito(dataPrestito, pageable);
-            return ResponseEntity.ok(new APIResponse(page));
+        if (data != null) {
+            try {
+                LocalDate dataPrestito = LocalDate.parse(data);
+                Page<Prestito> page = prestitoRepo.findByDataPrestito(dataPrestito, pageable);
+                return ResponseEntity.ok(new APIResponse(page));
+            } catch (DateTimeParseException e) {
+                return ResponseEntity.badRequest()
+                        .body(new APIResponse("Inserire una data nel formato corretto"));
+            }
         } else {
             return ResponseEntity.ok().body(new APIResponse(prestitoRepo.findAll(pageable)));
         }
