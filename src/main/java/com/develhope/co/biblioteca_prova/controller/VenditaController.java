@@ -2,19 +2,14 @@ package com.develhope.co.biblioteca_prova.controller;
 
 import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.dto.PaginationDTO;
-import com.develhope.co.biblioteca_prova.models.Carrello;
-import com.develhope.co.biblioteca_prova.models.Libro;
-import com.develhope.co.biblioteca_prova.models.Utente;
+import com.develhope.co.biblioteca_prova.exceptions.DataValidationException;
 import com.develhope.co.biblioteca_prova.models.Vendita;
-import com.develhope.co.biblioteca_prova.repository.CarrelloRepository;
-import com.develhope.co.biblioteca_prova.repository.LibroRepository;
-import com.develhope.co.biblioteca_prova.repository.UtenteRepository;
 import com.develhope.co.biblioteca_prova.repository.VenditaRepository;
-import com.develhope.co.biblioteca_prova.service.FidelityCardService;
+import com.develhope.co.biblioteca_prova.service.VenditaService;
 import com.develhope.co.biblioteca_prova.utils.PaginationUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -26,20 +21,12 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/vendita")
 public class VenditaController {
+
     @Autowired
     private VenditaRepository venditaRepo;
 
     @Autowired
-    private CarrelloRepository carrelloRepository;
-
-    @Autowired
-    private LibroRepository libroRepo;
-
-    @Autowired
-    private FidelityCardService fidelityCardService;
-
-    @Autowired
-    private UtenteRepository utenteRepository;
+    private VenditaService venditaService;
 
     @GetMapping
     public ResponseEntity<APIResponse> findAll(
@@ -80,48 +67,12 @@ public class VenditaController {
             return ResponseEntity.badRequest()
                     .body(new APIResponse(br.getAllErrors()));
         }
-        if (v.getCarrello() == null || v.getCarrello().isEmpty()) {
-            return ResponseEntity.badRequest()
-                    .body(new APIResponse("Il carrello non puà essere vuoto"));
-        }
-        Integer utenteId = v.getUtente().getId();
-        if (utenteId == null) {
-            return ResponseEntity.badRequest()
-                    .body(new APIResponse("L'utente non esiste"));
-        }
-        Optional<Utente> optionalUtente = utenteRepository.findById(utenteId);
-        if (optionalUtente.isEmpty()) {
-            return ResponseEntity.badRequest()
-                    .body(new APIResponse("L'utente è vuoto"));
-        }
-        v.setUtente(optionalUtente.get());
-        for (Carrello c : v.getCarrello()) {
-            Optional<Libro> opt = libroRepo.findById(c.getLibro().getIsbn());
-            if (opt.isEmpty()) {
-                return ResponseEntity.badRequest()
-                        .body(new APIResponse("Libro non presente nel db"));
-            }else{
-                c.setLibro(opt.get());
-            }
-        }
-
-        Vendita vendita = venditaRepo.save(v);
-        double sconto = fidelityCardService.calcolaSconto(vendita);
-        if(scontoOperatore != null ){//controllo scontoOperatore tra 0 e 1
-            sconto = scontoOperatore;
-        }
-
-        for (Carrello c : v.getCarrello()) {
-            c.setVendita(vendita);
-            double prezzoListino = c.getLibro().getPrezzo();
-            double prezzoScontato = prezzoListino * (1 - sconto);
-            System.out.println("prezzoscontato:" + prezzoScontato);
-            System.out.println("prezzolistino:" + prezzoListino);
-            System.out.println("sconto:" + sconto);
-            c.setPrezzoVendita(prezzoScontato);
-            carrelloRepository.save(c);
-        }
-        return ResponseEntity.ok(new APIResponse(vendita));
+       try {
+           Vendita venditaSalvata = venditaService.salvaVendita(v,scontoOperatore);
+           return ResponseEntity.ok(new APIResponse(venditaSalvata));
+       }catch (DataValidationException | DataIntegrityViolationException e) {
+           return ResponseEntity.badRequest().body(new APIResponse(e.getMessage()));
+       }
     }
 
 }

@@ -27,7 +27,7 @@ public interface LibroRepository extends JpaRepository<Libro, String> {
     @Query("""
             SELECT l FROM Libro l
             JOIN l.autori a
-            WHERE
+            WHERE                   
             (:titolo IS NULL OR l.titolo LIKE CONCAT('%', :titolo, '%'))
             AND (
             (:nome IS NULL OR a.nome LIKE CONCAT('%', :nome, '%'))

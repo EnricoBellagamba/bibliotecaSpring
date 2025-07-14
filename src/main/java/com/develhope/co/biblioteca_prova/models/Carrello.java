@@ -10,6 +10,9 @@ public class Carrello {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false)
+    private Integer numeroCopie;
+
     @ManyToOne
     private Libro libro;
 
@@ -17,10 +20,11 @@ public class Carrello {
     @JsonIgnore
     private Vendita vendita;
 
+
     // dobbiamo calcolarlo
     @Column(nullable = false)
     @Positive(message = "Il prezzo totale deve essere positivo")
-    private Double prezzoVendita;
+    private Double prezzoPerCopia;
 
     // Getter e setter
     public Integer getId() {
@@ -47,11 +51,11 @@ public class Carrello {
         this.vendita = vendita;
     }
 
-    public Double getPrezzoVendita() {
-        return prezzoVendita;
+    public Double getPrezzoPerCopia() {
+        return prezzoPerCopia;
     }
 
-    public void setPrezzoVendita(Double prezzoVendita) {
-        this.prezzoVendita = prezzoVendita;
+    public void setPrezzoPerCopia(Double prezzoPerCopia) {
+        this.prezzoPerCopia = prezzoPerCopia;
     }
 }

@@ -1,7 +1,5 @@
 package com.develhope.co.biblioteca_prova.models;
 
-import com.develhope.co.biblioteca_prova.enums.RuoloUtenti;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -58,7 +56,7 @@ public class Vendita {
     public double getPrezzoFinale() {
         double totale = 0;
         for (Carrello c : carrello) {
-            totale += c.getPrezzoVendita();
+            totale += c.getPrezzoPerCopia();
         }
         return totale;
     }

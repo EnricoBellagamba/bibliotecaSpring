@@ -10,11 +10,15 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -27,10 +31,17 @@ public class PrestitoController {
     private PrestitoService prestitoService;
 
     @GetMapping
-    public ResponseEntity<APIResponse> findAll(PaginationDTO pagination) {
-
+    public ResponseEntity<APIResponse> findAll(
+            PaginationDTO pagination,
+            @RequestParam(required = false) LocalDate dataPrestito
+    ) {
         Pageable pageable = PaginationUtils.createPage(pagination);
-        return ResponseEntity.ok().body(new APIResponse(prestitoRepo.findAll(pageable)));
+        if (dataPrestito != null) {
+            Page<Prestito> page = prestitoRepo.findByDataPrestito(dataPrestito, pageable);
+            return ResponseEntity.ok(new APIResponse(page));
+        } else {
+            return ResponseEntity.ok().body(new APIResponse(prestitoRepo.findAll(pageable)));
+        }
     }
 
     @GetMapping("/{id}")
@@ -48,7 +59,6 @@ public class PrestitoController {
                                             // PathVariable libroIsbn
                                             // PathVariable idUtente
                                             BindingResult bindingResult) {
-
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(new APIResponse(bindingResult.getAllErrors()));
         }
