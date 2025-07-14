@@ -55,7 +55,7 @@ public class AcquistoController {
         }
         try {
             return ResponseEntity.ok(new APIResponse(acquistoRepo.save(acquisto)));
-        } catch (DataValidationException | DataIntegrityViolationException e) {
+        } catch (DataValidationException | DataIntegrityViolationException e) {//da chi sono lanciate?
             return ResponseEntity.badRequest().body(new APIResponse(e.getMessage()));
         }
 
