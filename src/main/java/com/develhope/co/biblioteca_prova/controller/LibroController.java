@@ -54,14 +54,14 @@ public class LibroController {
         return ResponseEntity.status(404).body(new APIResponse("Libro non trovato"));
     }
 
+    // implementare ordinamento
     @GetMapping("/search")
     public ResponseEntity<APIResponse> findByParam(@RequestParam(required = false) String titolo,
-                                                   @RequestParam(required = false) String nome,
-                                                   @RequestParam(required = false) String cognome,
+                                                   @RequestParam(required = false) String autore,
                                                    PaginationDTO pagination) {
         Pageable pageable = PaginationUtils.createPage(pagination);
 
-        Page<Libro> page = libriRepo.findByTitoloAndAutore(titolo, nome, cognome, pageable);
+        Page<Libro> page = libriRepo.findByTitoloAndAutore(titolo, autore, pageable);
         return ResponseEntity.ok(new APIResponse(page));
     }
 

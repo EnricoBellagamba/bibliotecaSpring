@@ -252,8 +252,9 @@ JOIN ordine o ON o.id = a.ordine_id
 WHERE o.stato = 'CONSEGNATO'
 GROUP BY l.isbn),
 
+-- aggiornare e testare
 libri_venduti AS
-(SELECT c.libro_isbn ,COUNT(c.libro_isbn) as copie_vendute
+(SELECT c.libro_isbn, SUM(c.numero_copie) as copie_vendute
 FROM carrello c
 GROUP BY c.libro_isbn),
 
