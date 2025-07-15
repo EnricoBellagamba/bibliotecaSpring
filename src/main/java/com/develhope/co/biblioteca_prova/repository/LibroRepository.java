@@ -25,7 +25,7 @@ public interface LibroRepository extends JpaRepository<Libro, String> {
     OR a.cognome LIKE '%m%');
     * */
     @Query("""
-            SELECT l FROM Libro l
+            SELECT l, a FROM Libro l
             JOIN l.autori a
             WHERE                   
             (:titolo IS NULL OR l.titolo LIKE CONCAT('%', :titolo, '%'))
