@@ -32,7 +32,7 @@ public interface LibroRepository extends JpaRepository<Libro, String> {
             AND
             (:autore IS NULL
             OR CONCAT(a.nome, ' ', a.cognome) LIKE CONCAT('%', :autore, '%')
-            )
+            ) 
             """)
     Page<Libro> findByTitoloAndAutore(String titolo, String autore, Pageable pageable);
 
