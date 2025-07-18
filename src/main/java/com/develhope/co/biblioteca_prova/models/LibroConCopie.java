@@ -10,7 +10,7 @@ import org.hibernate.annotations.Immutable;
 public class LibroConCopie {
 
     @Id
-    private String id;
+    private String isbn;
 
     private String titolo;
 
@@ -78,12 +78,12 @@ public class LibroConCopie {
         this.genere = genere;
     }
 
-    public String getId() {
-        return id;
+    public String getIsbn() {
+        return isbn;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIsbn (String id) {
+        this.isbn = id;
     }
 
     public double getPrezzo() {

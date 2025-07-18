@@ -58,4 +58,12 @@ public class Carrello {
     public void setPrezzoPerCopia(Double prezzoPerCopia) {
         this.prezzoPerCopia = prezzoPerCopia;
     }
+
+    public Integer getNumeroCopie() {
+        return numeroCopie;
+    }
+
+    public void setNumeroCopie(Integer numeroCopie) {
+        this.numeroCopie = numeroCopie;
+    }
 }
