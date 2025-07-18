@@ -64,7 +64,7 @@ public class Vendita {
     public double getValoreTotale() {
         double totale = 0;
         for (Carrello c : carrello) {
-            totale += c.getLibro().getPrezzo();
+            totale += c.getLibro().getPrezzo()*c.getNumeroCopie();
         }
         return totale;
     }

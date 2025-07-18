@@ -1,13 +1,12 @@
 package com.develhope.co.biblioteca_prova.service;
 
-import com.develhope.co.biblioteca_prova.models.Libro;
-import com.develhope.co.biblioteca_prova.models.Prestito;
-import com.develhope.co.biblioteca_prova.models.Utente;
+import com.develhope.co.biblioteca_prova.exceptions.DataValidationException;
+import com.develhope.co.biblioteca_prova.models.*;
+import com.develhope.co.biblioteca_prova.repository.LibroConCopieRepository;
 import com.develhope.co.biblioteca_prova.repository.LibroRepository;
 import com.develhope.co.biblioteca_prova.repository.PrestitoRepository;
 import com.develhope.co.biblioteca_prova.repository.UtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +26,9 @@ public class PrestitoService {
     @Autowired
     private LibroRepository libroRepo;
 
+    @Autowired
+    private LibroConCopieRepository libroConCopieRepository;
+
     // POST /prestito/{id_prestito}/{isbn_libro}
     // public Prestito create(Utente u, Libro l){}
 
@@ -34,6 +36,18 @@ public class PrestitoService {
     // creaPrestito() -> controlli su utente e libro
     public Prestito save(Prestito prestito) {
         Optional<Utente> utente = utenteRepo.findById(prestito.getUtente().getId());
+
+            String isbn = prestito.getLibro().getIsbn();
+            Optional<LibroConCopie> optionalLibro = libroConCopieRepository.findById(isbn);
+
+        if (optionalLibro.isEmpty()) {
+            throw new DataValidationException("Libro con ISBN " + isbn + " non trova copie nel database");
+        }
+            LibroConCopie libroConCopie = optionalLibro.get();
+
+            if (libroConCopie.getCopieDisponibili() < 1) {
+                throw new DataValidationException("Copie insufficienti per il libro con ISBN " + isbn);
+            }
 
 
 
