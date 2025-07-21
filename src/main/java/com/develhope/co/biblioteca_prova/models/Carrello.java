@@ -24,7 +24,7 @@ public class Carrello {
 
     // dobbiamo calcolarlo
     @Column(nullable = false)
-    @Positive(message = "Il prezzo totale deve essere positivo")
+   // @Positive(message = "Il prezzo deve essere positivo")??
     private Double prezzoPerCopia;
 
     // Getter e setter
