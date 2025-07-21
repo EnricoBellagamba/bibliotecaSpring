@@ -18,6 +18,7 @@ public class Carrello {
 
     @ManyToOne
     @JsonIgnore
+//    @Column(nullable = false) ??
     private Vendita vendita;
 
 

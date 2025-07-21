@@ -33,7 +33,7 @@ public class  VenditaService {
 
     // aggiungi controllo per verificare se le copie esistono prima di venderle
     public Vendita salvaVendita(Vendita v, Double scontoOperatore) {
-
+  
         if (v.getCarrello() == null || v.getCarrello().isEmpty()) {
             throw new DataValidationException("Il carrello non puà essere vuoto");
         }

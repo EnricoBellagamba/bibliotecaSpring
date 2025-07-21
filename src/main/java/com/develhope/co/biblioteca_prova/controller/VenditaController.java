@@ -63,6 +63,7 @@ public class VenditaController {
             @Valid @RequestBody Vendita v,
             BindingResult br,
             @RequestParam(name = "sconto", required = false) Double scontoOperatore) {
+
         if (br.hasErrors()) {
             return ResponseEntity.badRequest()
                     .body(new APIResponse(br.getAllErrors()));
