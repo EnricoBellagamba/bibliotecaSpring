@@ -39,6 +39,7 @@ public class Utente {
     @Column(nullable = false, unique = true)
     private String username;
 
+    @JsonIgnore
     private String password;
 
     public void setVendita(List<Vendita> vendita) {
