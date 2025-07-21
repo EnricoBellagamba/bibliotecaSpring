@@ -1,15 +1,15 @@
 -- utenti --
-INSERT INTO utente (nome, cognome, ruolo) VALUES
-('Luca', 'Rossi', 'CLIENTE'),
-('Giulia', 'Bianchi', 'OPERATORE'),
-('Marco', 'Verdi', 'CLIENTE'),
-('Elena', 'Neri', 'CLIENTE'),
-('Sara', 'Romano', 'OPERATORE'),
-('Davide', 'Greco', 'CLIENTE'),
-('Chiara', 'Fontana', 'CLIENTE'),
-('Alessandro', 'Ferrari', 'OPERATORE'),
-('Martina', 'Conti', 'CLIENTE'),
-('Francesco', 'Gallo', 'CLIENTE');
+INSERT INTO utente (nome, cognome, ruolo, username) VALUES
+('Luca', 'Rossi', 'CLIENTE', 'lucarossi'),
+('Giulia', 'Bianchi', 'OPERATORE', 'fsdg'),
+('Marco', 'Verdi', 'CLIENTE', 'hgfds'),
+('Elena', 'Neri', 'CLIENTE', 'hgfdsdf'),
+('Sara', 'Romano', 'OPERATORE', 'hgfdgfs'),
+('Davide', 'Greco', 'CLIENTE', 'hgfdshgfd'),
+('Chiara', 'Fontana', 'CLIENTE', 'mnbvcxz'),
+('Alessandro', 'Ferrari', 'OPERATORE', 'mnbvcxzfgh'),
+('Martina', 'Conti', 'CLIENTE', 'mnbvcxzer'),
+('Francesco', 'Gallo', 'CLIENTE', 'mngsdfbvcxz');
 
 
 INSERT INTO fidelity_card (utente_id) VALUES
