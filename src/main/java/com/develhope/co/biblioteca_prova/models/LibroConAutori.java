@@ -2,10 +2,12 @@ package com.develhope.co.biblioteca_prova.models;
 
 import com.develhope.co.biblioteca_prova.enums.GeneriLibri;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Immutable;
 
 
-@Entity
 @org.springframework.data.annotation.Immutable//sola lettura
+@Immutable
+@Entity
 public class LibroConAutori {
     @Id
     private String isbn;
