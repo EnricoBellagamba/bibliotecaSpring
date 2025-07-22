@@ -275,10 +275,10 @@ LEFT JOIN libri_prestati lp ON lp.isbn = l.isbn
 WHERE la.copie_acquistate - COALESCE(lv.copie_vendute, 0) - COALESCE(lp.copie_prestate, 0) > 0;
 
 
-drop table if exists libri_con_autore;
+drop table if exists libro_con_autori;
 
 
-create or replace view libri_con_autore as
+create or replace view libro_con_autori as
 
 select l.*, min( concat(a.nome, ' ',a.cognome) ) as autore_principale from libro_autore la
 join autore a on a.id = la.autori_id
