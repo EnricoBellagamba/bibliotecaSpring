@@ -4,7 +4,6 @@ import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.dto.PaginationDTO;
 import com.develhope.co.biblioteca_prova.exceptions.DataValidationException;
 import com.develhope.co.biblioteca_prova.models.Libro;
-import com.develhope.co.biblioteca_prova.models.LibroConCopie;
 import com.develhope.co.biblioteca_prova.repository.LibroConCopieRepository;
 import com.develhope.co.biblioteca_prova.repository.LibroRepository;
 import com.develhope.co.biblioteca_prova.service.LibroService;
@@ -80,9 +79,14 @@ public class LibroController {
     }
 
     @GetMapping("/disponibili")
-    public ResponseEntity<APIResponse> findDisponibili(PaginationDTO paginationDTO){
-
+    public ResponseEntity<APIResponse> findDisponibili(
+            PaginationDTO paginationDTO,
+            @RequestParam(required = false) Integer minCopie
+    ){
         Pageable pageable = PaginationUtils.createPage(paginationDTO);
+        if(minCopie != null){
+            return ResponseEntity.ok(new APIResponse(libroConCopieRepo.findByCopieDisponibiliLessThanEqual(minCopie,pageable)));
+        }
         return ResponseEntity.ok(new APIResponse(libroConCopieRepo.findAll(pageable)));
     }
 
