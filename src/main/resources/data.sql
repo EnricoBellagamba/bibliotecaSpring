@@ -272,4 +272,16 @@ FROM libro l
 JOIN libri_acquistati la ON la.isbn = l.isbn
 left JOIN libri_venduti lv ON lv.libro_isbn = l.isbn
 LEFT JOIN libri_prestati lp ON lp.isbn = l.isbn
-WHERE la.copie_acquistate - COALESCE(lv.copie_vendute, 0) - COALESCE(lp.copie_prestate, 0) > 0
+WHERE la.copie_acquistate - COALESCE(lv.copie_vendute, 0) - COALESCE(lp.copie_prestate, 0) > 0;
+
+
+drop table if exists libri_con_autore;
+
+
+create or replace view libri_con_autore as
+
+select l.*, min( concat(a.nome, ' ',a.cognome) ) as autore_principale from libro_autore la
+join autore a on a.id = la.autori_id
+join libro l on l.isbn = la.libro_isbn
+group by l.isbn
+
