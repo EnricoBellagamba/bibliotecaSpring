@@ -41,7 +41,7 @@ public class BibliotecaSecurityConfiguration {
     }
 
     @Bean
-    @Profile("dev")
+    @Profile({"dev","personal"})
     public SecurityFilterChain filterChainDev(HttpSecurity http, CustomUserDetailsService userDetailsService)
             throws Exception {
         http
