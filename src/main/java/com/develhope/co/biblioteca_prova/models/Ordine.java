@@ -30,7 +30,7 @@ public class Ordine {
     @Enumerated(EnumType.STRING)
     private TipoOrdine tipo;
 
-    @OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ordine")
     private List<Acquisto> acquisti;
 
     @NotNull

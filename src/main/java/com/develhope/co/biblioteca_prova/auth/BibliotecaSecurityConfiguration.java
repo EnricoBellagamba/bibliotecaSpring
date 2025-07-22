@@ -19,13 +19,13 @@ public class BibliotecaSecurityConfiguration {
     }
 
     @Bean
-    @Profile({"prod", "test"})
+    @Profile({"prod", "test", "personal"})
     public SecurityFilterChain filterChainProd(HttpSecurity http, CustomUserDetailsService userDetailsService)
             throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/libri/**").authenticated()
+                        .requestMatchers("/libri/**", "/utenti/**").authenticated()
                         .requestMatchers("/admin/**").hasAnyRole("OPERATORE")
                         .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()
@@ -41,7 +41,7 @@ public class BibliotecaSecurityConfiguration {
     }
 
     @Bean
-    @Profile("dev")
+    @Profile({"dev"})
     public SecurityFilterChain filterChainDev(HttpSecurity http, CustomUserDetailsService userDetailsService)
             throws Exception {
         http

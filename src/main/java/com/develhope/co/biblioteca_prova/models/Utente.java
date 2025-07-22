@@ -24,7 +24,7 @@ public class Utente {
     private FidelityCard fidelityCard;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "utente")
+    @OneToMany(mappedBy = "utente", fetch = FetchType.EAGER)
     private List<Prestito> prestiti;
 
     @Enumerated(EnumType.STRING)

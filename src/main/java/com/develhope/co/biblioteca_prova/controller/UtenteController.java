@@ -1,4 +1,5 @@
 package com.develhope.co.biblioteca_prova.controller;
+import com.develhope.co.biblioteca_prova.auth.CustomUserDetails;
 import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.dto.PaginationDTO;
 import com.develhope.co.biblioteca_prova.models.Utente;
@@ -11,6 +12,8 @@ import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,9 +39,14 @@ public class UtenteController {
     ) {
         Optional<Utente> opt = utenteRepo.findById(id);
         if (opt.isEmpty()) {
-            return ResponseEntity.badRequest().body(new APIResponse("Vendita non trovata"));
+            return ResponseEntity.badRequest().body(new APIResponse("Utente non trovato"));
         }
         return ResponseEntity.ok(new APIResponse(opt.get()));
+    }
+
+    @GetMapping("/profilo")
+    public ResponseEntity<APIResponse> profilo(@AuthenticationPrincipal CustomUserDetails userDetails){
+        return ResponseEntity.ok(new APIResponse(userDetails.getUser().getPrestiti()));
     }
 
     @PostMapping
