@@ -7,6 +7,10 @@ import com.develhope.co.biblioteca_prova.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -110,6 +114,14 @@ public class  VenditaService {
         return vendita;
     }
 
+    public List<Vendita> findVenditeMeseCorrente(){
+        LocalDateTime now = LocalDateTime.now();
+
+        LocalDateTime firstDayOfMonth = now.with(TemporalAdjusters.firstDayOfMonth()).with(LocalTime.MIN);
+        LocalDateTime lastDayOfMonth = now.with(TemporalAdjusters.lastDayOfMonth()).with(LocalTime.MAX);
+
+        return venditaRepo.findByDataVenditaBetween(firstDayOfMonth,lastDayOfMonth);
+    }
 
 
 }

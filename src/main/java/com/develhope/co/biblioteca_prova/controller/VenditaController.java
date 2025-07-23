@@ -2,6 +2,7 @@ package com.develhope.co.biblioteca_prova.controller;
 
 import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.dto.PaginationDTO;
+import com.develhope.co.biblioteca_prova.dto.VenditeConTotaleDTO;
 import com.develhope.co.biblioteca_prova.exceptions.DataValidationException;
 import com.develhope.co.biblioteca_prova.models.Vendita;
 import com.develhope.co.biblioteca_prova.repository.VenditaRepository;
@@ -16,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -74,6 +76,10 @@ public class VenditaController {
        }catch (DataValidationException | DataIntegrityViolationException e) {
            return ResponseEntity.badRequest().body(new APIResponse(e.getMessage()));
        }
+    }
+    @GetMapping("/statistiche")
+    public VenditeConTotaleDTO findMeseCorrente(){
+        return new VenditeConTotaleDTO(venditaService.findVenditeMeseCorrente()) ;
     }
 
 }

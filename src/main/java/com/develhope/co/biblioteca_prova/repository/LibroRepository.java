@@ -1,15 +1,11 @@
 package com.develhope.co.biblioteca_prova.repository;
 
-import com.develhope.co.biblioteca_prova.dto.LibroDTO;
+import com.develhope.co.biblioteca_prova.dto.LibroConCopieDTO;
 import com.develhope.co.biblioteca_prova.models.Libro;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.NativeQuery;
 import org.springframework.data.jpa.repository.Query;
-
-import java.lang.annotation.Native;
-import java.util.List;
 
 
 public interface LibroRepository extends JpaRepository<Libro, String> {
@@ -46,6 +42,6 @@ public interface LibroRepository extends JpaRepository<Libro, String> {
             "JOIN a.ordine o \n" +
             "WHERE o.stato = 'CONSEGNATO' \n" +
             "GROUP BY l.isbn")
-    Page<LibroDTO> findLibriDisponibili(Pageable pageable);
+    Page<LibroConCopieDTO> findLibriDisponibili(Pageable pageable);
 
 }
