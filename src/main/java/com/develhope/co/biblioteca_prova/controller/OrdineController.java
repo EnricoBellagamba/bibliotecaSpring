@@ -57,7 +57,7 @@ public class OrdineController {
 //    }
 
 
-    // creo prima l'ordine e poi gli acquisti (vedi carrello)
+
     @PostMapping
     public ResponseEntity<APIResponse> save(@Valid @RequestBody Ordine ordine, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

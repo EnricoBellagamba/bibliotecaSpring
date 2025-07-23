@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Immutable;
 
 
-@org.springframework.data.annotation.Immutable//sola lettura
-@Immutable
+
+
 @Entity
 public class LibroConAutori {
     @Id

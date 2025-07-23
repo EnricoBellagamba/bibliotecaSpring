@@ -33,7 +33,6 @@ public class OrdineService {
         for (Acquisto acquisto : ordine.getAcquisti()) {
             Optional<Libro> libroOptional = libroRepo.findById(acquisto.getLibro().getIsbn());
             if (libroOptional.isPresent()){
-//                acquisto.setLibro(libroOptional.get());
                 acquisto.setOrdine(ordine_nuovo);
                 acquistoRepository.save(acquisto);
             }else{ throw new ValidationException("Libro non trovato con ISBN: " + acquisto.getLibro().getIsbn());

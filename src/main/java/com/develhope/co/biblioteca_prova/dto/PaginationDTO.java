@@ -12,7 +12,7 @@ public class PaginationDTO {
         sortDir = "ASC";
     }
 
-    // Getter e setter
+
     public Integer getPageNumber() {
         return pageNumber;
     }
