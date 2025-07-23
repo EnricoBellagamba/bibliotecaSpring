@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -73,5 +74,30 @@ public class PrestitoController {
         } catch (DataIntegrityViolationException | InvalidDataAccessApiUsageException e) {
             return ResponseEntity.badRequest().body(new APIResponse(e.getMessage() + " " + e.getRootCause()));
         }
+    }
+
+    @GetMapping({"/filter", "/filter/{day}"})
+    public ResponseEntity<APIResponse> filter(
+            @PathVariable(value = "day", required = false) Integer day, //, defaultValue = "30"??
+                                              @RequestParam(defaultValue = "0") int page,
+                                              @RequestParam(defaultValue = "10") int size) {
+        if (day == null) {
+            day = 30; // default manuale pk non lo fa su path??? fra aiuto
+        }
+
+        if (day < 0) {
+            return ResponseEntity.badRequest().body(new APIResponse("Il numero di giorni deve essere positivo"));
+        }
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Prestito> prestiti = prestitoService.getPrestitiDaAlmenoNGiorni(day, pageable);
+
+        if (prestiti.isEmpty()) {
+            return ResponseEntity.badRequest()
+                    .body(new APIResponse("Nessun prestito ha i giorni selezionati"));
+        }
+
+        return ResponseEntity.ok(new APIResponse( prestiti));
+
+
     }
 }
