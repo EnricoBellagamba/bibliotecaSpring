@@ -14,6 +14,26 @@ public class StatisticheDTO {
     private BigDecimal spese;
     private Map<LocalDate, Integer> prestitiPerGiorno;
 
+    private StatisticheDTO() {
+    }
+
+    public StatisticheDTO(String dataInizio,
+                          String dataFine,
+                          int numeroPrestiti,
+                          int numeroVendite,
+                          BigDecimal fatturato,
+                          BigDecimal spese,
+                          Map<LocalDate, Integer> prestitiPerGiorno) {
+
+        this.dataInizio = dataInizio;
+        this.dataFine = dataFine;
+        this.numeroPrestiti = numeroPrestiti;
+        this.numeroVendite = numeroVendite;
+        this.fatturato = fatturato;
+        this.spese = spese;
+        this.prestitiPerGiorno = prestitiPerGiorno;
+    }
+
     // Getters e Setters
 
     public String getDataInizio() {

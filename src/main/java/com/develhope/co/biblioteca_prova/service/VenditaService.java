@@ -123,5 +123,22 @@ public class  VenditaService {
         return venditaRepo.findByDataVenditaBetween(firstDayOfMonth,lastDayOfMonth);
     }
 
+//    public double getTotaleBetween(LocalDateTime dataInizio, LocalDateTime dataFine) {
+//        List<Vendita> venditeTotali = venditaRepo.findAll();
+//
+//        Double totale = 0.0;
+//
+//        for (Vendita v : venditeTotali) {
+//            LocalDateTime dataOrdine = v.getCarrello().getDataVendita();
+//            if (dataOrdine != null &&
+//                    !dataOrdine.isBefore(dataInizio) &&
+//                    !dataOrdine.isAfter(dataFine)) {
+//                if (v.getNumCopie() != null && v.getPrezzoPerCopia() != null) {
+//                    totale += v.getNumCopie() * v.getPrezzoPerCopia();
+//                }
+//            }
+//        }
+//        return totale;
+//    }
 
 }

@@ -65,6 +65,7 @@ public class Acquisto {
     public void setPrezzoPerCopia(Double prezzoPerCopia) {
         this.prezzoPerCopia = prezzoPerCopia;
     }
+
 }
 
 

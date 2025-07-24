@@ -1,7 +1,9 @@
 package com.develhope.co.biblioteca_prova.dto;
 
+import com.develhope.co.biblioteca_prova.models.Acquisto;
 import com.develhope.co.biblioteca_prova.models.Vendita;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class VenditeConTotaleDTO {
