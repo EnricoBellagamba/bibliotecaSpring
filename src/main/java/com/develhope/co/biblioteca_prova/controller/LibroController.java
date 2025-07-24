@@ -86,7 +86,7 @@ public class LibroController {
     @GetMapping("/disponibili")
     public ResponseEntity<APIResponse> findDisponibili(
             PaginationDTO paginationDTO,
-            @RequestParam(required = false) Integer minCopie
+            @RequestParam(required = false, defaultValue = "1") Integer minCopie
     ){
         Pageable pageable = PaginationUtils.createPage(paginationDTO);
         if(minCopie != null){
