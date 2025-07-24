@@ -2,11 +2,11 @@ package com.develhope.co.biblioteca_prova.dto;
 
 import com.develhope.co.biblioteca_prova.models.Libro;
 
-public class LibroDTO {
+public class LibroConCopieDTO {
     private Libro libro;
     private Integer numCopie;
 
-    public LibroDTO(Libro libro, Integer numCopie) {
+    public LibroConCopieDTO(Libro libro, Integer numCopie) {
         this.libro = libro;
         this.numCopie = numCopie;
     }

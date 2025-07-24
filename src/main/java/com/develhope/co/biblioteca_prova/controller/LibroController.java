@@ -4,7 +4,8 @@ import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.dto.PaginationDTO;
 import com.develhope.co.biblioteca_prova.exceptions.DataValidationException;
 import com.develhope.co.biblioteca_prova.models.Libro;
-import com.develhope.co.biblioteca_prova.models.LibroConCopie;
+import com.develhope.co.biblioteca_prova.models.LibroConAutori;
+import com.develhope.co.biblioteca_prova.repository.LibroConAutoriRepository;
 import com.develhope.co.biblioteca_prova.repository.LibroConCopieRepository;
 import com.develhope.co.biblioteca_prova.repository.LibroRepository;
 import com.develhope.co.biblioteca_prova.service.LibroService;
@@ -25,6 +26,9 @@ import java.util.Optional;
 public class LibroController {
     @Autowired
     private LibroRepository libriRepo;
+
+    @Autowired
+    private LibroConAutoriRepository libroConAutoriRepository;
 
     @Autowired
     private LibroService libroService;
@@ -54,14 +58,14 @@ public class LibroController {
         return ResponseEntity.status(404).body(new APIResponse("Libro non trovato"));
     }
 
-    // implementare ordinamento
+
     @GetMapping("/search")
     public ResponseEntity<APIResponse> findByParam(@RequestParam(required = false) String titolo,
                                                    @RequestParam(required = false) String autore,
                                                    PaginationDTO pagination) {
         Pageable pageable = PaginationUtils.createPage(pagination);
 
-        Page<Libro> page = libriRepo.findByTitoloAndAutore(titolo, autore, pageable);
+        Page<LibroConAutori> page = libroConAutoriRepository.findByTitoloAndAutore(titolo, autore, pageable);
         return ResponseEntity.ok(new APIResponse(page));
     }
 
@@ -80,9 +84,14 @@ public class LibroController {
     }
 
     @GetMapping("/disponibili")
-    public ResponseEntity<APIResponse> findDisponibili(PaginationDTO paginationDTO){
-
+    public ResponseEntity<APIResponse> findDisponibili(
+            PaginationDTO paginationDTO,
+            @RequestParam(required = false) Integer minCopie
+    ){
         Pageable pageable = PaginationUtils.createPage(paginationDTO);
+        if(minCopie != null){
+            return ResponseEntity.ok(new APIResponse(libroConCopieRepo.findByCopieDisponibiliLessThanEqual(minCopie,pageable)));
+        }
         return ResponseEntity.ok(new APIResponse(libroConCopieRepo.findAll(pageable)));
     }
 

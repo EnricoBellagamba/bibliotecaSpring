@@ -18,12 +18,13 @@ public class Carrello {
 
     @ManyToOne
     @JsonIgnore
+//    @Column(nullable = false) ??
     private Vendita vendita;
 
 
     // dobbiamo calcolarlo
     @Column(nullable = false)
-    @Positive(message = "Il prezzo totale deve essere positivo")
+   // @Positive(message = "Il prezzo deve essere positivo")??
     private Double prezzoPerCopia;
 
     // Getter e setter
@@ -57,5 +58,13 @@ public class Carrello {
 
     public void setPrezzoPerCopia(Double prezzoPerCopia) {
         this.prezzoPerCopia = prezzoPerCopia;
+    }
+
+    public Integer getNumeroCopie() {
+        return numeroCopie;
+    }
+
+    public void setNumeroCopie(Integer numeroCopie) {
+        this.numeroCopie = numeroCopie;
     }
 }

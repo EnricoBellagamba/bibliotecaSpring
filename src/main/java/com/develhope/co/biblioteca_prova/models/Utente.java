@@ -24,7 +24,7 @@ public class Utente {
     private FidelityCard fidelityCard;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "utente")
+    @OneToMany(mappedBy = "utente", fetch = FetchType.EAGER)
     private List<Prestito> prestiti;
 
     @Enumerated(EnumType.STRING)
@@ -35,6 +35,32 @@ public class Utente {
     @JsonIgnore
     @OneToMany(mappedBy = "utente")
     private List<Vendita> vendita;
+
+    @Column(nullable = false, unique = true)
+    private String username;
+
+    @JsonIgnore
+    private String password;
+
+    public void setVendita(List<Vendita> vendita) {
+        this.vendita = vendita;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Integer getId() {
         return id;

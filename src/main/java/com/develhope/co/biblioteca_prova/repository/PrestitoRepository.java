@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface PrestitoRepository extends JpaRepository<Prestito, Integer> {
 
@@ -19,4 +20,11 @@ public interface PrestitoRepository extends JpaRepository<Prestito, Integer> {
     )
     Page<Prestito> findByDataPrestito(LocalDate dataPrestito, Pageable pageable);
 
+    @Query(
+            """
+                    SELECT p FROM Prestito p
+                    WHERE p.dataPrestito <= ?1
+                    """
+    )
+    Page<Prestito> findByDataPrestitoBefore(LocalDate dataLimite,Pageable pageable);
 }

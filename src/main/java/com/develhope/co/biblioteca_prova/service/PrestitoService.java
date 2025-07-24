@@ -1,17 +1,22 @@
 package com.develhope.co.biblioteca_prova.service;
 
-import com.develhope.co.biblioteca_prova.models.Libro;
-import com.develhope.co.biblioteca_prova.models.Prestito;
-import com.develhope.co.biblioteca_prova.models.Utente;
+import com.develhope.co.biblioteca_prova.dto.APIResponse;
+import com.develhope.co.biblioteca_prova.exceptions.DataValidationException;
+import com.develhope.co.biblioteca_prova.models.*;
+import com.develhope.co.biblioteca_prova.repository.LibroConCopieRepository;
 import com.develhope.co.biblioteca_prova.repository.LibroRepository;
 import com.develhope.co.biblioteca_prova.repository.PrestitoRepository;
 import com.develhope.co.biblioteca_prova.repository.UtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +32,9 @@ public class PrestitoService {
     @Autowired
     private LibroRepository libroRepo;
 
+    @Autowired
+    private LibroConCopieRepository libroConCopieRepository;
+
     // POST /prestito/{id_prestito}/{isbn_libro}
     // public Prestito create(Utente u, Libro l){}
 
@@ -35,6 +43,17 @@ public class PrestitoService {
     public Prestito save(Prestito prestito) {
         Optional<Utente> utente = utenteRepo.findById(prestito.getUtente().getId());
 
+        String isbn = prestito.getLibro().getIsbn();
+        Optional<LibroConCopie> optionalLibro = libroConCopieRepository.findById(isbn);
+
+        if (optionalLibro.isEmpty()) {
+            throw new DataValidationException("Libro con ISBN " + isbn + " non trova copie nel database");
+        }
+        LibroConCopie libroConCopie = optionalLibro.get();
+
+        if (libroConCopie.getCopieDisponibili() < 1) {
+            throw new DataValidationException("Copie insufficienti per il libro con ISBN " + isbn);
+        }
 
 
         if (utente.isEmpty())
@@ -77,7 +96,7 @@ public class PrestitoService {
         return true;
     }
 
-    private boolean controlloNumeroPrestitiAttivi (Utente utente) {
+    private boolean controlloNumeroPrestitiAttivi(Utente utente) {
 
         List<Prestito> prestiti = utente.getPrestiti();
         int count = 0;
@@ -87,8 +106,13 @@ public class PrestitoService {
                 count++;
             }
         }
-        // return count > 5 ? false : true;
 
         return count <= 5;
+    }
+
+    public Page<Prestito> getPrestitiDaAlmenoNGiorni(int giorni, Pageable pageable) {
+        LocalDate dataLimite = LocalDate.now().minusDays(giorni);
+        return prestitoRepo.findByDataPrestitoBefore(dataLimite, pageable);
+
     }
 }

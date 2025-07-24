@@ -47,7 +47,7 @@ public class Libro {
     @JsonIgnore
     private List<Carrello> carrello;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "libro_autore")
     private List<Autore> autori;
     //numero pagine e traduzione?

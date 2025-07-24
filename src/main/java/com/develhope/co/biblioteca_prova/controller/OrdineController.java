@@ -57,7 +57,7 @@ public class OrdineController {
 //    }
 
 
-    // creo prima l'ordine e poi gli acquisti (vedi carrello)
+
     @PostMapping
     public ResponseEntity<APIResponse> save(@Valid @RequestBody Ordine ordine, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -69,7 +69,7 @@ public class OrdineController {
                 ordine.setStato(StatoOrdine.IN_ATTESA);
             }
                 //service con controllo se ordineStato è null
-            return ResponseEntity.ok().body(new APIResponse(ordiniRepo.save(ordine)));
+            return ResponseEntity.ok().body(new APIResponse(ordineService.salvaOrdine(ordine)));
         } catch (DataValidationException | DataIntegrityViolationException e) {
 
             return ResponseEntity.badRequest().body(new APIResponse(e.getMessage()));

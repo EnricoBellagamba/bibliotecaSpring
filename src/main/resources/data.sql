@@ -1,15 +1,15 @@
 -- utenti --
-INSERT INTO utente (nome, cognome, ruolo) VALUES
-('Luca', 'Rossi', 'CLIENTE'),
-('Giulia', 'Bianchi', 'OPERATORE'),
-('Marco', 'Verdi', 'CLIENTE'),
-('Elena', 'Neri', 'CLIENTE'),
-('Sara', 'Romano', 'OPERATORE'),
-('Davide', 'Greco', 'CLIENTE'),
-('Chiara', 'Fontana', 'CLIENTE'),
-('Alessandro', 'Ferrari', 'OPERATORE'),
-('Martina', 'Conti', 'CLIENTE'),
-('Francesco', 'Gallo', 'CLIENTE');
+INSERT INTO utente (nome, cognome, ruolo, username) VALUES
+('Luca', 'Rossi', 'CLIENTE', 'lucarossi'),
+('Giulia', 'Bianchi', 'OPERATORE', 'fsdg'),
+('Marco', 'Verdi', 'CLIENTE', 'hgfds'),
+('Elena', 'Neri', 'CLIENTE', 'hgfdsdf'),
+('Sara', 'Romano', 'OPERATORE', 'hgfdgfs'),
+('Davide', 'Greco', 'CLIENTE', 'hgfdshgfd'),
+('Chiara', 'Fontana', 'CLIENTE', 'mnbvcxz'),
+('Alessandro', 'Ferrari', 'OPERATORE', 'mnbvcxzfgh'),
+('Martina', 'Conti', 'CLIENTE', 'mnbvcxzer'),
+('Francesco', 'Gallo', 'CLIENTE', 'mngsdfbvcxz');
 
 
 INSERT INTO fidelity_card (utente_id) VALUES
@@ -152,12 +152,11 @@ INSERT INTO acquisto (ordine_id, libro_isbn, num_copie, prezzo_per_copia) VALUES
 -- prestiti --
 INSERT INTO prestito (utente_id, libro_isbn, data_prestito, data_restituzione) VALUES
 (1, '978-863-4921-059', '2023-01-10 09:00:00', '2023-01-20 15:30:00'),
-(2, '978-190-4753-060', '2023-02-01 10:15:00', NULL),
-(2, '978-285-1193-038', '2023-02-01 10:15:00', NULL),
-(2, '978-208-1234-055', '2023-02-01 10:15:00', NULL),
-(2, '978-503-1832-034', '2023-02-01 10:15:00', NULL),
-(2, '978-489-1123-026', '2023-02-01 10:15:00', NULL),
-(2, '978-217-8473-011', '2023-02-01 10:15:00', NULL),
+(4, '978-357-8871-057', '2025-07-15 10:00:00', NULL),
+(4, '978-621-4390-041', '2025-07-16 11:30:00', NULL),
+(4, '978-450-1147-045', '2025-07-17 09:15:00', NULL),
+(4, '978-503-1832-034', '2025-07-18 14:45:00', NULL),
+(4, '978-173-3174-003', '2025-07-19 16:20:00', NULL);
 (2, '978-190-4753-060', '2023-02-05 14:00:00', '2023-02-28 12:00:00'),
 (3, '978-863-4921-059', '2023-03-01 11:45:00', NULL),
 (1, '978-210-8472-010', '2022-03-01 11:45:00', NULL),
@@ -169,12 +168,12 @@ INSERT INTO prestito (utente_id, libro_isbn, data_prestito, data_restituzione) V
 
 -- vendite --
 INSERT INTO vendita (data_vendita, utente_id) VALUES
-('2023-01-12 10:30:00', 3),
-('2023-02-05 15:00:00', 7),
-('2023-03-18 09:45:00', 1),
-('2023-04-22 11:20:00', 8),
-('2023-05-10 14:10:00', 9),
-('2023-06-01 13:35:00', 8);
+('2025-07-12 10:30:00', 3),
+('2025-07-05 15:00:00', 7),
+('2025-07-18 09:45:00', 1),
+('2025-07-22 11:20:00', 8),
+('2025-07-10 14:10:00', 9),
+('2025-08-01 13:35:00', 8);
 
 
 -- carrello --
@@ -273,4 +272,16 @@ FROM libro l
 JOIN libri_acquistati la ON la.isbn = l.isbn
 left JOIN libri_venduti lv ON lv.libro_isbn = l.isbn
 LEFT JOIN libri_prestati lp ON lp.isbn = l.isbn
-WHERE la.copie_acquistate - COALESCE(lv.copie_vendute, 0) - COALESCE(lp.copie_prestate, 0) > 0
+WHERE la.copie_acquistate - COALESCE(lv.copie_vendute, 0) - COALESCE(lp.copie_prestate, 0) > 0;
+
+
+drop table if exists libro_con_autori;
+
+
+create or replace view libro_con_autori as
+
+select l.*, min( concat(a.nome, ' ',a.cognome) ) as autore_principale from libro_autore la
+join autore a on a.id = la.autori_id
+join libro l on l.isbn = la.libro_isbn
+group by l.isbn
+
