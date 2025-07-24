@@ -41,9 +41,17 @@ public class  VenditaService {
 
     // aggiungi controllo per verificare se le copie esistono prima di venderle
     public Vendita salvaVendita(Vendita v, Double scontoOperatore) {
+        v = validazioneCarrello(v);
+        v = validazioneUtente(v);
+        v = validazioneLibro(v);
+        v = calcolaPrezzo(v, scontoOperatore);
+
+        return v;
+    }
+
+    private Vendita validazioneCarrello(Vendita v){
         //set per controllo isbn duplicati
         Set<String> isbns = new HashSet<>();
-
         if (v.getCarrello() == null ||v.getCarrello().isEmpty()) {
             throw new DataValidationException("Il carrello non puà essere vuoto");
         }
@@ -69,16 +77,23 @@ public class  VenditaService {
                 throw new DataValidationException("Copie insufficienti per il libro con ISBN " + isbn);
             }
         }
+        return v;
+    }
+
+    private Vendita validazioneUtente(Vendita v) {
         Integer utenteId = v.getUtente().getId();
         if (utenteId == null) {
-            throw new DataValidationException("L'utente non esiste");
+            throw new DataValidationException("L'utente è vuoto");
         }
         Optional<Utente> optionalUtente = utenteRepo.findById(utenteId);
         if (optionalUtente.isEmpty()) {
-            throw new DataValidationException("L'utente è vuoto");
+            throw new DataValidationException("L'utente non esiste");
         }
         v.setUtente(optionalUtente.get());
+        return v;
+    }
 
+    private Vendita validazioneLibro(Vendita v){
         //recupera l'oggetto libro dal db e lo associa al carrello
         for (Carrello c : v.getCarrello()) {
 
@@ -89,12 +104,15 @@ public class  VenditaService {
                 c.setLibro(opt.get());
             }
         }
+        return v;
+    }
+
+    private Vendita calcolaPrezzo(Vendita v,Double scontoOperatore ) {
 
         Vendita vendita = venditaRepo.save(v);
-
         double sconto = fidelityCardService.calcolaSconto(vendita);
 
-        if (scontoOperatore != null && scontoOperatore> sconto) {
+        if (scontoOperatore != null && scontoOperatore > sconto) {
             if (scontoOperatore < 0 || scontoOperatore > 1) {
                 throw new DataValidationException("lo sconto deve essere compreso tra 0 e 1");
             }
@@ -111,9 +129,8 @@ public class  VenditaService {
             c.setPrezzoPerCopia(prezzoScontato);
             carrelloRepo.save(c);
         }
-        return vendita;
+        return v;
     }
-
     public List<Vendita> findVenditeMeseCorrente(){
         LocalDateTime now = LocalDateTime.now();
 
