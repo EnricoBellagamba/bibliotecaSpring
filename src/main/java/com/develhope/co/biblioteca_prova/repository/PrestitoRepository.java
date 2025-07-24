@@ -27,4 +27,6 @@ public interface PrestitoRepository extends JpaRepository<Prestito, Integer> {
                     """
     )
     Page<Prestito> findByDataPrestitoBefore(LocalDate dataLimite,Pageable pageable);
+
+    int countByDataPrestitoBetween(LocalDate dataInizio, LocalDate dataFine);
 }
