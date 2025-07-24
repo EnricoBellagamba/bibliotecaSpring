@@ -79,8 +79,8 @@ public class PrestitoController {
     @GetMapping({"/filter", "/filter/{day}"})
     public ResponseEntity<APIResponse> filter(
             @PathVariable(value = "day", required = false) Integer day, //, defaultValue = "30"??
-                                              @RequestParam(defaultValue = "0") int page,
-                                              @RequestParam(defaultValue = "10") int size) {
+                                             PaginationDTO pagination
+            ) {
         if (day == null) {
             day = 30; // default manuale pk non lo fa su path??? fra aiuto
         }
@@ -88,7 +88,7 @@ public class PrestitoController {
         if (day < 0) {
             return ResponseEntity.badRequest().body(new APIResponse("Il numero di giorni deve essere positivo"));
         }
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PaginationUtils.createPage(pagination);
         Page<Prestito> prestiti = prestitoService.getPrestitiDaAlmenoNGiorni(day, pageable);
 
         if (prestiti.isEmpty()) {
