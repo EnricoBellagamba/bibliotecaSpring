@@ -1,7 +1,11 @@
 package com.develhope.co.biblioteca_prova.controller;
 
 import com.develhope.co.biblioteca_prova.dto.APIResponse;
+import com.develhope.co.biblioteca_prova.dto.StatisticheDTO;
 import com.develhope.co.biblioteca_prova.dto.VenditeConTotaleDTO;
+import com.develhope.co.biblioteca_prova.models.PrestitoPerGiorno;
+import com.develhope.co.biblioteca_prova.models.Vendita;
+import com.develhope.co.biblioteca_prova.repository.PrestitoPerGiornoRepository;
 import com.develhope.co.biblioteca_prova.repository.PrestitoRepository;
 import com.develhope.co.biblioteca_prova.repository.VenditaRepository;
 import com.develhope.co.biblioteca_prova.service.AcquistoService;
@@ -12,8 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/stats")
@@ -26,32 +35,57 @@ public class StatisticheController {
     private VenditaRepository venditaRepository;
 
     @Autowired
-    private VenditeConTotaleDTO venditeConTotaleDTO;
+    private AcquistoService acquistoService;
 
     @Autowired
-    private AcquistoService acquistoService;
+    private PrestitoPerGiornoRepository prestitoPerGiornoRepo;
 
     @GetMapping
     public ResponseEntity<APIResponse> statistiche(@RequestParam(required = false) LocalDateTime dataInizio,
-                                                   @RequestParam(required = false) LocalDateTime dataFine){
+                                                   @RequestParam(required = false) LocalDateTime dataFine) {
 
-        if (dataFine == null){
+        if (dataFine == null) {
             dataFine = LocalDateTime.now();
         }
 
-        if (dataInizio == null){
+        if (dataInizio == null) {
             dataInizio = dataFine.minusDays(30);
         }
 
         int numeroPrestiti = prestitoRepository.countByDataPrestitoBetween(dataInizio, dataFine);
         int numeroVendite = venditaRepository.countByDataVenditaBetween(dataInizio, dataFine);
 
-        double totaleFatturato = venditeConTotaleDTO.getTotale();
+        List<Vendita> v = venditaRepository.findByDataVenditaBetween(dataInizio, dataFine);
+        VenditeConTotaleDTO vct = new VenditeConTotaleDTO(v);
+        double totaleVendite = vct.getTotale();
+        BigDecimal bigTotaleVendite = BigDecimal.valueOf(totaleVendite).setScale(2, RoundingMode.DOWN);
         double totaleSpese = acquistoService.getTotaleSpese(dataInizio, dataFine);
+        BigDecimal bigTotaleSpese = BigDecimal.valueOf(totaleSpese).setScale(2, RoundingMode.DOWN);
+        double totaleFatturato = totaleVendite - totaleSpese;
+        BigDecimal bigTotaleFatturato = BigDecimal.valueOf(totaleFatturato).setScale(2, RoundingMode.DOWN);
+
 
         //return statistiche dto
         //settare le vendite, prestiti in dto
-        return null;
+        Map<LocalDate, Integer> prestitiPerGiorno = new HashMap<>();
+        List<PrestitoPerGiorno> prestitiPG = prestitoPerGiornoRepo.findAllByGiornoBetween(dataInizio, dataFine);
+
+        for (PrestitoPerGiorno ppg : prestitiPG) {
+            prestitiPerGiorno.put(ppg.getGiorno().toLocalDate(), ppg.getNumeroPrestiti());
+        }
+
+        StatisticheDTO statsDto = new StatisticheDTO(
+                dataInizio,
+                dataFine,
+                numeroPrestiti,
+                numeroVendite,
+                bigTotaleFatturato,
+                bigTotaleSpese,
+                bigTotaleVendite,
+                prestitiPerGiorno
+        );
+
+        return ResponseEntity.ok().body(new APIResponse(statsDto));
     }
 
 }

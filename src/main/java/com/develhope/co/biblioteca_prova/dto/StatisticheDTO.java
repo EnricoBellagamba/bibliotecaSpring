@@ -2,27 +2,30 @@ package com.develhope.co.biblioteca_prova.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 public class StatisticheDTO {
 
-    private String dataInizio;
-    private String dataFine;
+    private LocalDateTime dataInizio;
+    private LocalDateTime dataFine;
     private int numeroPrestiti;
     private int numeroVendite;
     private BigDecimal fatturato;
     private BigDecimal spese;
+    private BigDecimal vendite;
     private Map<LocalDate, Integer> prestitiPerGiorno;
 
     private StatisticheDTO() {
     }
 
-    public StatisticheDTO(String dataInizio,
-                          String dataFine,
+    public StatisticheDTO(LocalDateTime dataInizio,
+                          LocalDateTime dataFine,
                           int numeroPrestiti,
                           int numeroVendite,
                           BigDecimal fatturato,
                           BigDecimal spese,
+                          BigDecimal vendite,
                           Map<LocalDate, Integer> prestitiPerGiorno) {
 
         this.dataInizio = dataInizio;
@@ -31,24 +34,24 @@ public class StatisticheDTO {
         this.numeroVendite = numeroVendite;
         this.fatturato = fatturato;
         this.spese = spese;
+        this.vendite = vendite;
         this.prestitiPerGiorno = prestitiPerGiorno;
     }
 
     // Getters e Setters
-
-    public String getDataInizio() {
+    public LocalDateTime getDataInizio() {
         return dataInizio;
     }
 
-    public void setDataInizio(String dataInizio) {
+    public void setDataInizio(LocalDateTime dataInizio) {
         this.dataInizio = dataInizio;
     }
 
-    public String getDataFine() {
+    public LocalDateTime getDataFine() {
         return dataFine;
     }
 
-    public void setDataFine(String dataFine) {
+    public void setDataFine(LocalDateTime dataFine) {
         this.dataFine = dataFine;
     }
 
@@ -84,6 +87,14 @@ public class StatisticheDTO {
         this.spese = spese;
     }
 
+    public BigDecimal getVendite() {
+        return vendite;
+    }
+
+    public void setVendite(BigDecimal vendite) {
+        this.vendite = vendite;
+    }
+
     public Map<LocalDate, Integer> getPrestitiPerGiorno() {
         return prestitiPerGiorno;
     }
@@ -91,6 +102,7 @@ public class StatisticheDTO {
     public void setPrestitiPerGiorno(Map<LocalDate, Integer> prestitiPerGiorno) {
         this.prestitiPerGiorno = prestitiPerGiorno;
     }
+
 
     // {
     //	"dataInizio" : "",
