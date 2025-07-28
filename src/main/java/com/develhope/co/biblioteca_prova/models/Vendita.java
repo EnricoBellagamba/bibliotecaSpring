@@ -18,7 +18,6 @@ public class Vendita {
     private LocalDateTime dataVendita;
 
     @OneToMany(mappedBy = "vendita")
-    //    @Column(nullable = false)??
     private List<Carrello> carrello;
 
     @ManyToOne

@@ -14,9 +14,13 @@ public class Acquisto {
     private Integer id;
 
     @Min(value = 1)
+    @NotNull
+    @Column(nullable = false)
     private Integer numCopie;
 
     @DecimalMin(value = "0.01")
+    @NotNull
+    @Column(nullable = false)
     private Double prezzoPerCopia;
 
     @NotNull
