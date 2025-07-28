@@ -139,14 +139,41 @@ INSERT INTO ordine (data_ordine, stato, tipo, fornitore_id) VALUES
 ('2023-12-25 18:45:00', 'CONSEGNATO', 'DONAZIONE',9),
 ('2024-01-03 09:40:00', 'IN_ATTESA', 'DONAZIONE',9),
 ('2024-02-16 14:00:00', 'IN_ATTESA', 'ACQUISTO',1),
-('2024-03-08 11:30:00', 'CONSEGNATO', 'DONAZIONE',5);
+('2024-03-08 11:30:00', 'CONSEGNATO', 'DONAZIONE',5),
+('2025-07-01 09:15:00', 'IN_ATTESA', 'ACQUISTO',2),
+('2025-07-05 14:30:00', 'CONSEGNATO', 'DONAZIONE',8),
+('2025-07-10 11:45:00', 'IN_ATTESA', 'ACQUISTO',5),
+('2025-07-15 16:10:00', 'CONSEGNATO', 'DONAZIONE',3),
+('2025-07-20 13:00:00', 'CONSEGNATO', 'ACQUISTO',1),
+('2025-07-22 08:25:00', 'IN_ATTESA', 'DONAZIONE',4),
+('2025-07-27 17:40:00', 'CONSEGNATO', 'ACQUISTO',6),
+('2025-07-30 10:55:00', 'IN_ATTESA', 'DONAZIONE',7),
+('2025-08-02 09:05:00', 'CONSEGNATO', 'ACQUISTO',2),
+('2025-08-07 15:25:00', 'IN_ATTESA', 'DONAZIONE',5),
+('2025-08-10 12:35:00', 'CONSEGNATO', 'DONAZIONE',9),
+('2025-08-13 14:45:00', 'IN_ATTESA', 'ACQUISTO',10),
+('2025-08-18 11:15:00', 'CONSEGNATO', 'DONAZIONE',1),
+('2025-08-22 08:50:00', 'IN_ATTESA', 'DONAZIONE',6),
+('2025-08-28 17:20:00', 'CONSEGNATO', 'ACQUISTO',3);
 
 --acquisto--
 INSERT INTO acquisto (ordine_id, libro_isbn, num_copie, prezzo_per_copia) VALUES
 (1,'978-190-4753-060', 2, 13.0),
 (2,'978-190-4753-060', 3, 13.0),
 (2,'978-863-4921-059', 2, 13.0),
-(3,'978-863-4921-059', 8, 13.0);
+(16,'978-914-4851-052', 2, 17.45),
+(17,'978-426-7941-058', 4, 14.35),
+(18,'978-914-4851-052', 1, 26.77),
+(20,'978-426-7941-058', 2, 14.95),
+(23,'978-914-4851-052', 2, 12.60),
+(16,'978-426-7941-058', 3, 13.60),
+(23,'978-914-4851-052', 4, 12.50),
+(26,'978-604-3729-028', 1, 19.99),
+(17,'978-618-9472-032', 2, 13.99),
+(18,'978-539-9032-054', 3, 15.40),
+(20,'978-539-9032-054', 2, 11.00),
+(23,'978-539-9032-054', 5, 14.80);
+
 
 
 -- prestiti --
@@ -274,14 +301,22 @@ left JOIN libri_venduti lv ON lv.libro_isbn = l.isbn
 LEFT JOIN libri_prestati lp ON lp.isbn = l.isbn
 WHERE la.copie_acquistate - COALESCE(lv.copie_vendute, 0) - COALESCE(lp.copie_prestate, 0) > 0;
 
-
+-- view per ordinamento per autore
 drop table if exists libro_con_autori;
-
 
 create or replace view libro_con_autori as
 
 select l.*, min( concat(a.nome, ' ',a.cognome) ) as autore_principale from libro_autore la
 join autore a on a.id = la.autori_id
 join libro l on l.isbn = la.libro_isbn
-group by l.isbn
+group by l.isbn;
+
+-- view per mapping prestito per giorno
+drop table if exists prestito_per_giorno;
+create or replace view prestito_per_giorno as
+select date(data_prestito) as giorno,
+count(*) as numero_prestiti
+from prestito
+group by giorno
+order by giorno;
 
