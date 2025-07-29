@@ -12,7 +12,9 @@ import java.util.List;
 
 public interface VenditaRepository extends JpaRepository<Vendita, Integer> {
     Page<Vendita> findByDataVenditaBetween(LocalDateTime start, LocalDateTime end, Pageable pageable);
-   List<Vendita> findByDataVenditaBetween(LocalDateTime start, LocalDateTime end);
+
+    List<Vendita> findByDataVenditaBetween(LocalDateTime start, LocalDateTime end);
+
     int countByDataVenditaBetween(LocalDateTime dataInizio, LocalDateTime dataFine);
 
     Page<Vendita> findByUtente(Utente utente, Pageable pageable);

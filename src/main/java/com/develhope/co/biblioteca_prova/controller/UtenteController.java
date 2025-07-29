@@ -4,17 +4,14 @@ import com.develhope.co.biblioteca_prova.auth.CustomUserDetails;
 import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.dto.PaginationDTO;
 import com.develhope.co.biblioteca_prova.models.Utente;
-import com.develhope.co.biblioteca_prova.models.Vendita;
 import com.develhope.co.biblioteca_prova.repository.UtenteRepository;
 import com.develhope.co.biblioteca_prova.utils.PaginationUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -49,9 +46,14 @@ public class UtenteController {
         return ResponseEntity.ok(new APIResponse(opt.get()));
     }
 
-    @GetMapping("/profilo")
-    public ResponseEntity<APIResponse> profilo(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    @GetMapping("/profilo/prestiti")
+    public ResponseEntity<APIResponse> prestitiProfilo(@AuthenticationPrincipal CustomUserDetails userDetails) {
         return ResponseEntity.ok(new APIResponse(userDetails.getUser().getPrestiti()));
+    }
+
+    @GetMapping("/profilo/vendite")
+    public ResponseEntity<APIResponse> venditeProfilo(@AuthenticationPrincipal CustomUserDetails customUserDetails){
+        return ResponseEntity.ok(new APIResponse(customUserDetails.getUser().getVendite()));
     }
 
     @PostMapping
