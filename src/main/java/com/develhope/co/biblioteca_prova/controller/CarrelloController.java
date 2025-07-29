@@ -34,15 +34,7 @@ public class CarrelloController {
         return ResponseEntity.ok(new APIResponse(carrelloOpt.get()));
     }
 
-    @PostMapping
-    public ResponseEntity<APIResponse> save(@RequestBody Carrello carrello) {
 
-
-        if(carrello.getId() == null){
-            carrello.setPrezzoPerCopia(carrelloRepo.prezzoTotale(carrello.getVendita().getId()));
-        }
-        return ResponseEntity.ok(new APIResponse(carrelloRepo.save(carrello)));
-    }
 
 
 

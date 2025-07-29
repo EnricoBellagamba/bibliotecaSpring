@@ -6,12 +6,15 @@ public class PaginationDTO {
     private String sortDir;
     private String sortField;
 
+    //Costruttore default
+
     public PaginationDTO(){
         pageNumber = 0;
         pageSize = 10;
         sortDir = "ASC";
     }
 
+    //Getters e setters
 
     public Integer getPageNumber() {
         return pageNumber;

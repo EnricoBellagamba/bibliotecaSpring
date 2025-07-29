@@ -1,15 +1,15 @@
 -- utenti --
-INSERT INTO utente (nome, cognome, ruolo, username) VALUES
-('Luca', 'Rossi', 'CLIENTE', 'lucarossi'),
-('Giulia', 'Bianchi', 'OPERATORE', 'fsdg'),
-('Marco', 'Verdi', 'CLIENTE', 'hgfds'),
-('Elena', 'Neri', 'CLIENTE', 'hgfdsdf'),
-('Sara', 'Romano', 'OPERATORE', 'hgfdgfs'),
-('Davide', 'Greco', 'CLIENTE', 'hgfdshgfd'),
-('Chiara', 'Fontana', 'CLIENTE', 'mnbvcxz'),
-('Alessandro', 'Ferrari', 'OPERATORE', 'mnbvcxzfgh'),
-('Martina', 'Conti', 'CLIENTE', 'mnbvcxzer'),
-('Francesco', 'Gallo', 'CLIENTE', 'mngsdfbvcxz');
+INSERT INTO utente (nome, cognome, ruolo, username, password) VALUES
+('Luca', 'Rossi', 'CLIENTE', 'lucarossi', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
+('Giulia', 'Bianchi', 'OPERATORE', 'fsdg', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
+('Marco', 'Verdi', 'CLIENTE', 'hgfds', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
+('Elena', 'Neri', 'CLIENTE', 'hgfdsdf', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
+('Sara', 'Romano', 'OPERATORE', 'hgfdgfs', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
+('Davide', 'Greco', 'CLIENTE', 'hgfdshgfd', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
+('Chiara', 'Fontana', 'CLIENTE', 'mnbvcxz', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
+('Alessandro', 'Ferrari', 'OPERATORE', 'mnbvcxzfgh', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
+('Martina', 'Conti', 'CLIENTE', 'mnbvcxzer', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
+('Francesco', 'Gallo', 'CLIENTE', 'mngsdfbvcxz', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu');
 
 
 INSERT INTO fidelity_card (utente_id) VALUES
@@ -173,6 +173,7 @@ INSERT INTO acquisto (ordine_id, libro_isbn, num_copie, prezzo_per_copia) VALUES
 (18,'978-539-9032-054', 3, 15.40),
 (20,'978-539-9032-054', 2, 11.00),
 (23,'978-539-9032-054', 5, 14.80);
+
 
 
 -- prestiti --
