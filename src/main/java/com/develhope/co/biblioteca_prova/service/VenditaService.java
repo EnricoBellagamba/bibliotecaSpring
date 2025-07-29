@@ -42,16 +42,14 @@ public class  VenditaService {
         validazioneCarrello(v);
         validazioneUtente(v);
         validazioneLibro(v);
-        finalizzaVendita(v, scontoOperatore);
-
-        return v;
+        return finalizzaVendita(v, scontoOperatore);
     }
 
     private void validazioneCarrello(Vendita v){
         //set per controllo isbn duplicati
         Set<String> isbns = new HashSet<>();
         if (v.getCarrello() == null ||v.getCarrello().isEmpty()) {
-            throw new DataValidationException("Il carrello non puà essere vuoto");
+            throw new DataValidationException("Il carrello non può essere vuoto");
         }
         for (Carrello c : v.getCarrello()) {
             String isbn = c.getLibro().getIsbn();
@@ -124,7 +122,7 @@ public class  VenditaService {
             c.setPrezzoPerCopia(prezzoScontato);
             carrelloRepo.save(c);
         }
-        return v;
+        return vendita;
     }
     public List<Vendita> findVenditeMeseCorrente(){
         LocalDateTime now = LocalDateTime.now();
