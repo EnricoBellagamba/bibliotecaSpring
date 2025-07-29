@@ -121,7 +121,8 @@ INSERT INTO libro (isbn, titolo, anno_pubblicazione, prezzo, genere, descrizione
 ('978-357-8871-057', 'Cronache di Reynolds', 1994, 18.25, 'FANTASCIENZA', 'Un libro fantascienza scritto da Alastair Reynolds che esplora nuovi mondi e idee originali.'),
 ('978-426-7941-058', 'L’ascesa di Adams', 1972, 13.75, 'FANTASY', 'Un libro fantasy scritto da Douglas Adams che esplora nuovi mondi e idee originali.'),
 ('978-863-4921-059', 'Il segreto di Orwell', 1962, 17.60, 'STORICO', 'Un libro storico scritto da George Orwell che esplora nuovi mondi e idee originali.'),
-('978-190-4753-060', 'Viaggio verso Vonnegut', 1998, 16.50, 'SAGGIO', 'Un libro saggio scritto da Kurt Vonnegut che esplora nuovi mondi e idee originali.');
+('978-190-4753-060', 'Viaggio verso Vonnegut', 1998, 16.50, 'SAGGIO', 'Un libro saggio scritto da Kurt Vonnegut che esplora nuovi mondi e idee originali.'),
+('111-222-3333-444', 'Titolo di prova', 1998, 15.00, 'SAGGIO', 'Un libro di prova.');
 
 -- ordini --
 INSERT INTO ordine (data_ordine, stato, tipo, fornitore_id) VALUES
@@ -154,7 +155,9 @@ INSERT INTO ordine (data_ordine, stato, tipo, fornitore_id) VALUES
 ('2025-08-13 14:45:00', 'IN_ATTESA', 'ACQUISTO',10),
 ('2025-08-18 11:15:00', 'CONSEGNATO', 'DONAZIONE',1),
 ('2025-08-22 08:50:00', 'IN_ATTESA', 'DONAZIONE',6),
-('2025-08-28 17:20:00', 'CONSEGNATO', 'ACQUISTO',3);
+('2025-08-28 17:20:00', 'CONSEGNATO', 'ACQUISTO',3),
+('2025-08-30 09:00:00', 'CONSEGNATO', 'ACQUISTO', 1);
+
 
 --acquisto--
 INSERT INTO acquisto (ordine_id, libro_isbn, num_copie, prezzo_per_copia) VALUES
@@ -172,7 +175,8 @@ INSERT INTO acquisto (ordine_id, libro_isbn, num_copie, prezzo_per_copia) VALUES
 (17,'978-618-9472-032', 2, 13.99),
 (18,'978-539-9032-054', 3, 15.40),
 (20,'978-539-9032-054', 2, 11.00),
-(23,'978-539-9032-054', 5, 14.80);
+(23,'978-539-9032-054', 5, 14.80),
+(30, '111-222-3333-444', 10, 15.00);
 
 
 -- prestiti --
