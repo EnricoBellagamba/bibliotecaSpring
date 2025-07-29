@@ -179,6 +179,7 @@ INSERT INTO acquisto (ordine_id, libro_isbn, num_copie, prezzo_per_copia) VALUES
 (30, '111-222-3333-444', 10, 15.00);
 
 
+
 -- prestiti --
 INSERT INTO prestito (utente_id, libro_isbn, data_prestito, data_restituzione) VALUES
 (1, '978-863-4921-059', '2023-01-10 09:00:00', '2023-01-20 15:30:00'),
