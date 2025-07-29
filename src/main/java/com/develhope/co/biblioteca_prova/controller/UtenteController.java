@@ -1,4 +1,5 @@
 package com.develhope.co.biblioteca_prova.controller;
+
 import com.develhope.co.biblioteca_prova.auth.CustomUserDetails;
 import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.dto.PaginationDTO;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +28,11 @@ public class UtenteController {
     @Autowired
     private UtenteRepository utenteRepo;
 
+    @Autowired
+    private PasswordEncoder pwEncoder;
+
     @GetMapping
-    public ResponseEntity<APIResponse> findAll(PaginationDTO paginationDTO){
+    public ResponseEntity<APIResponse> findAll(PaginationDTO paginationDTO) {
 
         Pageable pageable = PaginationUtils.createPage(paginationDTO);
         return ResponseEntity.ok(new APIResponse(utenteRepo.findAll(pageable)));
@@ -45,18 +50,20 @@ public class UtenteController {
     }
 
     @GetMapping("/profilo")
-    public ResponseEntity<APIResponse> profilo(@AuthenticationPrincipal CustomUserDetails userDetails){
+    public ResponseEntity<APIResponse> profilo(@AuthenticationPrincipal CustomUserDetails userDetails) {
         return ResponseEntity.ok(new APIResponse(userDetails.getUser().getPrestiti()));
     }
 
     @PostMapping
     public ResponseEntity<APIResponse> save(
             @Valid @RequestBody Utente utente,
-            BindingResult br) {
+            BindingResult br,
+            @RequestParam String password) {
         if (br.hasErrors()) {
             return ResponseEntity.badRequest()
                     .body(new APIResponse(br.getAllErrors()));
         }
+        utente.setPassword(pwEncoder.encode(password));
         return ResponseEntity.ok(new APIResponse(utenteRepo.save(utente)));
     }
 

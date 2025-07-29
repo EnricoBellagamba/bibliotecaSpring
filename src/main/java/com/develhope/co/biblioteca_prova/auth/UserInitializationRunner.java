@@ -20,10 +20,10 @@ public class UserInitializationRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         List<Utente> utenti = utenteRepo.findAll();
-        for (Utente u : utenti) {
-            u.setPassword(pwEncoder.encode("password"));
-            utenteRepo.save(u);
-        }
+//        for (Utente u : utenti) {
+//            u.setPassword(pwEncoder.encode("password"));
+//            utenteRepo.save(u);
+//        }
         System.out.println(pwEncoder.encode("password"));
     }
 }
