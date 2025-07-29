@@ -1,13 +1,11 @@
 package com.develhope.co.biblioteca_prova.service;
 
-import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.exceptions.DataValidationException;
 import com.develhope.co.biblioteca_prova.models.*;
 import com.develhope.co.biblioteca_prova.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
@@ -41,15 +39,15 @@ public class  VenditaService {
 
     // aggiungi controllo per verificare se le copie esistono prima di venderle
     public Vendita salvaVendita(Vendita v, Double scontoOperatore) {
-        v = validazioneCarrello(v);
-        v = validazioneUtente(v);
-        v = validazioneLibro(v);
-        v = calcolaPrezzo(v, scontoOperatore);
+        validazioneCarrello(v);
+        validazioneUtente(v);
+        validazioneLibro(v);
+        finalizzaVendita(v, scontoOperatore);
 
         return v;
     }
 
-    private Vendita validazioneCarrello(Vendita v){
+    private void validazioneCarrello(Vendita v){
         //set per controllo isbn duplicati
         Set<String> isbns = new HashSet<>();
         if (v.getCarrello() == null ||v.getCarrello().isEmpty()) {
@@ -77,10 +75,9 @@ public class  VenditaService {
                 throw new DataValidationException("Copie insufficienti per il libro con ISBN " + isbn);
             }
         }
-        return v;
     }
 
-    private Vendita validazioneUtente(Vendita v) {
+    private void validazioneUtente(Vendita v) {
         Integer utenteId = v.getUtente().getId();
         if (utenteId == null) {
             throw new DataValidationException("L'utente è vuoto");
@@ -90,10 +87,9 @@ public class  VenditaService {
             throw new DataValidationException("L'utente non esiste");
         }
         v.setUtente(optionalUtente.get());
-        return v;
     }
 
-    private Vendita validazioneLibro(Vendita v){
+    private void validazioneLibro(Vendita v){
         //recupera l'oggetto libro dal db e lo associa al carrello
         for (Carrello c : v.getCarrello()) {
 
@@ -104,10 +100,9 @@ public class  VenditaService {
                 c.setLibro(opt.get());
             }
         }
-        return v;
     }
 
-    private Vendita calcolaPrezzo(Vendita v,Double scontoOperatore ) {
+    private Vendita finalizzaVendita(Vendita v, Double scontoOperatore ) {
 
         Vendita vendita = venditaRepo.save(v);
         double sconto = fidelityCardService.calcolaSconto(vendita);
