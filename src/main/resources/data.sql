@@ -13,6 +13,7 @@ INSERT INTO utente (nome, cognome, ruolo, username, password) VALUES
 
 
 INSERT INTO fidelity_card (utente_id) VALUES
+(1),
 (2);
 -- autori --
 INSERT INTO autore (nome, cognome, data_nascita) VALUES

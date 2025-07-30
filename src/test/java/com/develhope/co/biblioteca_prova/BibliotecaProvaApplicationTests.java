@@ -22,7 +22,7 @@ class BibliotecaProvaApplicationTests {
 
     @Test
     void testAuthFailed() throws Exception {
-        mockMvc.perform(get("/libri")).andExpect(status().is(302));
+        mockMvc.perform(get("/utenti/profilo")).andExpect(status().is(302));
     }
 
     @Test
