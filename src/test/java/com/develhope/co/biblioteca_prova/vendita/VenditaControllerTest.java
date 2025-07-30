@@ -97,8 +97,6 @@ public class VenditaControllerTest {
                         .value("Vendita non trovata"));
     }
 
-
-    // >>>>> NON FUNZIONA!!! <<<<<
     // POST /vendita - corpo valido
     @Test
     void createVendita() throws Exception {

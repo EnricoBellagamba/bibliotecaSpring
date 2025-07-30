@@ -6,9 +6,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class VenditaServiceTest {
+
     /*
-    * VALIDAZIONE CARRELLO:
+
     * - salvaVendita
+    * VALIDAZIONE CARRELLO:
     * - sconto operatore maggiore del fidelity --> viene usato
     * - carrello vuoto
     * - ISBN duplicati nel carrello

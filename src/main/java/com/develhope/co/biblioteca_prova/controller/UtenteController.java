@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,10 +25,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/utenti")
 public class UtenteController {
-
     @Autowired
     private UtenteRepository utenteRepo;
-
     @Autowired
     private PasswordEncoder pwEncoder;
 
@@ -47,11 +46,6 @@ public class UtenteController {
             return ResponseEntity.badRequest().body(new APIResponse("Utente non trovato"));
         }
         return ResponseEntity.ok(new APIResponse(opt.get()));
-    }
-
-    @GetMapping("/profilo")
-    public ResponseEntity<APIResponse> profilo(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        return ResponseEntity.ok(new APIResponse(userDetails.getUser().getPrestiti()));
     }
 
     @PostMapping
@@ -77,6 +71,28 @@ public class UtenteController {
         } else {
             return ResponseEntity.ok(new APIResponse(utente.get().getPrestiti()));
         }
+    }
 
+    @GetMapping({"/profilo", "/profilo/"})
+    public ResponseEntity<APIResponse> profilo(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return ResponseEntity.ok(new APIResponse(userDetails.getUser()));
+    }
+
+    @GetMapping("/profilo/prestiti")
+    public ResponseEntity<APIResponse> profiloPrestiti(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        Optional<Utente> opt = utenteRepo.findById(userDetails.getUser().getId());
+        if (opt.isEmpty()) {
+            return ResponseEntity.badRequest().body(new APIResponse("Utente non trovato"));
+        }
+        return ResponseEntity.ok(new APIResponse(opt.get().getPrestiti()));
+    }
+
+    @GetMapping("/profilo/vendite")
+    public ResponseEntity<APIResponse> profiloVendite(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        Optional<Utente> opt = utenteRepo.findById(userDetails.getUser().getId());
+        if (opt.isEmpty()) {
+            return ResponseEntity.badRequest().body(new APIResponse("Utente non trovato"));
+        }
+        return ResponseEntity.ok(new APIResponse(opt.get().getVendita()));
     }
 }

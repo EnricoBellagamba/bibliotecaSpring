@@ -1,7 +1,7 @@
 -- utenti --
 INSERT INTO utente (nome, cognome, ruolo, username, password) VALUES
-('Luca', 'Rossi', 'CLIENTE', 'lucarossi', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
-('Giulia', 'Bianchi', 'OPERATORE', 'fsdg', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
+('Luca', 'Rossi', 'CLIENTE', 'luca', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
+('Giulia', 'Bianchi', 'OPERATORE', 'password', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
 ('Marco', 'Verdi', 'CLIENTE', 'hgfds', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
 ('Elena', 'Neri', 'CLIENTE', 'hgfdsdf', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
 ('Sara', 'Romano', 'OPERATORE', 'hgfdgfs', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),

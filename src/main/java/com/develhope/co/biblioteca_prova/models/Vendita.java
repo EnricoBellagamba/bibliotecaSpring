@@ -37,6 +37,10 @@ public class Vendita {
         return dataVendita;
     }
 
+    public void setCarrello(List<Carrello> carrello) {
+        this.carrello = carrello;
+    }
+
     public void setDataVendita(LocalDateTime dataVendita) {
         this.dataVendita = dataVendita;
     }
