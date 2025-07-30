@@ -29,7 +29,7 @@ public class  VenditaService {
     private LibroRepository libroRepo;
 
     @Autowired
-    private CarrelloRepository carrelloRepo;
+    private ArticoloRepository articoloRepo;
 
     @Autowired
     private FidelityCardService fidelityCardService;
@@ -39,19 +39,19 @@ public class  VenditaService {
 
     // aggiungi controllo per verificare se le copie esistono prima di venderle
     public Vendita salvaVendita(Vendita v, Double scontoOperatore) {
-        validazioneCarrello(v);
+        validazioneArticolo(v);
         validazioneUtente(v);
         validazioneLibro(v);
         return finalizzaVendita(v, scontoOperatore);
     }
 
-    private void validazioneCarrello(Vendita v){
+    private void validazioneArticolo(Vendita v){
         //set per controllo isbn duplicati
         Set<String> isbns = new HashSet<>();
-        if (v.getCarrello() == null ||v.getCarrello().isEmpty()) {
+        if (v.getArticolo() == null ||v.getArticolo().isEmpty()) {
             throw new DataValidationException("Il carrello non può essere vuoto");
         }
-        for (Carrello c : v.getCarrello()) {
+        for (Articolo c : v.getArticolo()) {
             String isbn = c.getLibro().getIsbn();
             if (isbn == null || isbn.isBlank()) {
                 throw new DataValidationException("ISBN del libro mancante o vuoto");
@@ -89,7 +89,7 @@ public class  VenditaService {
 
     private void validazioneLibro(Vendita v){
         //recupera l'oggetto libro dal db e lo associa al carrello
-        for (Carrello c : v.getCarrello()) {
+        for (Articolo c : v.getArticolo()) {
 
             Optional<Libro> opt = libroRepo.findById(c.getLibro().getIsbn());
             if (opt.isEmpty()) {
@@ -112,7 +112,7 @@ public class  VenditaService {
             sconto = scontoOperatore;
         }
         //set vendita e prezzoPerCopia dei carrelli
-        for (Carrello c : v.getCarrello()) {
+        for (Articolo c : v.getArticolo()) {
             c.setVendita(vendita);
             double prezzoListino = c.getLibro().getPrezzo();
             double prezzoScontato = prezzoListino * (1 - sconto);
@@ -120,7 +120,7 @@ public class  VenditaService {
             System.out.println("prezzolistino:" + prezzoListino);
             System.out.println("sconto:" + sconto);
             c.setPrezzoPerCopia(prezzoScontato);
-            carrelloRepo.save(c);
+            articoloRepo.save(c);
         }
         return vendita;
     }

@@ -4,11 +4,11 @@ import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.dto.PaginationDTO;
 import com.develhope.co.biblioteca_prova.dto.VenditeConTotaleDTO;
 import com.develhope.co.biblioteca_prova.exceptions.DataValidationException;
-import com.develhope.co.biblioteca_prova.models.Carrello;
+import com.develhope.co.biblioteca_prova.models.Articolo;
 import com.develhope.co.biblioteca_prova.models.Libro;
 import com.develhope.co.biblioteca_prova.models.Utente;
 import com.develhope.co.biblioteca_prova.models.Vendita;
-import com.develhope.co.biblioteca_prova.repository.CarrelloRepository;
+import com.develhope.co.biblioteca_prova.repository.ArticoloRepository;
 import com.develhope.co.biblioteca_prova.repository.LibroRepository;
 import com.develhope.co.biblioteca_prova.repository.UtenteRepository;
 import com.develhope.co.biblioteca_prova.repository.VenditaRepository;
@@ -39,7 +39,7 @@ public class VenditaController {
     private VenditaService venditaService;
 
     @Autowired
-    private CarrelloRepository carrelloRepo;
+    private ArticoloRepository articoloRepo;
 
     @Autowired
     private LibroRepository libroRepo;
@@ -85,10 +85,10 @@ public class VenditaController {
         }
 
         Pageable pageable = PaginationUtils.createPage(paginationDTO);
-        Page<Carrello> carrelloPage = carrelloRepo.findByLibro(libroOpt.get(), pageable);
+        Page<Articolo> articoloPage = articoloRepo.findByLibro(libroOpt.get(), pageable);
 
         List<Vendita> vendite = new ArrayList<>();
-        for(Carrello c : carrelloPage){
+        for(Articolo c : articoloPage){
             vendite.add(c.getVendita());
         }
         return ResponseEntity.ok(new APIResponse(vendite));

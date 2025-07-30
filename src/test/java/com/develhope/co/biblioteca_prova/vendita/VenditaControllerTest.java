@@ -107,7 +107,7 @@ public class VenditaControllerTest {
                   "utente": {
                     "id": %d
                   },
-                  "carrello": [
+                  "articolo": [
                     {
                       "numeroCopie": 1,
                       "prezzoPerCopia": 12.14,
@@ -129,7 +129,7 @@ public class VenditaControllerTest {
         String bodyJson = """
                 {
                     "utente": { "id": u },
-                    "carrello": []
+                    "articolo": []
                 }
                 """;
 
@@ -145,7 +145,7 @@ public class VenditaControllerTest {
         String bodyJson = """
                 {
                     "utente": {},
-                    "carrello": [
+                    "articolo": [
                         {
                             "numeroCopie": 1,
                             "libro": { %s }
@@ -166,7 +166,7 @@ public class VenditaControllerTest {
         String bodyJson = String.format("""
                 {
                     "utente": { "id": %d },
-                    "carrello": [
+                    "articolo": [
                         {
                             "numeroCopie": 1,
                             "libro": { %s }
