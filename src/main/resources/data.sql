@@ -208,8 +208,8 @@ INSERT INTO vendita (data_vendita, utente_id) VALUES
 ('2025-08-01 13:35:00', 8);
 
 
--- carrello --
-INSERT INTO carrello (vendita_id, numero_copie, libro_isbn, prezzo_per_copia) VALUES
+-- articolo --
+INSERT INTO articolo (vendita_id, numero_copie, libro_isbn, prezzo_per_copia) VALUES
 (1, 2, '978-539-9032-054', 12.14),
 (3, 4,'978-782-1123-046',11.12),
 (2, 5, '978-426-7941-058',10.09),
@@ -286,7 +286,7 @@ GROUP BY l.isbn),
 -- aggiornare e testare
 libri_venduti AS
 (SELECT c.libro_isbn, SUM(c.numero_copie) as copie_vendute
-FROM carrello c
+FROM articolo c
 GROUP BY c.libro_isbn),
 
 libri_prestati AS

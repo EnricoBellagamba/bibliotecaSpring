@@ -2,10 +2,9 @@ package com.develhope.co.biblioteca_prova.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Positive;
 
 @Entity
-public class Carrello {
+public class Articolo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

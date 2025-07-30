@@ -18,7 +18,7 @@ public class Vendita {
     private LocalDateTime dataVendita;
 
     @OneToMany(mappedBy = "vendita")
-    private List<Carrello> carrello;
+    private List<Articolo> articolo;
 
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -37,16 +37,16 @@ public class Vendita {
         return dataVendita;
     }
 
-    public void setCarrello(List<Carrello> carrello) {
-        this.carrello = carrello;
+    public void setArticolo(List<Articolo> articolo) {
+        this.articolo = articolo;
     }
 
     public void setDataVendita(LocalDateTime dataVendita) {
         this.dataVendita = dataVendita;
     }
 
-    public List<Carrello> getCarrello() {
-        return carrello;
+    public List<Articolo> getArticolo() {
+        return articolo;
     }
 
     public Utente getUtente() {
@@ -67,9 +67,9 @@ public class Vendita {
 
     public double getValoreTotale() {
         double totale = 0;
-        for (Carrello c : carrello) {
-            if (c.getPrezzoPerCopia() != null && c.getNumeroCopie() != null) {
-                totale += c.getPrezzoPerCopia() * c.getNumeroCopie();
+        for (Articolo a : articolo) {
+            if (a.getPrezzoPerCopia() != null && a.getNumeroCopie() != null) {
+                totale += a.getPrezzoPerCopia() * a.getNumeroCopie();
             }
         }
         return totale;
