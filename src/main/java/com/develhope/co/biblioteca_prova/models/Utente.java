@@ -34,7 +34,7 @@ public class Utente {
 
     @JsonIgnore
     @OneToMany(mappedBy = "utente")
-    private List<Vendita> vendita;
+    private List<Vendita> vendite;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -44,8 +44,8 @@ public class Utente {
     @Column(nullable = false)
     private String password;
 
-    public void setVendita(List<Vendita> vendita) {
-        this.vendita = vendita;
+    public void setVendite(List<Vendita> vendite) {
+        this.vendite = vendite;
     }
 
     public String getUsername() {
@@ -112,7 +112,7 @@ public class Utente {
         this.prestiti = prestiti;
     }
 
-    public List<Vendita> getVendita() {
-        return vendita;
+    public List<Vendita> getVendite() {
+        return vendite;
     }
 }

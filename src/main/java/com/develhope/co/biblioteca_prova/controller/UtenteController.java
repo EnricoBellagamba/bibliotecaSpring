@@ -93,6 +93,6 @@ public class UtenteController {
         if (opt.isEmpty()) {
             return ResponseEntity.badRequest().body(new APIResponse("Utente non trovato"));
         }
-        return ResponseEntity.ok(new APIResponse(opt.get().getVendita()));
+        return ResponseEntity.ok(new APIResponse(opt.get().getVendite()));
     }
 }
