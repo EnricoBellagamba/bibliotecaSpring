@@ -29,6 +29,7 @@ public class BibliotecaSecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/utenti").permitAll()
                         .requestMatchers(HttpMethod.GET, "/libri").permitAll()
                         .requestMatchers("/libri/**", "/utenti/**").authenticated()
+                        .requestMatchers("/vendita/**").hasAnyRole("OPERATORE")
                         .requestMatchers("/prestiti/**").hasAnyRole("OPERATORE")
                         .requestMatchers("/ordini/**").hasAnyRole("OPERATORE")
                         .requestMatchers("/**").permitAll()

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
@@ -67,26 +68,27 @@ public class VenditaControllerTest {
         v = venditaRepo.save(vendita);
     }
 
-<<<<<<< HEAD
-    // deve restituire 10 vendite
-=======
+
     @Test
     void testUtenteNonLoggato() throws Exception{
-        mockMvc.perform(get("/prestiti"))
+        mockMvc.perform(get("/vendita"))
                 .andExpect(status().is(302));
     }
 
->>>>>>> 43e1e80445c8471170e827e0581a7f95d6136d78
+    // deve restituire 10 vendite
     // GET /vendita - senza parametri
     @Test
+    @WithMockUser(username = "test", roles = {"OPERATORE"})
     void getAllVendite() throws Exception {
         mockMvc.perform(get("/vendita"))
                 .andExpect(status().isOk());
+                //.andExpect(jsonPath("$.length()").value(10));
     }
 
     // deve restituire 10 vendite
     // GET /vendita - date valide
     @Test
+    @WithMockUser(username = "test", roles = {"OPERATORE"})
     void getAllVendite_conDate() throws Exception {
         mockMvc.perform(get("/vendita")
                         .param("start", LocalDateTime.now().minusDays(10).toString())
@@ -97,6 +99,7 @@ public class VenditaControllerTest {
     // controlla i campi della vendita (prezzo scontato..)
     // GET /vendita/{id} - ID valido
     @Test
+    @WithMockUser(username = "test", roles = {"OPERATORE"})
     void getVenditaById() throws Exception {
         mockMvc.perform(get("/vendita/" + v.getId()))
                 .andExpect(status().isOk());
@@ -104,6 +107,7 @@ public class VenditaControllerTest {
 
     // GET /vendita/{id} - ID non valido
     @Test
+    @WithMockUser(username = "test", roles = {"OPERATORE"})
     void getVenditaById_nonValido() throws Exception {
         mockMvc.perform(get("/vendita/-1"))
                 .andExpect(status().isNotFound())
@@ -115,6 +119,7 @@ public class VenditaControllerTest {
     // post con 2 articoli
     // POST /vendita - corpo valido
     @Test
+    @WithMockUser(username = "test", roles = {"OPERATORE"})
     void createVendita() throws Exception {
         String bodyJson = String.format("""
                 {
@@ -138,12 +143,11 @@ public class VenditaControllerTest {
                 .andExpect(status().isOk());
     }
 
-    // POST /vendita - con lo sconto --> request param per lo sconto
     // POST /vendita - libro non disponibile
-
 
     // POST /vendita - corpo non valido
     @Test
+    @WithMockUser(username = "test", roles = {"OPERATORE"})
     void createVendita_carrelloVuoto() throws Exception {
         String bodyJson = """
                 {
@@ -160,6 +164,7 @@ public class VenditaControllerTest {
 
     // POST /vendita - BindingResult errori
     @Test
+    @WithMockUser(username = "test", roles = {"OPERATORE"})
     void creaVendita_campoMancante() throws Exception {
         String bodyJson = """
                 {
@@ -179,8 +184,32 @@ public class VenditaControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    // POST /vendita - con sconto
+    @Test
+    @WithMockUser(username = "test", roles = {"OPERATORE"})
+    void creaVendita_scontoValido() throws Exception {
+        String bodyJson = String.format("""
+                {
+                    "utente": { "id": %d },
+                    "articolo": [
+                        {
+                            "numeroCopie": 1,
+                            "libro": { %s }
+                        }
+                    ]
+                }
+                """, u.getId(), l.getIsbn());
+
+        mockMvc.perform(post("/vendita")
+                        .param("sconto", "0.25")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(bodyJson))
+                .andExpect(status().isBadRequest());
+    }
+
     // POST /vendita - sconto fuori range
     @Test
+    @WithMockUser(username = "test", roles = {"OPERATORE"})
     void creaVendita_scontoInvalido() throws Exception {
         String bodyJson = String.format("""
                 {
