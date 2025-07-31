@@ -37,11 +37,11 @@ public class PrestitoControllerTest {
     @Autowired
     private PrestitoRepository prestitoRepo;
 
-    @Autowired
-    private UtenteRepository utenteRepo;
-
-    @Autowired
-    private LibroRepository libroRepo;
+//    @Autowired
+//    private UtenteRepository utenteRepo;
+//
+//    @Autowired
+//    private LibroRepository libroRepo;
 
     /**
      * Verifica che una richesta per l'endpoint "/prestiti" protetto da autenticazione,
@@ -96,12 +96,12 @@ public class PrestitoControllerTest {
     void testPrestitoNonRestituitoOltre60Giorni() throws Exception {
 
         //prestito da testare
-        Optional<Libro> libroOpt = libroRepo.findById("978-210-8472-010");
-        Optional<Utente> utenteOpt = utenteRepo.findById(1);
+//        Optional<Libro> libroOpt = libroRepo.findById("978-210-8472-010");
+//        Optional<Utente> utenteOpt = utenteRepo.findById(1);
         Optional<Prestito> prestitoOpt = prestitoRepo.findById(9);
         Prestito prestito = prestitoOpt.get();
-        prestito.setLibro(libroOpt.get());
-        prestito.setUtente(utenteOpt.get());
+//        prestito.setLibro(libroOpt.get());
+//        prestito.setUtente(utenteOpt.get());
         String prestitoJson = objectMapper.writeValueAsString(prestito);
 
         mockMvc.perform(post("/prestiti")
