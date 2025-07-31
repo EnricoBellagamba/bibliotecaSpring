@@ -11,9 +11,9 @@ public class StatisticheDTO {
     private LocalDateTime dataFine;
     private int numeroPrestiti;
     private int numeroVendite;
-    private BigDecimal fatturato;
+    private BigDecimal profitto;
     private BigDecimal spese;
-    private BigDecimal vendite;
+    private BigDecimal fatturato;
     private Map<LocalDate, Integer> prestitiPerGiorno;
 
     private StatisticheDTO() {
@@ -23,18 +23,18 @@ public class StatisticheDTO {
                           LocalDateTime dataFine,
                           int numeroPrestiti,
                           int numeroVendite,
-                          BigDecimal fatturato,
+                          BigDecimal profitto,
                           BigDecimal spese,
-                          BigDecimal vendite,
+                          BigDecimal fatturato,
                           Map<LocalDate, Integer> prestitiPerGiorno) {
 
         this.dataInizio = dataInizio;
         this.dataFine = dataFine;
         this.numeroPrestiti = numeroPrestiti;
         this.numeroVendite = numeroVendite;
-        this.fatturato = fatturato;
+        this.profitto = profitto;
         this.spese = spese;
-        this.vendite = vendite;
+        this.fatturato = fatturato;
         this.prestitiPerGiorno = prestitiPerGiorno;
     }
 
@@ -71,12 +71,12 @@ public class StatisticheDTO {
         this.numeroVendite = numeroVendite;
     }
 
-    public BigDecimal getFatturato() {
-        return fatturato;
+    public BigDecimal getProfitto() {
+        return profitto;
     }
 
-    public void setFatturato(BigDecimal fatturato) {
-        this.fatturato = fatturato;
+    public void setProfitto(BigDecimal profitto) {
+        this.profitto = profitto;
     }
 
     public BigDecimal getSpese() {
@@ -87,12 +87,12 @@ public class StatisticheDTO {
         this.spese = spese;
     }
 
-    public BigDecimal getVendite() {
-        return vendite;
+    public BigDecimal getFatturato() {
+        return fatturato;
     }
 
-    public void setVendite(BigDecimal vendite) {
-        this.vendite = vendite;
+    public void setFatturato(BigDecimal fatturato) {
+        this.fatturato = fatturato;
     }
 
     public Map<LocalDate, Integer> getPrestitiPerGiorno() {

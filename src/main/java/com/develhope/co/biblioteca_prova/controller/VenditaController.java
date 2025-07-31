@@ -4,19 +4,27 @@ import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.dto.PaginationDTO;
 import com.develhope.co.biblioteca_prova.dto.VenditeConTotaleDTO;
 import com.develhope.co.biblioteca_prova.exceptions.DataValidationException;
+import com.develhope.co.biblioteca_prova.models.Articolo;
+import com.develhope.co.biblioteca_prova.models.Libro;
+import com.develhope.co.biblioteca_prova.models.Utente;
 import com.develhope.co.biblioteca_prova.models.Vendita;
+import com.develhope.co.biblioteca_prova.repository.ArticoloRepository;
+import com.develhope.co.biblioteca_prova.repository.LibroRepository;
+import com.develhope.co.biblioteca_prova.repository.UtenteRepository;
 import com.develhope.co.biblioteca_prova.repository.VenditaRepository;
 import com.develhope.co.biblioteca_prova.service.VenditaService;
 import com.develhope.co.biblioteca_prova.utils.PaginationUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +37,15 @@ public class VenditaController {
 
     @Autowired
     private VenditaService venditaService;
+
+    @Autowired
+    private ArticoloRepository articoloRepo;
+
+    @Autowired
+    private LibroRepository libroRepo;
+
+    @Autowired
+    private UtenteRepository utenteRepo;
 
     @GetMapping
     public ResponseEntity<APIResponse> findAll(
@@ -60,6 +77,34 @@ public class VenditaController {
         return ResponseEntity.ok(new APIResponse(opt.get()));
     }
 
+    @GetMapping("/libro/{isbn}")
+    public ResponseEntity<APIResponse> findByLibro(@PathVariable String isbn, PaginationDTO paginationDTO){
+        Optional<Libro> libroOpt = libroRepo.findById(isbn);
+        if(libroOpt.isEmpty()){
+            return ResponseEntity.status(404).body(new APIResponse("Libro non trovato"));
+        }
+
+        Pageable pageable = PaginationUtils.createPage(paginationDTO);
+        Page<Articolo> articoloPage = articoloRepo.findByLibro(libroOpt.get(), pageable);
+
+        List<Vendita> vendite = new ArrayList<>();
+        for(Articolo c : articoloPage){
+            vendite.add(c.getVendita());
+        }
+        return ResponseEntity.ok(new APIResponse(vendite));
+    }
+
+    @GetMapping("/utente/{id}")
+    public ResponseEntity<APIResponse> findByUtente(@PathVariable Integer id, PaginationDTO paginationDTO){
+       Optional<Utente> utenteOpt =  utenteRepo.findById(id);
+       if(utenteOpt.isEmpty())
+           return ResponseEntity.status(404).body(new APIResponse("Utente non trovato"));
+
+       Pageable pageable = PaginationUtils.createPage(paginationDTO);
+       return ResponseEntity.ok(new APIResponse(venditaRepo.findByUtente(utenteOpt.get(), pageable) ) );
+    }
+
+
     @PostMapping
     public ResponseEntity<APIResponse> save(
             @Valid @RequestBody Vendita v,
@@ -77,6 +122,7 @@ public class VenditaController {
            return ResponseEntity.badRequest().body(new APIResponse(e.getMessage()));
        }
     }
+
     @GetMapping("/statistiche")
     public VenditeConTotaleDTO findMeseCorrente(){
         return new VenditeConTotaleDTO(venditaService.findVenditeMeseCorrente()) ;

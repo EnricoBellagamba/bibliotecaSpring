@@ -4,6 +4,7 @@ import com.develhope.co.biblioteca_prova.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,8 +26,11 @@ public class BibliotecaSecurityConfiguration {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.POST, "/utenti").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/libri").permitAll()
                         .requestMatchers("/libri/**", "/utenti/**").authenticated()
-                        .requestMatchers("/admin/**").hasAnyRole("OPERATORE")
+                        .requestMatchers("/prestiti/**").hasAnyRole("OPERATORE")
+                        .requestMatchers("/ordini/**").hasAnyRole("OPERATORE")
                         .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -41,7 +45,7 @@ public class BibliotecaSecurityConfiguration {
     }
 
     @Bean
-    @Profile({"dev","personal"})
+    @Profile({"dev", "personal"})
     public SecurityFilterChain filterChainDev(HttpSecurity http, CustomUserDetailsService userDetailsService)
             throws Exception {
         http

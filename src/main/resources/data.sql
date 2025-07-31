@@ -1,18 +1,19 @@
 -- utenti --
-INSERT INTO utente (nome, cognome, ruolo, username) VALUES
-('Luca', 'Rossi', 'CLIENTE', 'lucarossi'),
-('Giulia', 'Bianchi', 'OPERATORE', 'fsdg'),
-('Marco', 'Verdi', 'CLIENTE', 'hgfds'),
-('Elena', 'Neri', 'CLIENTE', 'hgfdsdf'),
-('Sara', 'Romano', 'OPERATORE', 'hgfdgfs'),
-('Davide', 'Greco', 'CLIENTE', 'hgfdshgfd'),
-('Chiara', 'Fontana', 'CLIENTE', 'mnbvcxz'),
-('Alessandro', 'Ferrari', 'OPERATORE', 'mnbvcxzfgh'),
-('Martina', 'Conti', 'CLIENTE', 'mnbvcxzer'),
-('Francesco', 'Gallo', 'CLIENTE', 'mngsdfbvcxz');
+INSERT INTO utente (nome, cognome, ruolo, username, password) VALUES
+('Luca', 'Rossi', 'CLIENTE', 'luca', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
+('Giulia', 'Bianchi', 'OPERATORE', 'password', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
+('Marco', 'Verdi', 'CLIENTE', 'hgfds', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
+('Elena', 'Neri', 'CLIENTE', 'hgfdsdf', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
+('Sara', 'Romano', 'OPERATORE', 'hgfdgfs', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
+('Davide', 'Greco', 'CLIENTE', 'hgfdshgfd', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
+('Chiara', 'Fontana', 'CLIENTE', 'mnbvcxz', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
+('Alessandro', 'Ferrari', 'OPERATORE', 'mnbvcxzfgh', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
+('Martina', 'Conti', 'CLIENTE', 'mnbvcxzer', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu'),
+('Francesco', 'Gallo', 'CLIENTE', 'mngsdfbvcxz', '$2a$10$skNZbLT6Oz7ZZY9Ta3WwCeRKwjgsOUXK82n2Gkl1ddhK.UpUxOlxu');
 
 
 INSERT INTO fidelity_card (utente_id) VALUES
+(1),
 (2);
 -- autori --
 INSERT INTO autore (nome, cognome, data_nascita) VALUES
@@ -121,7 +122,8 @@ INSERT INTO libro (isbn, titolo, anno_pubblicazione, prezzo, genere, descrizione
 ('978-357-8871-057', 'Cronache di Reynolds', 1994, 18.25, 'FANTASCIENZA', 'Un libro fantascienza scritto da Alastair Reynolds che esplora nuovi mondi e idee originali.'),
 ('978-426-7941-058', 'L’ascesa di Adams', 1972, 13.75, 'FANTASY', 'Un libro fantasy scritto da Douglas Adams che esplora nuovi mondi e idee originali.'),
 ('978-863-4921-059', 'Il segreto di Orwell', 1962, 17.60, 'STORICO', 'Un libro storico scritto da George Orwell che esplora nuovi mondi e idee originali.'),
-('978-190-4753-060', 'Viaggio verso Vonnegut', 1998, 16.50, 'SAGGIO', 'Un libro saggio scritto da Kurt Vonnegut che esplora nuovi mondi e idee originali.');
+('978-190-4753-060', 'Viaggio verso Vonnegut', 1998, 16.50, 'SAGGIO', 'Un libro saggio scritto da Kurt Vonnegut che esplora nuovi mondi e idee originali.'),
+('111-222-3333-444', 'Titolo di prova', 1998, 15.00, 'SAGGIO', 'Un libro di prova.');
 
 -- ordini --
 INSERT INTO ordine (data_ordine, stato, tipo, fornitore_id) VALUES
@@ -154,7 +156,9 @@ INSERT INTO ordine (data_ordine, stato, tipo, fornitore_id) VALUES
 ('2025-08-13 14:45:00', 'IN_ATTESA', 'ACQUISTO',10),
 ('2025-08-18 11:15:00', 'CONSEGNATO', 'DONAZIONE',1),
 ('2025-08-22 08:50:00', 'IN_ATTESA', 'DONAZIONE',6),
-('2025-08-28 17:20:00', 'CONSEGNATO', 'ACQUISTO',3);
+('2025-08-28 17:20:00', 'CONSEGNATO', 'ACQUISTO',3),
+('2025-08-30 09:00:00', 'CONSEGNATO', 'ACQUISTO', 1);
+
 
 --acquisto--
 INSERT INTO acquisto (ordine_id, libro_isbn, num_copie, prezzo_per_copia) VALUES
@@ -172,7 +176,10 @@ INSERT INTO acquisto (ordine_id, libro_isbn, num_copie, prezzo_per_copia) VALUES
 (17,'978-618-9472-032', 2, 13.99),
 (18,'978-539-9032-054', 3, 15.40),
 (20,'978-539-9032-054', 2, 11.00),
-(23,'978-539-9032-054', 5, 14.80);
+(2,'978-539-9032-054', 10, 24.80),
+(2, '111-222-3333-444', 10, 35.00),
+(24, '978-210-8472-010', 3, 18.00);
+
 
 
 -- prestiti --
@@ -202,8 +209,8 @@ INSERT INTO vendita (data_vendita, utente_id) VALUES
 ('2025-08-01 13:35:00', 8);
 
 
--- carrello --
-INSERT INTO carrello (vendita_id, numero_copie, libro_isbn, prezzo_per_copia) VALUES
+-- articolo --
+INSERT INTO articolo (vendita_id, numero_copie, libro_isbn, prezzo_per_copia) VALUES
 (1, 2, '978-539-9032-054', 12.14),
 (3, 4,'978-782-1123-046',11.12),
 (2, 5, '978-426-7941-058',10.09),
@@ -280,7 +287,7 @@ GROUP BY l.isbn),
 -- aggiornare e testare
 libri_venduti AS
 (SELECT c.libro_isbn, SUM(c.numero_copie) as copie_vendute
-FROM carrello c
+FROM articolo c
 GROUP BY c.libro_isbn),
 
 libri_prestati AS

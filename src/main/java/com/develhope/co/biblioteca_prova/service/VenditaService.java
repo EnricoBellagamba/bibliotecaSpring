@@ -1,13 +1,12 @@
 package com.develhope.co.biblioteca_prova.service;
 
-import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.exceptions.DataValidationException;
 import com.develhope.co.biblioteca_prova.models.*;
 import com.develhope.co.biblioteca_prova.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
@@ -31,7 +30,7 @@ public class  VenditaService {
     private LibroRepository libroRepo;
 
     @Autowired
-    private CarrelloRepository carrelloRepo;
+    private ArticoloRepository articoloRepo;
 
     @Autowired
     private FidelityCardService fidelityCardService;
@@ -41,21 +40,19 @@ public class  VenditaService {
 
     // aggiungi controllo per verificare se le copie esistono prima di venderle
     public Vendita salvaVendita(Vendita v, Double scontoOperatore) {
-        v = validazioneCarrello(v);
-        v = validazioneUtente(v);
-        v = validazioneLibro(v);
-        v = calcolaPrezzo(v, scontoOperatore);
-
-        return v;
+        validazioneArticolo(v);
+        validazioneUtente(v);
+        validazioneLibro(v);
+        return finalizzaVendita(v, scontoOperatore);
     }
 
-    private Vendita validazioneCarrello(Vendita v){
+    private void validazioneArticolo(Vendita v){
         //set per controllo isbn duplicati
         Set<String> isbns = new HashSet<>();
-        if (v.getCarrello() == null ||v.getCarrello().isEmpty()) {
-            throw new DataValidationException("Il carrello non puà essere vuoto");
+        if (v.getArticolo() == null ||v.getArticolo().isEmpty()) {
+            throw new DataValidationException("Il carrello non può essere vuoto");
         }
-        for (Carrello c : v.getCarrello()) {
+        for (Articolo c : v.getArticolo()) {
             String isbn = c.getLibro().getIsbn();
             if (isbn == null || isbn.isBlank()) {
                 throw new DataValidationException("ISBN del libro mancante o vuoto");
@@ -77,10 +74,9 @@ public class  VenditaService {
                 throw new DataValidationException("Copie insufficienti per il libro con ISBN " + isbn);
             }
         }
-        return v;
     }
 
-    private Vendita validazioneUtente(Vendita v) {
+    private void validazioneUtente(Vendita v) {
         Integer utenteId = v.getUtente().getId();
         if (utenteId == null) {
             throw new DataValidationException("L'utente è vuoto");
@@ -90,12 +86,11 @@ public class  VenditaService {
             throw new DataValidationException("L'utente non esiste");
         }
         v.setUtente(optionalUtente.get());
-        return v;
     }
 
-    private Vendita validazioneLibro(Vendita v){
+    private void validazioneLibro(Vendita v){
         //recupera l'oggetto libro dal db e lo associa al carrello
-        for (Carrello c : v.getCarrello()) {
+        for (Articolo c : v.getArticolo()) {
 
             Optional<Libro> opt = libroRepo.findById(c.getLibro().getIsbn());
             if (opt.isEmpty()) {
@@ -104,10 +99,9 @@ public class  VenditaService {
                 c.setLibro(opt.get());
             }
         }
-        return v;
     }
 
-    private Vendita calcolaPrezzo(Vendita v,Double scontoOperatore ) {
+    private Vendita finalizzaVendita(Vendita v, Double scontoOperatore ) {
 
         Vendita vendita = venditaRepo.save(v);
         double sconto = fidelityCardService.calcolaSconto(vendita);
@@ -119,17 +113,17 @@ public class  VenditaService {
             sconto = scontoOperatore;
         }
         //set vendita e prezzoPerCopia dei carrelli
-        for (Carrello c : v.getCarrello()) {
+        for (Articolo c : v.getArticolo()) {
             c.setVendita(vendita);
             double prezzoListino = c.getLibro().getPrezzo();
             double prezzoScontato = prezzoListino * (1 - sconto);
             System.out.println("prezzoscontato:" + prezzoScontato);
             System.out.println("prezzolistino:" + prezzoListino);
             System.out.println("sconto:" + sconto);
-            c.setPrezzoPerCopia(prezzoScontato);
-            carrelloRepo.save(c);
+            c.setPrezzoPerCopia(BigDecimal.valueOf(prezzoScontato));
+            articoloRepo.save(c);
         }
-        return v;
+        return vendita;
     }
     public List<Vendita> findVenditeMeseCorrente(){
         LocalDateTime now = LocalDateTime.now();

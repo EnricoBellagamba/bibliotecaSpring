@@ -57,7 +57,7 @@ public class StatisticheController {
 
         List<Vendita> v = venditaRepository.findByDataVenditaBetween(dataInizio, dataFine);
         VenditeConTotaleDTO vct = new VenditeConTotaleDTO(v);
-        double totaleVendite = vct.getTotale();
+        double totaleVendite = vct.getTotale().doubleValue();
         BigDecimal bigTotaleVendite = BigDecimal.valueOf(totaleVendite).setScale(2, RoundingMode.DOWN);
         double totaleSpese = acquistoService.getTotaleSpese(dataInizio, dataFine);
         BigDecimal bigTotaleSpese = BigDecimal.valueOf(totaleSpese).setScale(2, RoundingMode.DOWN);
