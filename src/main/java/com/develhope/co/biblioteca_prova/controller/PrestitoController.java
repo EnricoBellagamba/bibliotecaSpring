@@ -2,6 +2,7 @@ package com.develhope.co.biblioteca_prova.controller;
 
 import com.develhope.co.biblioteca_prova.dto.APIResponse;
 import com.develhope.co.biblioteca_prova.dto.PaginationDTO;
+import com.develhope.co.biblioteca_prova.exceptions.DataValidationException;
 import com.develhope.co.biblioteca_prova.models.Prestito;
 import com.develhope.co.biblioteca_prova.repository.PrestitoRepository;
 import com.develhope.co.biblioteca_prova.service.PrestitoService;
@@ -71,8 +72,8 @@ public class PrestitoController {
         }
         try {
             return ResponseEntity.ok(new APIResponse(prestitoService.save(prestito)));
-        } catch (DataIntegrityViolationException | InvalidDataAccessApiUsageException e) {
-            return ResponseEntity.badRequest().body(new APIResponse(e.getMessage() + " " + e.getRootCause()));
+        } catch (DataIntegrityViolationException | InvalidDataAccessApiUsageException | DataValidationException e) {
+            return ResponseEntity.badRequest().body(new APIResponse(e.getMessage()));
         }
     }
 
