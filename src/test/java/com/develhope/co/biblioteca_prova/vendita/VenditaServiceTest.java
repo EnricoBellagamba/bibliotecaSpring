@@ -9,12 +9,10 @@ public class VenditaServiceTest {
 
     /*
 
-    * - salvaVendita
     * VALIDAZIONE CARRELLO:
     * - sconto operatore maggiore del fidelity --> viene usato
     * - carrello vuoto
     * - ISBN duplicati nel carrello
-    * - sconto operatore fuori range
     *
     * VALIDAZIONE UTENTE
     * - utente non trovato
