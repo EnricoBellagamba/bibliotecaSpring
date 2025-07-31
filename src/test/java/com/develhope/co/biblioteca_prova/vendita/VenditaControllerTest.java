@@ -67,7 +67,16 @@ public class VenditaControllerTest {
         v = venditaRepo.save(vendita);
     }
 
+<<<<<<< HEAD
     // deve restituire 10 vendite
+=======
+    @Test
+    void testUtenteNonLoggato() throws Exception{
+        mockMvc.perform(get("/prestiti"))
+                .andExpect(status().is(302));
+    }
+
+>>>>>>> 43e1e80445c8471170e827e0581a7f95d6136d78
     // GET /vendita - senza parametri
     @Test
     void getAllVendite() throws Exception {
