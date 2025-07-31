@@ -27,15 +27,17 @@ public class OrdineService {
     private OrdineRepository ordineRepository;
     @Autowired
     private LibroConCopieRepository libroConCopieRepository;
+
     @Transactional
     public Ordine salvaOrdine(Ordine ordine) {
         Ordine ordine_nuovo = ordineRepository.save(ordine);
         for (Acquisto acquisto : ordine.getAcquisti()) {
             Optional<Libro> libroOptional = libroRepo.findById(acquisto.getLibro().getIsbn());
-            if (libroOptional.isPresent()){
+            if (libroOptional.isPresent()) {
                 acquisto.setOrdine(ordine_nuovo);
                 acquistoRepository.save(acquisto);
-            }else{ throw new ValidationException("Libro non trovato con ISBN: " + acquisto.getLibro().getIsbn());
+            } else {
+                throw new ValidationException("Libro non trovato con ISBN: " + acquisto.getLibro().getIsbn());
 
             }
 

@@ -53,6 +53,8 @@ public class VenditaControllerTest {
         utente.setRuolo(CLIENTE);
         u = utenteRepo.save(utente);
 
+        // cerea l'ordine da qua
+
         Libro libro = new Libro();
         libro.setIsbn("111-222-3333-444");
         libro.setTitolo("Titolo di prova");
@@ -65,6 +67,7 @@ public class VenditaControllerTest {
         v = venditaRepo.save(vendita);
     }
 
+    // deve restituire 10 vendite
     // GET /vendita - senza parametri
     @Test
     void getAllVendite() throws Exception {
@@ -72,6 +75,7 @@ public class VenditaControllerTest {
                 .andExpect(status().isOk());
     }
 
+    // deve restituire 10 vendite
     // GET /vendita - date valide
     @Test
     void getAllVendite_conDate() throws Exception {
@@ -81,6 +85,7 @@ public class VenditaControllerTest {
                 .andExpect(status().isOk());
     }
 
+    // controlla i campi della vendita (prezzo scontato..)
     // GET /vendita/{id} - ID valido
     @Test
     void getVenditaById() throws Exception {
@@ -97,10 +102,11 @@ public class VenditaControllerTest {
                         .value("Vendita non trovata"));
     }
 
+    // post --> get vendita creata --> assertions
+    // post con 2 articoli
     // POST /vendita - corpo valido
     @Test
     void createVendita() throws Exception {
-
         String bodyJson = String.format("""
                 {
                   "dataVendita": "2025-07-29T09:30:00",
@@ -122,6 +128,10 @@ public class VenditaControllerTest {
                         .content(bodyJson))
                 .andExpect(status().isOk());
     }
+
+    // POST /vendita - con lo sconto --> request param per lo sconto
+    // POST /vendita - libro non disponibile
+
 
     // POST /vendita - corpo non valido
     @Test
