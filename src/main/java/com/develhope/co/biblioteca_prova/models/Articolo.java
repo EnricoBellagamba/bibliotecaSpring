@@ -3,6 +3,9 @@ package com.develhope.co.biblioteca_prova.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 @Entity
 public class Articolo {
     @Id
@@ -22,9 +25,9 @@ public class Articolo {
 
 
     // dobbiamo calcolarlo
-    @Column(nullable = false)
+    @Column(nullable = false, scale = 2, precision = 10)
    // @Positive(message = "Il prezzo deve essere positivo")??
-    private Double prezzoPerCopia;
+    private BigDecimal prezzoPerCopia;
 
     // Getter e setter
     public Integer getId() {
@@ -33,6 +36,14 @@ public class Articolo {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getNumeroCopie() {
+        return numeroCopie;
+    }
+
+    public void setNumeroCopie(Integer numeroCopie) {
+        this.numeroCopie = numeroCopie;
     }
 
     public Libro getLibro() {
@@ -51,19 +62,11 @@ public class Articolo {
         this.vendita = vendita;
     }
 
-    public Double getPrezzoPerCopia() {
-        return prezzoPerCopia;
+    public BigDecimal getPrezzoPerCopia() {
+        return prezzoPerCopia.setScale(2, RoundingMode.DOWN);
     }
 
-    public void setPrezzoPerCopia(Double prezzoPerCopia) {
+    public void setPrezzoPerCopia(BigDecimal prezzoPerCopia) {
         this.prezzoPerCopia = prezzoPerCopia;
-    }
-
-    public Integer getNumeroCopie() {
-        return numeroCopie;
-    }
-
-    public void setNumeroCopie(Integer numeroCopie) {
-        this.numeroCopie = numeroCopie;
     }
 }

@@ -125,11 +125,11 @@ public class Libro {
         this.prestiti = prestiti;
     }
 
-    public List<Articolo> getCarrello() {
+    public List<Articolo> getArticolo() {
         return articolo;
     }
 
-    public void setCarrello(List<Articolo> articolo) {
+    public void setArticolo(List<Articolo> articolo) {
         this.articolo = articolo;
     }
 

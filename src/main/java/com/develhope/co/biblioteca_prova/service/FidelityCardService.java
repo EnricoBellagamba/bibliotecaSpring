@@ -15,14 +15,13 @@ public class FidelityCardService {
         System.out.println("valoreTotale: " + vendita.getValoreTotale());
         System.out.println("fidelitycard: " + vendita.getUtente().getFidelityCard());
 
-        if (vendita.getValoreTotale()> 50 && vendita.getUtente().getFidelityCard() != null) {
-            sconto = Math.max(sconto,0.1);
+        if (vendita.getValoreTotale().doubleValue() > 50 && vendita.getUtente().getFidelityCard() != null) {
+            sconto = Math.max(sconto, 0.1);
         }
-        if(vendita.getUtente().getRuolo() == RuoloUtenti.OPERATORE){
-            sconto = Math.max(sconto,0.05);
+        if (vendita.getUtente().getRuolo() == RuoloUtenti.OPERATORE) {
+            sconto = Math.max(sconto, 0.05);
         }
 
         return sconto;
     }
-    //scrivere metodo dove si calcola lo sconto di un ordine sopra i 50 euro e un'altro dove l'operatore setta lo sconto
 }

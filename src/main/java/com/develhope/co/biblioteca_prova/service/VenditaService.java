@@ -6,6 +6,7 @@ import com.develhope.co.biblioteca_prova.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
@@ -119,7 +120,7 @@ public class  VenditaService {
             System.out.println("prezzoscontato:" + prezzoScontato);
             System.out.println("prezzolistino:" + prezzoListino);
             System.out.println("sconto:" + sconto);
-            c.setPrezzoPerCopia(prezzoScontato);
+            c.setPrezzoPerCopia(BigDecimal.valueOf(prezzoScontato));
             articoloRepo.save(c);
         }
         return vendita;
