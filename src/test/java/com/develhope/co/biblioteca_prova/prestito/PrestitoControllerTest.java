@@ -16,8 +16,10 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Optional;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -37,11 +39,12 @@ public class PrestitoControllerTest {
     @Autowired
     private PrestitoRepository prestitoRepo;
 
-//    @Autowired
-//    private UtenteRepository utenteRepo;
-//
-//    @Autowired
-//    private LibroRepository libroRepo;
+
+    @Autowired
+    private UtenteRepository utenteRepo;
+
+    @Autowired
+    private LibroRepository libroRepo;
 
     /**
      * Verifica che una richesta per l'endpoint "/prestiti" protetto da autenticazione,
@@ -118,4 +121,47 @@ public class PrestitoControllerTest {
      * tets vincolo 5 prestiti attivi
      */
 
+
+    /**
+     * Verifica che un utente con più di 5 prestiti attivi non possa creare un nuovo prestito.
+     */
+    @Test
+    @WithMockUser(username = "test", roles = {"OPERATORE"})
+    void testVincoloCinquePrestitiAttivi() throws Exception {
+        // Prepara i dati
+
+        Optional<Utente> opt = utenteRepo.findById(2) ;
+
+
+        Optional<Libro> libroOpt = libroRepo.findById("978-539-9032-054");
+
+
+
+        // Crea 6 prestiti attivi
+        for (int i = 1; i <= 6; i++) {
+            Prestito prestitoAttivo = new Prestito();
+            prestitoAttivo.setUtente(opt.get());
+            prestitoAttivo.setLibro(libroOpt.get());
+            prestitoAttivo.setDataPrestito(LocalDateTime.of(2025, 7, 1, 9, 0));
+            prestitoAttivo.setDataRestituzione(null); // Non restituito
+            prestitoRepo.save(prestitoAttivo);
+        }
+
+        Prestito nuovoPrestito = new Prestito();
+        nuovoPrestito.setUtente(opt.get());
+        nuovoPrestito.setLibro(libroOpt.get());
+        nuovoPrestito.setDataPrestito(LocalDateTime.of(2025, 7, 1, 9, 0));
+        nuovoPrestito.setDataRestituzione(null);
+
+        mockMvc.perform(post("/prestiti")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(nuovoPrestito)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message")
+                        .value("L'utente non può avere più di 5 prestiti attivi"))
+                .andExpect(jsonPath("$.success").value(false));
+    }
 }
+
+
+
