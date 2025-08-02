@@ -20,7 +20,7 @@ public class Vendita {
     private LocalDateTime dataVendita;
 
     @OneToMany(mappedBy = "vendita")
-    private List<Articolo> articolo;
+    private List<Articolo> articoli;
 
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -39,16 +39,16 @@ public class Vendita {
         return dataVendita;
     }
 
-    public void setArticolo(List<Articolo> articolo) {
-        this.articolo = articolo;
+    public void setArticoli(List<Articolo> articoli) {
+        this.articoli = articoli;
     }
 
     public void setDataVendita(LocalDateTime dataVendita) {
         this.dataVendita = dataVendita;
     }
 
-    public List<Articolo> getArticolo() {
-        return articolo;
+    public List<Articolo> getArticoli() {
+        return articoli;
     }
 
     public Utente getUtente() {
@@ -66,7 +66,7 @@ public class Vendita {
      */
     public BigDecimal getValoreTotale() {
         double totale = 0;
-        for (Articolo a : articolo) {
+        for (Articolo a : articoli) {
             totale += a.getLibro().getPrezzo() * a.getNumeroCopie();
         }
         return new BigDecimal(totale).setScale(2, RoundingMode.DOWN);
@@ -77,7 +77,7 @@ public class Vendita {
      */
     public BigDecimal getValoreTotScontato() {
         double totale = 0;
-        for (Articolo a : articolo) {
+        for (Articolo a : articoli) {
             totale += a.getPrezzoPerCopia().doubleValue() * a.getNumeroCopie();
         }
         return new BigDecimal(totale).setScale(2, RoundingMode.DOWN);

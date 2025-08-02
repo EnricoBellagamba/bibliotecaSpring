@@ -45,7 +45,7 @@ public class Libro {
 
     @OneToMany(mappedBy = "libro")
     @JsonIgnore
-    private List<Articolo> articolo;
+    private List<Articolo> articoli;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "libro_autore")
@@ -125,12 +125,12 @@ public class Libro {
         this.prestiti = prestiti;
     }
 
-    public List<Articolo> getArticolo() {
-        return articolo;
+    public List<Articolo> getArticoli() {
+        return articoli;
     }
 
-    public void setArticolo(List<Articolo> articolo) {
-        this.articolo = articolo;
+    public void setArticoli(List<Articolo> articoli) {
+        this.articoli = articoli;
     }
 
     public List<Autore> getAutori() {

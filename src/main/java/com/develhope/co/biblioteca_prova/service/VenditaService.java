@@ -49,10 +49,10 @@ public class  VenditaService {
     private void validazioneArticolo(Vendita v){
         //set per controllo isbn duplicati
         Set<String> isbns = new HashSet<>();
-        if (v.getArticolo() == null ||v.getArticolo().isEmpty()) {
+        if (v.getArticoli() == null ||v.getArticoli().isEmpty()) {
             throw new DataValidationException("Il carrello non può essere vuoto");
         }
-        for (Articolo c : v.getArticolo()) {
+        for (Articolo c : v.getArticoli()) {
             String isbn = c.getLibro().getIsbn();
             if (isbn == null || isbn.isBlank()) {
                 throw new DataValidationException("ISBN del libro mancante o vuoto");
@@ -90,7 +90,7 @@ public class  VenditaService {
 
     private void validazioneLibro(Vendita v){
         //recupera l'oggetto libro dal db e lo associa al carrello
-        for (Articolo c : v.getArticolo()) {
+        for (Articolo c : v.getArticoli()) {
 
             Optional<Libro> opt = libroRepo.findById(c.getLibro().getIsbn());
             if (opt.isEmpty()) {
@@ -113,7 +113,7 @@ public class  VenditaService {
             sconto = scontoOperatore;
         }
         //set vendita e prezzoPerCopia dei carrelli
-        for (Articolo c : v.getArticolo()) {
+        for (Articolo c : v.getArticoli()) {
             c.setVendita(vendita);
             double prezzoListino = c.getLibro().getPrezzo();
             double prezzoScontato = prezzoListino * (1 - sconto);

@@ -128,7 +128,7 @@ public class VenditaControllerTest {
                   "utente": {
                     "id": %d
                   },
-                  "articolo": [
+                  "articoli": [
                     {
                       "numeroCopie": 1,
                       "prezzoPerCopia": 12.14,

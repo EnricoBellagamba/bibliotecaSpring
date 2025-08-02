@@ -64,9 +64,6 @@ public class StatisticheController {
         double totaleFatturato = totaleVendite - totaleSpese;
         BigDecimal bigTotaleFatturato = BigDecimal.valueOf(totaleFatturato).setScale(2, RoundingMode.DOWN);
 
-
-        //return statistiche dto
-        //settare le vendite, prestiti in dto
         Map<LocalDate, Integer> prestitiPerGiorno = new HashMap<>();
         List<PrestitoPerGiorno> prestitiPG = prestitoPerGiornoRepo.findAllByGiornoBetween(dataInizio, dataFine);
 
