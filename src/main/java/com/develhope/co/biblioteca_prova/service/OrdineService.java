@@ -37,6 +37,7 @@ public class OrdineService {
             if (libroOptional.isPresent()) {
                 acquisto.setOrdine(ordine_nuovo);
                 validazioneAutori(acquisto);
+                acquisto.setLibro(libroOptional.get());
                 acquistoRepository.save(acquisto);
             } else {
                 throw new ValidationException("Libro non trovato con ISBN: " + acquisto.getLibro().getIsbn());
